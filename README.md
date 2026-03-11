@@ -103,24 +103,37 @@ stormlog-landing/
 
 **Scripts**
 
-| Command       | Description              |
-| ------------- | ------------------------ |
-| `npm run dev` | Start development server  |
-| `npm run build` | Build for production   |
-| `npm run start` | Start production server |
-| `npm run lint`  | Run ESLint             |
+| Command         | Description              |
+| --------------- | ------------------------ |
+| `npm run dev`   | Start development server |
+| `npm run build` | Build for production     |
+| `npm run start` | Start production server  |
+| `npm run lint`  | Run ESLint               |
+| `npm run typecheck` | Run TypeScript check |
 
 ---
 
 ## Deployment
 
-The easiest way to deploy is with [Vercel](https://vercel.com):
+This repo is set up so GitHub Actions is the deployment gatekeeper:
 
-1. Push your code to GitHub.
-2. Import the project in [Vercel](https://vercel.com/new).
-3. Deploy with the default Next.js settings.
+- [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs `lint`, `typecheck`, and `build` on every push and pull request.
+- [`.github/workflows/deploy-production.yml`](.github/workflows/deploy-production.yml) deploys to Vercel only after the `CI` workflow succeeds for a push to `main`.
+- [`vercel.json`](vercel.json) disables automatic Git-based Vercel deployments, so feature branches do not deploy on their own.
 
-See the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more options.
+### One-time Vercel setup
+
+1. Create or import the project in [Vercel](https://vercel.com/new).
+2. Add these GitHub repository secrets:
+   - `VERCEL_TOKEN`
+   - `VERCEL_ORG_ID`
+   - `VERCEL_PROJECT_ID`
+3. Keep `main` as your production branch in Vercel.
+
+After that:
+
+- Branches other than `main` will still get CI checks, but they will not deploy.
+- A push to `main` will deploy only if CI has already passed.
 
 ---
 

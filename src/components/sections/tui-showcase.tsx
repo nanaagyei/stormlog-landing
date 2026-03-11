@@ -145,8 +145,11 @@ export function TuiShowcase() {
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(167,139,250,0.2),transparent_36%)]" />
               <div className="pointer-events-none absolute inset-0 opacity-40 grid-bg" />
 
-              <div className="relative min-h-[25rem] sm:min-h-[31rem]">
-                <div ref={stackRef} className="hidden lg:block">
+              <div className="relative min-h-[25rem] sm:min-h-[31rem] lg:min-h-[34rem] xl:min-h-[38rem]">
+                <div
+                  ref={stackRef}
+                  className="relative hidden h-[34rem] lg:block xl:h-[38rem]"
+                >
                   {orderedItems.slice(0, stackLayouts.length).map((item, index) => (
                     <motion.div
                       key={`${item.image}-${activeIndex}-${index}`}
@@ -156,17 +159,17 @@ export function TuiShowcase() {
                         ease: [0.22, 1, 0.36, 1],
                       }}
                       className={cn(
-                        "absolute inset-x-8 top-2 bottom-10 origin-center",
+                        "absolute inset-x-8 top-0 origin-center",
                         stackLayouts[index].className
                       )}
                     >
-                      <div className="glass-panel h-full overflow-hidden rounded-[28px] p-2">
-                        <div className="relative h-full overflow-hidden rounded-[22px] border border-white/[0.08] bg-[#030816]">
+                      <div className="glass-panel overflow-hidden rounded-[28px] p-2">
+                        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[22px] border border-white/[0.08] bg-[#030816]">
                           <Image
                             src={item.image}
                             alt={item.title}
                             fill
-                            className="object-cover"
+                            className="object-contain object-center"
                             sizes="(min-width: 1024px) 50vw, 100vw"
                           />
                           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#020611] via-transparent to-transparent opacity-65" />
@@ -183,15 +186,15 @@ export function TuiShowcase() {
                       initial={{ opacity: 0, y: reducedMotion ? 0 : 16 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: reducedMotion ? 0 : -16 }}
-                      transition={{ duration: reducedMotion ? 0 : 0.35 }}
-                      className="glass-panel overflow-hidden rounded-[28px] p-2"
-                    >
-                      <div className="relative aspect-[1411/859] overflow-hidden rounded-[22px] border border-white/[0.08] bg-[#030816]">
+                    transition={{ duration: reducedMotion ? 0 : 0.35 }}
+                    className="glass-panel overflow-hidden rounded-[28px] p-2"
+                  >
+                      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[22px] border border-white/[0.08] bg-[#030816]">
                         <Image
                           src={activeItem.image}
                           alt={activeItem.title}
                           fill
-                          className="object-cover"
+                          className="object-contain object-center"
                           sizes="100vw"
                         />
                       </div>

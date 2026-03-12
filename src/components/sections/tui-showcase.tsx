@@ -102,7 +102,7 @@ export function TuiShowcase() {
               and CLI-driven actions in a single interface.
             </p>
 
-            <div className="mt-8 rounded-[28px] border border-white/[0.08] bg-white/[0.03] p-5 sm:p-6">
+            <div className="mt-8 rounded-[28px] border border-white/8 bg-elevated p-5 sm:p-6">
               <p className="text-xs uppercase tracking-[0.24em] text-cool-white/45">
                 Active frame
               </p>
@@ -113,7 +113,7 @@ export function TuiShowcase() {
                     {activeItem.title}
                   </h3>
                 </div>
-                <span className="inline-flex size-10 items-center justify-center rounded-full border border-white/[0.08] bg-[#0c1431] text-cool-white/80">
+                <span className="inline-flex size-10 items-center justify-center rounded-full border border-white/8 bg-elevated text-cool-white/80">
                   <ArrowUpRight className="size-4" />
                 </span>
               </div>
@@ -131,7 +131,7 @@ export function TuiShowcase() {
                     "rounded-full border px-4 py-2 text-sm transition-all",
                     index === activeIndex
                       ? "border-violet/30 bg-violet/10 text-cool-white"
-                      : "border-white/[0.08] bg-white/[0.03] text-muted-foreground hover:text-cool-white"
+                      : "border-white/8 bg-elevated text-muted-foreground hover:text-cool-white"
                   )}
                 >
                   {item.title}
@@ -145,10 +145,10 @@ export function TuiShowcase() {
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(167,139,250,0.2),transparent_36%)]" />
               <div className="pointer-events-none absolute inset-0 opacity-40 grid-bg" />
 
-              <div className="relative min-h-[25rem] sm:min-h-[31rem] lg:min-h-[34rem] xl:min-h-[38rem]">
+              <div className="relative flex min-h-100 items-center justify-center sm:min-h-124 lg:min-h-136 xl:min-h-152">
                 <div
                   ref={stackRef}
-                  className="relative hidden h-[34rem] lg:block xl:h-[38rem]"
+                  className="relative hidden h-136 w-full lg:block xl:h-152"
                 >
                   {orderedItems.slice(0, stackLayouts.length).map((item, index) => (
                     <motion.div
@@ -159,20 +159,20 @@ export function TuiShowcase() {
                         ease: [0.22, 1, 0.36, 1],
                       }}
                       className={cn(
-                        "absolute inset-x-8 top-0 origin-center",
+                        "absolute inset-x-8 top-1/2 -translate-y-1/2 origin-center",
                         stackLayouts[index].className
                       )}
                     >
                       <div className="glass-panel overflow-hidden rounded-[28px] p-2">
-                        <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[22px] border border-white/[0.08] bg-[#030816]">
+                        <div className="relative aspect-16/10 w-full overflow-hidden rounded-[22px] border border-white/8 bg-deep">
                           <Image
                             src={item.image}
                             alt={item.title}
                             fill
-                            className="object-contain object-center"
+                            className="object-cover object-[center_75%]"
                             sizes="(min-width: 1024px) 50vw, 100vw"
                           />
-                          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#020611] via-transparent to-transparent opacity-65" />
+                          <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-[#020611] via-transparent to-transparent opacity-65" />
                         </div>
                       </div>
                     </motion.div>
@@ -189,12 +189,12 @@ export function TuiShowcase() {
                     transition={{ duration: reducedMotion ? 0 : 0.35 }}
                     className="glass-panel overflow-hidden rounded-[28px] p-2"
                   >
-                      <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[22px] border border-white/[0.08] bg-[#030816]">
+                      <div className="relative aspect-16/10 w-full overflow-hidden rounded-[22px] border border-white/8 bg-deep">
                         <Image
                           src={activeItem.image}
                           alt={activeItem.title}
                           fill
-                          className="object-contain object-center"
+                          className="object-cover object-[center_60%]"
                           sizes="100vw"
                         />
                       </div>

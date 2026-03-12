@@ -55,16 +55,10 @@ export const metadata: Metadata = {
       "Open-source GPU memory profiling for PyTorch and TensorFlow. Monitor allocation, detect leaks, and ship evidence into debugging reviews and CI pipelines.",
     images: [
       {
-        url: "/images/stormlog-dark.JPG",
+        url: "/images/stormlog-preview.png",
         width: 1200,
         height: 630,
-        alt: "Stormlog — Real-time GPU Memory Profiling for PyTorch and TensorFlow",
-      },
-      {
-        url: "/images/stormlog-white.JPG",
-        width: 1200,
-        height: 630,
-        alt: "Stormlog — Real-time GPU Memory Profiling for PyTorch and TensorFlow",
+        alt: "Stormlog — See GPU memory before it breaks your training. Real-time profiling for PyTorch and TensorFlow.",
       },
     ],
   },
@@ -73,7 +67,7 @@ export const metadata: Metadata = {
     title: "Stormlog — Real-time GPU Memory Profiling",
     description:
       "Open-source GPU memory profiling for PyTorch and TensorFlow. Monitor, detect leaks, and optimize.",
-    images: ["/images/stormlog-dark.JPG"],
+    images: ["/images/stormlog-preview.png"],
   },
   icons: {
     icon: [

@@ -54,7 +54,7 @@ Production deployments are promoted only after required checks pass:
 1. **Settings** → **Git** → **Deployment Protection**
 2. Enable **Deployment Checks**
 3. Add required check: **CI** (or **Lint, Typecheck & Build**)
-4. Vercel waits for the [CI workflow](.github/workflows/ci.yml) to pass before promoting to production
+4. Vercel waits for the [CI workflow](../.github/workflows/ci.yml) to pass before promoting to production
 
 ### 3. CLI (when project is linked)
 

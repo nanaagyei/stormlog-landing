@@ -33,8 +33,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
-# vercel
-.vercel
+# vercel - ignore project.json and output; README is tracked
+.vercel/project.json
+.vercel/output
 
 # typescript
 *.tsbuildinfo

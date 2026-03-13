@@ -119,6 +119,10 @@ export function WorkflowShowcase() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [desktopPaused, setDesktopPaused] = useState(false);
   const [mobilePaused, setMobilePaused] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(max-width: 1023px)").matches;
+  });
   const reducedMotion = useReducedMotion();
 
   const advanceStep = useEffectEvent(() => {
@@ -128,11 +132,28 @@ export function WorkflowShowcase() {
   });
 
   useEffect(() => {
-    if (reducedMotion || mobilePaused) return;
+    const mql = window.matchMedia("(max-width: 1023px)");
+    const frameId = window.requestAnimationFrame(() => {
+      setIsMobileViewport(mql.matches);
+    });
+
+    const handleChange = (event: MediaQueryListEvent) => {
+      setIsMobileViewport(event.matches);
+    };
+
+    mql.addEventListener("change", handleChange);
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      mql.removeEventListener("change", handleChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isMobileViewport || reducedMotion || mobilePaused) return;
 
     const intervalId = window.setInterval(advanceStep, 4200);
     return () => window.clearInterval(intervalId);
-  }, [mobilePaused, reducedMotion]);
+  }, [isMobileViewport, mobilePaused, reducedMotion]);
 
   const activeStep = WORKFLOW_STEPS[activeIndex];
 

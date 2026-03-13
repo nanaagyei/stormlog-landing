@@ -53,8 +53,10 @@ Production deployments are promoted only after required checks pass:
 
 1. **Settings** → **Git** → **Deployment Protection**
 2. Enable **Deployment Checks**
-3. Add required check: **CI** (or **Lint, Typecheck & Build**)
+3. Click **Add Checks** and add the required check: **`Lint, Typecheck & Build`** (must match the GitHub Actions job name exactly)
 4. Vercel waits for the [CI workflow](../.github/workflows/ci.yml) to pass before promoting to production
+
+**Important:** The check name in Vercel must exactly match the CI job name. Do not use `CI` — use `Lint, Typecheck & Build`.
 
 ### 3. CLI (when project is linked)
 
@@ -71,7 +73,7 @@ vercel inspect <deployment-url>
 
 ## Quick Reference
 
-- **CI workflow**: [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) — runs lint, typecheck, build
+- **CI workflow**: [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) — runs lint, typecheck, build. The job name **`Lint, Typecheck & Build`** must be added in Vercel Deployment Checks.
 - **Vercel config**: [`vercel.json`](../vercel.json) — project settings (deployments enabled for all branches)
 - **Deployment checks**: Configure in Vercel → Project Settings → Git → Deployment Protection
 
@@ -82,3 +84,25 @@ vercel inspect <deployment-url>
 | `main` | Production (aliased to production domain) |
 | `dev`  | Preview |
 | Other  | Preview |
+
+## Making `main` deploy to production
+
+If `main` does not appear in Vercel’s active branches or deployments:
+
+1. **Connect the repository**
+   - **Settings** → **Git** → ensure the GitHub repo is connected.
+   - Reconnect if the integration was removed or is outdated.
+
+2. **Set `main` as production branch**
+   - **Settings** → **Git** → **Production Branch**
+   - Set to `main` (or leave as default if your default branch is `main`).
+
+3. **Enable deployments for `main`**
+   - **Settings** → **Git** → **Ignored Build Step** / **Branch deployments**
+   - Ensure `main` is not ignored.
+   - Vercel deploys all branches by default; if you restricted branches earlier, add `main` back.
+
+4. **Configure Deployment Checks**
+   - **Settings** → **Git** → **Deployment Protection** → **Deployment Checks**
+   - Enable Deployment Checks and add **`Lint, Typecheck & Build`**.
+   - After merging to `main`, Vercel will create a production deployment and wait for that check to pass before promoting it.

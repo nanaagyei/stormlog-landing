@@ -145,7 +145,7 @@ export function TuiShowcase() {
               <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(167,139,250,0.2),transparent_36%)]" />
               <div className="pointer-events-none absolute inset-0 opacity-40 grid-bg" />
 
-              <div className="relative flex min-h-100 items-center justify-center sm:min-h-124 lg:min-h-136 xl:min-h-152">
+              <div className="relative flex min-h-100 w-full items-center justify-center sm:min-h-124 lg:min-h-136 xl:min-h-152">
                 <div
                   ref={stackRef}
                   className="relative hidden h-136 w-full lg:block xl:h-152"
@@ -170,7 +170,7 @@ export function TuiShowcase() {
                             alt={item.title}
                             fill
                             className="object-cover object-[center_75%]"
-                            sizes="(min-width: 1024px) 50vw, 100vw"
+                            sizes="(min-width: 1536px) 42rem, (min-width: 1280px) 38rem, (min-width: 1024px) 34rem, 100vw"
                           />
                           <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-[#020611] via-transparent to-transparent opacity-65" />
                         </div>
@@ -179,23 +179,23 @@ export function TuiShowcase() {
                   ))}
                 </div>
 
-                <div className="relative lg:hidden">
+                <div className="relative w-full max-w-2xl lg:hidden">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={activeItem.image}
                       initial={{ opacity: 0, y: reducedMotion ? 0 : 16 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: reducedMotion ? 0 : -16 }}
-                    transition={{ duration: reducedMotion ? 0 : 0.35 }}
-                    className="glass-panel overflow-hidden rounded-[28px] p-2"
-                  >
+                      transition={{ duration: reducedMotion ? 0 : 0.35 }}
+                      className="glass-panel w-full overflow-hidden rounded-[28px] p-2"
+                    >
                       <div className="relative aspect-16/10 w-full overflow-hidden rounded-[22px] border border-white/8 bg-deep">
                         <Image
                           src={activeItem.image}
                           alt={activeItem.title}
                           fill
                           className="object-cover object-[center_60%]"
-                          sizes="100vw"
+                          sizes="(min-width: 640px) 32rem, calc(100vw - 3rem)"
                         />
                       </div>
                     </motion.div>

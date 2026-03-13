@@ -122,11 +122,7 @@ export function Footer() {
         </div>
 
         <div className="mt-10 flex flex-col gap-2 border-t border-white/[0.06] pt-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            Formerly GPU Memory Profiler. The published package remains{" "}
-            <span className="text-cool-white/75">gpu-memory-profiler</span> as
-            the Stormlog rename ships forward.
-          </p>
+          <p>Evidence-rich GPU memory debugging, shipped in the open.</p>
           <p>&copy; {new Date().getFullYear()} Stormlog contributors.</p>
         </div>
       </div>

@@ -25,8 +25,8 @@ Stormlog provides real-time GPU memory visibility, leak detection, diagnostics, 
 **Quick links**
 
 - [Stormlog (main project)](https://github.com/Silas-Asamoah/stormlog)
-- [Documentation](https://gpu-memory-profiler.readthedocs.io/en/latest/index.html)
-- [PyPI package](https://pypi.org/project/gpu-memory-profiler/)
+- [Documentation](https://stormlog.readthedocs.io/en/latest/index.html)
+- [PyPI package](https://pypi.org/project/stormlog/)
 
 ---
 
@@ -140,8 +140,8 @@ After that:
 ## Links
 
 - [Stormlog (main project)](https://github.com/Silas-Asamoah/stormlog)
-- [Documentation](https://gpu-memory-profiler.readthedocs.io/en/latest/index.html)
-- [PyPI package](https://pypi.org/project/gpu-memory-profiler/)
+- [Documentation](https://stormlog.readthedocs.io/en/latest/index.html)
+- [PyPI package](https://pypi.org/project/stormlog/)
 - [Issues](https://github.com/Silas-Asamoah/stormlog/issues)
 - [Contributing](https://github.com/Silas-Asamoah/stormlog/blob/main/CONTRIBUTING.md)
 

@@ -24,7 +24,7 @@ export interface HeroContent {
 }
 
 export const HERO_CONTENT: HeroContent = {
-  eyebrow: "Formerly GPU Memory Profiler",
+  eyebrow: "Open-source GPU memory visibility",
   title: "See GPU memory before it breaks your training.",
   description:
     "Stormlog gives PyTorch and TensorFlow teams real-time GPU memory visibility, leak detection, diagnostics, and exportable timelines across CLI, Python API, and Textual TUI workflows.",
@@ -40,7 +40,7 @@ export const HERO_CONTENT: HeroContent = {
     "Timeline exports",
     "Threshold alerts",
   ],
-  installCommand: "pip install gpu-memory-profiler",
+  installCommand: "pip install stormlog",
 };
 
 export interface EcosystemBadge {
@@ -384,7 +384,7 @@ export const OPEN_SOURCE_PROOF: OpenSourceProofItem[] = [
   {
     title: "Package distribution",
     description:
-      "The current published package remains available on PyPI while the rename transition to Stormlog stays explicit.",
+      "Install Stormlog from PyPI and move from setup into real profiling workflows without extra packaging steps.",
     href: "pypi",
     icon: Package,
   },
@@ -400,5 +400,5 @@ export const FINAL_CTA: FinalCtaContent = {
   eyebrow: "Ready to debug with context?",
   title: "Trace memory clearly, export evidence, and keep training runs stable.",
   description:
-    "Use the docs to get started, inspect the repository, or install the current PyPI package while the Stormlog rename rolls forward.",
+    "Use the docs to get started, inspect the repository, or install Stormlog from PyPI for your next debugging run.",
 };

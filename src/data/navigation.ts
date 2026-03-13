@@ -8,8 +8,8 @@ export const NAV_ITEMS = [
 
 export const EXTERNAL_LINKS = {
   github: "https://github.com/Silas-Asamoah/stormlog",
-  docs: "https://gpu-memory-profiler.readthedocs.io/en/latest/index.html",
-  pypi: "https://pypi.org/project/gpu-memory-profiler/",
+  docs: "https://stormlog.readthedocs.io/en/latest/index.html",
+  pypi: "https://pypi.org/project/stormlog/",
   contributing: "https://github.com/Silas-Asamoah/stormlog/blob/main/CONTRIBUTING.md",
   issues: "https://github.com/Silas-Asamoah/stormlog/issues",
 } as const;

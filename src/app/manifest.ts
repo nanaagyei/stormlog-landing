@@ -1,7 +1,5 @@
 import type { MetadataRoute } from "next";
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://stormlog.dev";
-
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Stormlog — Real-time GPU Memory Profiling",
@@ -14,7 +12,7 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#030816",
     orientation: "portrait-primary",
     scope: "/",
-    id: `${baseUrl}/`,
+    id: "/",
     icons: [
       {
         src: "/images/android-chrome-192x192.png",

@@ -38,7 +38,7 @@ export function EcosystemStrip() {
                 <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
                   Stormlog stays useful whether you start from a one-off CLI
                   session, instrument a Python training loop, or hand teammates
-                  a TUI and exported artifacts for follow-up diagnosis.
+                  exported artifacts for follow-up diagnosis.
                 </p>
               </motion.div>
 

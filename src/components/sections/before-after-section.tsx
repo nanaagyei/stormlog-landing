@@ -71,9 +71,9 @@ function AfterPanel() {
         </div>
 
         <div className="rounded-[24px] border border-white/[0.06] bg-[#040812] p-4">
-          <p className="text-cool-white/85">After the fix</p>
-          <p className="mt-2 text-cool-white/65">batch_size = 96 ✓ stable</p>
-          <p className="text-cool-white/65">memory saved = 2.1 GiB</p>
+          <p className="text-cool-white/85">After fixing the leak</p>
+          <p className="mt-2 text-cool-white/65">batch_size = 64 ✓ stable again</p>
+          <p className="text-cool-white/65">peak allocated: 2.04 GB → 0.09 GB</p>
           <p className="text-cool-white/65">zero OOM interruptions across 50 epochs</p>
         </div>
       </div>

@@ -262,10 +262,10 @@ $ stormlog export --format html --output run.html
     step: 5,
     title: "Optimize",
     description:
-      "Use the evidence to fix leaks, stabilize batch sizes, and avoid repeat OOM failures in future runs.",
+      "Use the evidence to fix leaks, restore the intended batch size, and avoid repeat OOM failures in future runs.",
     code: `Before: OOM at batch_size=64
-After: stable at batch_size=96
-Memory savings: 2.1 GB (-26%)
+After: batch_size=64 stable again
+Peak allocated: 2.04 GB → 0.09 GB
 
 ✓ 50 epochs completed
 ✓ zero OOM interruptions`,

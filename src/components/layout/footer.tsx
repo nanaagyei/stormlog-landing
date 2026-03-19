@@ -26,23 +26,28 @@ export function Footer() {
             </h4>
             <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
               <li>
-                <a href="#overview" className="transition-colors hover:text-cool-white">
+                <a href="/#overview" className="transition-colors hover:text-cool-white">
                   Overview
                 </a>
               </li>
               <li>
-                <a href="#features" className="transition-colors hover:text-cool-white">
+                <a href="/#features" className="transition-colors hover:text-cool-white">
                   Features
                 </a>
               </li>
               <li>
-                <a href="#workflow" className="transition-colors hover:text-cool-white">
+                <a href="/#workflow" className="transition-colors hover:text-cool-white">
                   Workflow
                 </a>
               </li>
               <li>
-                <a href="#tui" className="transition-colors hover:text-cool-white">
+                <a href="/#tui" className="transition-colors hover:text-cool-white">
                   TUI showcase
+                </a>
+              </li>
+              <li>
+                <a href="/blogs" className="transition-colors hover:text-cool-white">
+                  Blogs
                 </a>
               </li>
             </ul>

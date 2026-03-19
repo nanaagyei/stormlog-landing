@@ -97,7 +97,7 @@
   html {
     scroll-behavior: smooth;
   }
-  body {
+body {
     @apply bg-deep text-foreground;
     background-image:
       radial-gradient(circle at top, rgba(167, 139, 250, 0.2), transparent 24%),
@@ -109,6 +109,20 @@
   ::selection {
     background: rgba(167, 139, 250, 0.28);
     color: #eef4ff;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
@@ -190,4 +204,189 @@
 }
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(167, 139, 250, 0.45);
+}
+
+.blog-prose {
+  color: rgba(238, 244, 255, 0.86);
+  font-size: 1rem;
+  line-height: 1.9;
+}
+
+.blog-prose > :first-child {
+  margin-top: 0;
+}
+
+.blog-prose > :last-child {
+  margin-bottom: 0;
+}
+
+.blog-prose h1,
+.blog-prose h2,
+.blog-prose h3,
+.blog-prose h4 {
+  color: #eef4ff;
+  font-family: var(--font-clash-grotesk);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-top: 2.75rem;
+  margin-bottom: 1rem;
+  scroll-margin-top: 7rem;
+}
+
+.blog-prose h2 {
+  font-size: clamp(1.75rem, 1.15rem + 1.4vw, 2.5rem);
+}
+
+.blog-prose h3 {
+  font-size: clamp(1.35rem, 1.05rem + 0.7vw, 1.75rem);
+}
+
+.blog-prose p,
+.blog-prose ul,
+.blog-prose ol,
+.blog-prose blockquote {
+  margin-block: 1.15rem;
+}
+
+.blog-prose strong {
+  color: #f8fbff;
+  font-weight: 600;
+}
+
+.blog-prose em {
+  color: rgba(238, 244, 255, 0.92);
+}
+
+.blog-prose a {
+  color: #7dd3fc;
+  text-decoration: underline;
+  text-decoration-color: rgba(125, 211, 252, 0.4);
+  text-underline-offset: 0.24em;
+}
+
+.blog-prose a:hover {
+  color: #c4b5fd;
+  text-decoration-color: rgba(196, 181, 253, 0.55);
+}
+
+.blog-prose ul,
+.blog-prose ol {
+  padding-left: 1.3rem;
+}
+
+.blog-prose li + li {
+  margin-top: 0.6rem;
+}
+
+.blog-prose blockquote {
+  border-left: 3px solid rgba(167, 139, 250, 0.45);
+  background: linear-gradient(180deg, rgba(167, 139, 250, 0.08), rgba(96, 165, 250, 0.05));
+  border-radius: 1.25rem;
+  padding: 1rem 1.1rem;
+  color: rgba(238, 244, 255, 0.78);
+}
+
+.blog-prose hr {
+  margin-block: 2rem;
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.blog-prose :not(pre) > code {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(8, 17, 36, 0.95);
+  border-radius: 0.6rem;
+  padding: 0.18rem 0.45rem;
+  color: #eef4ff;
+  font-size: 0.95em;
+}
+
+.blog-prose table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+}
+
+.blog-prose thead {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.blog-prose th,
+.blog-prose td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.95rem 1rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.blog-prose th {
+  color: #eef4ff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.blog-prose .blog-heading-anchor {
+  margin-left: 0.5rem;
+  color: rgba(167, 139, 250, 0.75);
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.blog-prose h2:hover .blog-heading-anchor,
+.blog-prose h3:hover .blog-heading-anchor,
+.blog-prose h4:hover .blog-heading-anchor,
+.blog-prose .blog-heading-anchor:focus {
+  opacity: 1;
+}
+
+.blog-prose [data-rehype-pretty-code-figure] {
+  margin: 0;
+}
+
+.blog-prose pre {
+  margin: 0;
+  padding: 1.25rem 1.35rem 1.4rem;
+  overflow-x: auto;
+  background: transparent !important;
+  color: #eef4ff;
+}
+
+.blog-prose pre code {
+  display: grid;
+  min-width: 100%;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.blog-prose pre [data-line] {
+  padding-inline: 0;
+}
+
+.blog-prose pre [data-highlighted-line] {
+  margin-inline: -1rem;
+  border-left: 2px solid rgba(125, 211, 252, 0.55);
+  background: rgba(125, 211, 252, 0.1);
+  padding-inline: calc(1rem - 2px) 1rem;
+}
+
+@media (max-width: 768px) {
+  .blog-prose {
+    font-size: 0.98rem;
+    line-height: 1.8;
+  }
+
+  .blog-prose h1,
+  .blog-prose h2,
+  .blog-prose h3,
+  .blog-prose h4 {
+    scroll-margin-top: 6rem;
+  }
+
+  .blog-prose table {
+    min-width: 560px;
+  }
 }

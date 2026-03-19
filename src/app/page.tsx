@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <>
       <FloatingNav />
-      <main className="overflow-x-clip">
+      <main id="main-content" className="overflow-x-clip">
         <HeroSection />
         <EcosystemStrip />
         <ProblemSection />

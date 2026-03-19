@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { BookOpen, Github, Package, TriangleAlert } from "lucide-react";
 import { EXTERNAL_LINKS } from "@/data/navigation";
 import { MAINTAINERS } from "@/data/content";
@@ -26,24 +27,29 @@ export function Footer() {
             </h4>
             <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
               <li>
-                <a href="#overview" className="transition-colors hover:text-cool-white">
+                <Link href="/#overview" className="transition-colors hover:text-cool-white">
                   Overview
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#features" className="transition-colors hover:text-cool-white">
+                <Link href="/#features" className="transition-colors hover:text-cool-white">
                   Features
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#workflow" className="transition-colors hover:text-cool-white">
+                <Link href="/#workflow" className="transition-colors hover:text-cool-white">
                   Workflow
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#tui" className="transition-colors hover:text-cool-white">
+                <Link href="/#tui" className="transition-colors hover:text-cool-white">
                   TUI showcase
-                </a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/blogs" className="transition-colors hover:text-cool-white">
+                  Blogs
+                </Link>
               </li>
             </ul>
           </div>

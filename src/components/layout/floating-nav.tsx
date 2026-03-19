@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { BookOpen, Github, Menu, X } from "lucide-react";
@@ -61,6 +62,12 @@ export function FloatingNav() {
           </div>
 
           <div className="hidden items-center gap-2 md:flex">
+            <Link
+              href="/blogs"
+              className="inline-flex h-10 items-center gap-2 rounded-full border border-white/[0.08] px-4 text-sm text-cool-white transition-all hover:border-violet/40 hover:bg-white/[0.04]"
+            >
+              Blogs
+            </Link>
             <a
               href={EXTERNAL_LINKS.docs}
               target="_blank"
@@ -107,6 +114,13 @@ export function FloatingNav() {
             className="fixed top-20 right-4 left-4 z-50 rounded-[28px] border border-white/[0.08] bg-[#09122a]/95 p-4 shadow-[0_24px_90px_rgba(2,6,23,0.65)] backdrop-blur-2xl md:hidden"
           >
             <div className="flex flex-col gap-1.5">
+              <Link
+                href="/blogs"
+                onClick={() => setMobileOpen(false)}
+                className="rounded-2xl px-4 py-3 text-sm text-cool-white transition-colors hover:bg-white/[0.04]"
+              >
+                Blogs
+              </Link>
               {NAV_ITEMS.map((item) => {
                 const isActive = activeSection === item.href.slice(1);
 

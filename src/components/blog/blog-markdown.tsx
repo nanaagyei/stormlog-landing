@@ -49,7 +49,8 @@ function getPreLanguage(node: Element | undefined) {
 }
 
 const markdownComponents: Components = {
-  a: ({ href = "", children, node: _node, ...props }) => {
+  a: ({ href = "", children, node, ...props }) => {
+    void node;
     const resolvedHref = resolveBlogHref(href);
     const isExternal =
       resolvedHref.startsWith("http://") ||

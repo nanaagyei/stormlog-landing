@@ -8,7 +8,7 @@ import { MAINTAINERS } from "@/data/content";
 export function Footer() {
   return (
     <footer className="relative px-4 pb-10 sm:px-6 lg:px-8 lg:pb-14">
-      <div className="mx-auto max-w-6xl rounded-[36px] border border-white/[0.08] bg-[#060d1d]/88 px-6 py-10 shadow-[0_24px_100px_rgba(1,3,10,0.5)] backdrop-blur-2xl sm:px-8 lg:px-10">
+      <div className="mx-auto max-w-6xl rounded-[36px] border border-white/8 bg-[#060d1d]/88 px-6 py-10 shadow-[0_24px_100px_rgba(1,3,10,0.5)] backdrop-blur-2xl sm:px-8 lg:px-10">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_0.7fr_0.7fr_0.7fr]">
           <div>
             <h3 className="font-heading text-2xl font-semibold text-cool-white">
@@ -127,7 +127,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-2 border-t border-white/[0.06] pt-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-col gap-2 border-t border-white/6 pt-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>Evidence-rich GPU memory debugging, shipped in the open.</p>
           <p>&copy; {new Date().getFullYear()} Stormlog contributors.</p>
         </div>

@@ -187,6 +187,8 @@ tracker.export_events("events.json", format="json")
 tracker.export_events("events.csv", format="csv")
 ```
 
+For **distributed** training, pass `rank`, `local_rank`, `world_size`, and optionally `job_id` into `MemoryTracker` (or the matching `gpumemprof track` flags) on each process so exports can be merged or loaded together for rank-aware analysis.
+
 On Apple Silicon (MPS), use `device="mps"` with `MemoryTracker`. `GPUMemoryProfiler` is CUDA/ROCm-specific.
 
 If you're on a CPU-only machine or want to test a profiling workflow before moving to GPU infrastructure, `CPUMemoryProfiler` and `CPUMemoryTracker` are available directly from `stormlog` and work the same way.

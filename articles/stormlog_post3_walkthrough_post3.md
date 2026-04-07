@@ -4,7 +4,7 @@ Memory leaks in training loops don't always announce themselves. Loss curves go 
 
 This walkthrough traces a complete debugging sequence: a clean training run, a deliberate retention leak, the Stormlog artifacts that surface it, the OOM boundary, and the fix. Every step is reproducible with the [companion tutorial repository](https://github.com/Silas-Asamoah/stormlog_tutorial). The setup is deliberately small — a synthetic PyTorch classification task on Apple Silicon — so the memory behavior is easy to reason about without the modeling complexity getting in the way.
 
-By the end, you'll have seen the full Stormlog workflow in action: instrument, observe, diagnose, export, and optimize.
+By the end, you'll have seen the full Stormlog workflow in action: instrument, observe, diagnose, export, and validate the fix against the same artifacts and metrics.
 
 ---
 
@@ -25,7 +25,7 @@ Or set it up manually:
 conda create -n stormlog-tutorial-mps python=3.11 numpy matplotlib -y
 conda activate stormlog-tutorial-mps
 pip install --upgrade pip
-pip install "stormlog[viz,tui]" "torch>=2.2"
+pip install "stormlog[viz,tui,torch]" "torch>=2.2"
 ```
 
 Verify the environment before running anything else:

@@ -46,7 +46,7 @@ gpumemprof track --duration 60 --interval 0.5 --output run.json --format json
 Timeline visualizations — the PNG and HTML plot files — are a separate step. They're generated via the TUI's Visualizations tab (which writes to `./visualizations`) or through the `MemoryVisualizer` Python API:
 
 ```python
-from stormlog.visualizer import MemoryVisualizer
+from stormlog import MemoryVisualizer
 
 visualizer = MemoryVisualizer(profiler)
 visualizer.plot_memory_timeline(save_path="timeline.png")
@@ -73,7 +73,7 @@ gpumemprof analyze artifacts/events.json --format txt --output analysis.txt
 
 `events.csv` is the right choice when you're feeding data into a spreadsheet, a pandas DataFrame, or any tool that expects tabular input. Every row is one sample; every column is one field. The flat structure is easier to work with when you're doing exploratory analysis and want to slice, filter, or plot without writing a JSON parser first.
 
-Both files follow the `TelemetryEventV2` schema, which means they're forward-compatible with the analyzer, the TUI, and any downstream tooling. Every event carries `schema_version`, `timestamp_ns`, `event_type`, `collector`, `allocator_allocated_bytes`, `allocator_reserved_bytes`, `device_used_bytes`, and distributed identity fields (`job_id`, `rank`, `local_rank`, `world_size`) — whether or not you're doing distributed training.
+Both files follow Stormlog's **canonical telemetry event** shape (see the [TelemetryEvent schema](https://stormlog.readthedocs.io/en/latest/telemetry_schema.html) — exports use `schema_version` **2** or **3** depending on release), which keeps them compatible with the analyzer, the TUI, and downstream tooling. Every event carries `schema_version`, `timestamp_ns`, `event_type`, `collector`, `allocator_allocated_bytes`, `allocator_reserved_bytes`, `device_used_bytes`, and distributed identity fields (`job_id`, `rank`, `local_rank`, `world_size`) — whether or not you're doing distributed training.
 
 The key thing to understand about both files is that they represent the unprocessed record of what happened. No aggregation, no classification, no interpretation — just the raw telemetry. All the higher-level signals (drift detection, spike classification, alert summaries) are derived from this foundation by the analyzer and diagnostics tools.
 
@@ -107,7 +107,7 @@ These are the human-readable outputs — the timeline data rendered as a static 
 For cross-rank distributed runs, `MemoryVisualizer` also produces a combined timeline chart that aligns rank timelines on a shared clock and marks first-cause suspects:
 
 ```python
-from stormlog.visualizer import MemoryVisualizer
+from stormlog import MemoryVisualizer
 from stormlog.telemetry import load_telemetry_events
 
 all_events = []

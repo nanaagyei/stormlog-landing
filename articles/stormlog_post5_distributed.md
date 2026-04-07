@@ -10,9 +10,9 @@ That's the problem distributed diagnostics in Stormlog is designed to solve. Thi
 
 ## Distributed Identity: Built Into Every Event
 
-Before any analysis is possible, the telemetry has to know which rank it came from. Stormlog handles this through a distributed identity model that gets resolved at tracker initialization time and embedded into every event the tracker emits.
+To compare ranks, merge timelines, or attribute a spike to one process, each sample needs a stable **distributed identity**: which job it belonged to, which rank produced it, and how that rank fits in the world size. Without that, separate files from separate processes are just unrelated traces.
 
-The four fields are `job_id`, `rank`, `local_rank`, and `world_size`. You can pass them explicitly:
+Stormlog encodes that identity at **tracker initialization** and attaches it to every event the tracker emits. The four fields are `job_id`, `rank`, `local_rank`, and `world_size`. **Pass them explicitly** from your training script — for example using values from `torch.distributed`, your launcher (`LOCAL_RANK`, etc.), or your cluster metadata — so every export is unambiguous:
 
 ```python
 from stormlog import MemoryTracker
@@ -28,32 +28,16 @@ tracker = MemoryTracker(
 )
 ```
 
-Or you can let Stormlog infer them from the environment. If you're launching with `torchrun`, `torch.distributed.launch`, or a SLURM job scheduler, the relevant environment variables are already set, and Stormlog reads them automatically:
+Some Stormlog releases still consult launcher environment variables when `rank` / `local_rank` / `world_size` are omitted, but that path is **easy to get wrong** (unset vars, wrapper scripts, partial Slurm/MPI exports). For reproducible distributed artifacts you should **always pass** these three fields explicitly from `torch.distributed` or your launcher; `job_id` is optional but useful for grouping files per run.
 
-```python
-# Stormlog reads: RANK, LOCAL_RANK, WORLD_SIZE, TORCHELASTIC_RUN_ID
-# Also supports SLURM: SLURM_PROCID, SLURM_LOCALID, SLURM_NTASKS, SLURM_JOB_ID
-# And Open MPI: OMPI_COMM_WORLD_RANK, OMPI_COMM_WORLD_LOCAL_RANK, OMPI_COMM_WORLD_SIZE
-
-tracker = MemoryTracker(
-    device="cuda",
-    sampling_interval=0.5,
-    enable_alerts=True,
-    # No rank params needed when launching with torchrun or SLURM
-)
-```
-
-The same inference logic applies to the CLI. If you're running `gpumemprof track` inside a distributed job, you can pass rank information explicitly or rely on environment inference:
+For **CLI** tracking, pass the same fields with flags:
 
 ```bash
-# Explicit
-gpumemprof track --duration 60 --rank 2 --local-rank 0 --world-size 4 --job-id run-001
-
-# Or let the launcher environment handle it
-torchrun --nproc_per_node=4 your_training_script.py
+gpumemprof track --duration 60 --rank 2 --local-rank 0 --world-size 4 --job-id run-001 \
+  --output rank2.json --format json
 ```
 
-Once identity is resolved, every `TelemetryEventV2` record written by that tracker carries `job_id`, `rank`, `local_rank`, and `world_size` as structured fields — not buried in metadata, but as first-class schema fields. This means when you load artifacts from multiple ranks later, they can be merged and compared without any manual annotation.
+Every telemetry record written by that tracker carries `job_id`, `rank`, `local_rank`, and `world_size` as **first-class schema fields** (not buried in opaque metadata), so artifacts from multiple ranks can be merged and compared without hand-annotating files afterward.
 
 ---
 
@@ -62,23 +46,27 @@ Once identity is resolved, every `TelemetryEventV2` record written by that track
 In a multi-GPU training loop, the typical pattern is one `MemoryTracker` per process, each reporting its own rank. The training code barely changes:
 
 ```python
+import os
 import torch
 import torch.distributed as dist
 from stormlog import MemoryTracker
 
-# Initialize distributed (rank, world_size come from the process launcher)
 dist.init_process_group(backend="nccl")
 rank = dist.get_rank()
-device = torch.device(f"cuda:{rank}")
+world_size = dist.get_world_size()
+local_rank = int(os.environ.get("LOCAL_RANK", rank))
+device = torch.device(f"cuda:{local_rank}")
 
-# Tracker automatically infers rank from env when using torchrun
 tracker = MemoryTracker(
-    device=f"cuda:{rank}",
+    device=device,
     sampling_interval=0.5,
     enable_alerts=True,
     enable_oom_flight_recorder=True,
     oom_dump_dir=f"artifacts/oom/rank_{rank}",
     job_id="distributed-run-001",
+    rank=rank,
+    local_rank=local_rank,
+    world_size=world_size,
 )
 tracker.set_threshold("memory_warning_percent", 75.0)
 tracker.set_threshold("memory_critical_percent", 90.0)
@@ -104,16 +92,27 @@ Each rank produces an independent artifact bundle. The analysis step loads all o
 
 ## Cross-Rank Timeline Analysis
 
-With artifacts from each rank saved, you can run cross-rank analysis without re-executing the training job. The CLI handles this directly:
+Cross-rank summaries (first-cause suspects, cluster onset, and related notes) run when the analyzer sees **more than one rank** in the combined event stream. A single `events_rank0.json` alone is only one rank — merge per-rank exports first, then analyze.
 
-```bash
-# Load all rank artifacts and produce a cross-rank analysis report
-gpumemprof analyze artifacts/events_rank0.json \
-  --output cross_rank_analysis.json \
-  --format json
+Combine events in Python and write one JSON file, or build the list in memory. Example: merge then call `gpumemprof analyze` on the combined file:
+
+```python
+import json
+from stormlog.telemetry import load_telemetry_events, telemetry_event_to_dict
+
+all_events = []
+for rank in range(4):
+    all_events.extend(load_telemetry_events(f"artifacts/events_rank{rank}.json"))
+
+with open("artifacts/events_all_ranks.json", "w", encoding="utf-8") as f:
+    json.dump([telemetry_event_to_dict(e) for e in all_events], f, indent=2)
 ```
 
-When the input file contains events from multiple ranks — which it will if you concatenate the exports, or if you load them all into the analyzer from Python — the output includes a distributed analysis section:
+```bash
+gpumemprof analyze artifacts/events_all_ranks.json --output cross_rank_analysis.json --format json
+```
+
+When the input contains multiple ranks, the human-readable summary includes a distributed analysis section similar to:
 
 ```
 Distributed Analysis:
@@ -124,25 +123,21 @@ Top first-cause suspect: rank 2 (high)
 Evidence: timestamp_ns=1700000001900000000, lead_ns=100000000, delta=384MB
 ```
 
-What this means: rank 2 showed a qualifying spike 100 milliseconds before the cluster onset — which is the timestamp of the second-earliest qualifying spike across all ranks. That 100ms lead is what makes rank 2 the high-confidence first-cause suspect.
+What this means: rank 2 showed a qualifying spike before the cluster onset — here, 100 ms earlier. The cluster onset is derived from per-rank “first spike” times across the merged timeline; the lead time is part of the evidence for ranking suspects.
 
-From Python, you have more control:
+From Python, `MemoryAnalyzer.generate_optimization_report()` is the umbrella API the CLI uses for telemetry-backed analysis: despite the historical name, the useful pieces for distributed runs are the **`cross_rank_analysis`**, **`gap_analysis`**, and **`collective_attribution`** sections (not a separate “optimizer” product).
 
 ```python
 from stormlog import MemoryAnalyzer
 from stormlog.telemetry import load_telemetry_events
-from pathlib import Path
 
-# Load and combine artifacts from all ranks
 all_events = []
 for rank in range(4):
-    events = load_telemetry_events(f"artifacts/events_rank{rank}.json")
-    all_events.extend(events)
+    all_events.extend(load_telemetry_events(f"artifacts/events_rank{rank}.json"))
 
 analyzer = MemoryAnalyzer()
 report = analyzer.generate_optimization_report(events=all_events)
 
-# Cross-rank result
 cross_rank = report["cross_rank_analysis"]
 print(f"Participating ranks: {cross_rank['participating_ranks']}")
 print(f"First-cause suspects: {cross_rank['first_cause_suspects']}")
@@ -168,7 +163,7 @@ The confidence classification is determined by three factors: how large the lead
 
 The first-cause analysis looks at what `device_used_bytes` was doing across ranks. Gap analysis looks at something different: the divergence between what the PyTorch allocator thinks is reserved and what the device driver actually reports.
 
-On CUDA and ROCm, these two numbers can diverge significantly, and that divergence is often more informative than the allocator counters alone. A large and growing gap between `device_used_bytes` and `allocator_reserved_bytes` usually means one of three things:
+On CUDA and ROCm, these two numbers can diverge significantly, and that divergence is often more informative than the allocator counters alone. A large and growing gap between **device-reported usage** and **allocator-reserved** memory usually means one of three things:
 
 **Persistent drift** means the gap grows linearly over time, with a high R² on a linear regression. This signature often indicates non-allocator memory consumers accumulating in the background — custom CUDA kernels, NCCL communication buffers, or third-party libraries that allocate directly through the driver rather than through PyTorch's allocator.
 
@@ -200,17 +195,20 @@ One important caveat: gap analysis requires `device_total_bytes` to be available
 
 ## Collective Attribution: Connecting Spikes to NCCL Phases
 
-Distributed training introduces a specific class of hidden memory consumer that single-GPU profiling never sees: the communication buffers used by NCCL for collective operations like `all_reduce`, `all_gather`, and `reduce_scatter`. These buffers are allocated directly through the driver, not through PyTorch's allocator, which means they show up in `device_used_bytes` but not in `allocator_reserved_bytes`.
+Distributed training introduces a specific class of hidden memory consumer that single-GPU profiling often misses: communication buffers used for collectives such as `all_reduce`, `all_gather`, and `reduce_scatter`. Much of that memory is **outside PyTorch's caching allocator**: it still shows up in **device-level usage**, while **allocator-reserved** may not move in the same way — the same “hidden gap” story as in the previous section.
 
-Stormlog's collective attribution heuristic identifies when a hidden-memory spike correlates with a communication phase. It uses three signals together: the presence of collective marker events in the telemetry (events with context strings containing "nccl", "all_reduce", "collective", etc.), whether the spike appeared synchronously across multiple ranks within a configurable time window, and whether the gap z-score at that point was a statistical outlier.
+Stormlog's **collective attribution** step looks for gap spikes that look like a **coordinated communication phase** rather than a single-rank bug. Conceptually it:
 
-When all three signals align, the result is attributed as `collective_confident`. When only some signals are present — for example, the spike is synchronized but no explicit markers exist — it produces `collective_likely` or `collective_suspect` with lower confidence:
+1. **Detects gap spikes** — points where the allocator-vs-device divergence jumps enough to count as an outlier for that run (robust z-score style signal).
+2. **Checks cross-rank timing** — whether a similar jump lines up across ranks within a short time window (synchrony), which is what you expect when a collective lands everywhere at once.
+3. **Uses optional context** — if your tracker events include `context` strings that mention collectives (for example NCCL-related markers), overlapping spikes with that context strengthen the attribution.
+
+Those ingredients are combined into a **confidence score**, which is bucketed into labels such as `collective_confident`, `collective_likely`, and `collective_suspect`. Each result also carries **reason codes** for auditing (for example synchrony vs weak marker signal). The API exposes tunable presets (`low` / `medium` / `high`) that adjust thresholds for gap size, synchrony, and outlier sensitivity — `medium` is the default; use `low` if unrelated synchronized work creates noise, or `high` if you need a narrower net.
 
 ```python
 from stormlog import MemoryAnalyzer
 from stormlog.telemetry import load_telemetry_events
 
-# Load events from all ranks
 all_events = []
 for rank in range(4):
     all_events.extend(load_telemetry_events(f"artifacts/events_rank{rank}.json"))
@@ -229,13 +227,11 @@ for attribution in attributions:
               f"of {attribution.evidence.expected_world_size}")
 ```
 
-The sensitivity of collective attribution can be tuned via a preset — `low`, `medium`, or `high` — which adjusts the confidence thresholds, minimum gap sizes, and synchrony requirements. The default is `medium`, which works well for standard NCCL workloads. If you're seeing false positives from unrelated synchronized activity, use `low`. If you want to catch subtler communication patterns, use `high`.
-
 ---
 
 ## Using the TUI for Distributed Diagnostics
 
-The Diagnostics tab in the TUI was built specifically for this use case. It can load artifacts from multiple ranks simultaneously, display per-rank timelines side by side, and surface first-cause indicators without requiring you to write any analysis code.
+The Diagnostics tab can load artifacts from multiple ranks simultaneously, show per-rank summaries, and surface first-cause indicators without requiring you to write analysis code.
 
 Launch the TUI and navigate to the Diagnostics tab:
 
@@ -255,26 +251,26 @@ Or if each rank wrote artifacts into its own subdirectory:
 artifacts/rank0,artifacts/rank1,artifacts/rank2,artifacts/rank3
 ```
 
-Stormlog will also synthesize telemetry events from `telemetry_timeline.json` files produced by `gpumemprof diagnose`, which means diagnostic bundles from multiple machines can be loaded directly without requiring a full tracker export.
+Stormlog can also synthesize telemetry events from `telemetry_timeline.json` files produced by `gpumemprof diagnose`, which means diagnostic bundles from multiple machines can be loaded directly without requiring a full tracker export.
 
-Once loaded, the Diagnostics tab shows a rank table with per-rank metrics — samples collected, allocated delta, reserved delta, hidden gap magnitude, and whether any anomalies were detected. Selecting a rank in the table pins the timeline focus to that rank. The anomaly summary at the bottom surfaces the earliest detected anomaly across all ranks and the most severe one, which together give you a starting point for investigation.
+Once loaded, the Diagnostics tab shows a rank table with per-rank metrics — samples collected, allocated delta, reserved delta, hidden gap magnitude, and whether any anomalies were detected. Selecting a rank in the table pins the timeline focus to that rank. The anomaly summary surfaces the earliest detected anomaly across all ranks and the most severe one, which together give you a starting point for investigation.
 
-The rank filter field accepts the same syntax as the Python API — `all`, `0,2`, or `0,4-7` for ranges — which is useful when you have a large-world-size run and want to focus on the subset of ranks that showed anomalies.
+The rank filter field accepts syntax such as `all`, `0,2`, or `0,4-7` for ranges — useful when you have a large-world-size run and want to focus on the subset of ranks that showed anomalies.
 
 ---
 
 ## Putting It Together: A Distributed Debugging Workflow
 
-A practical distributed debugging workflow with Stormlog looks like this. Instrument each rank with `MemoryTracker`, letting it infer identity from the launcher environment. Run the training job. When it finishes — whether normally or via OOM — export each rank's artifact bundle to a shared location.
+A practical distributed debugging workflow with Stormlog looks like this: **instrument each rank** with its own `MemoryTracker`, passing **`job_id`, `rank`, `local_rank`, and `world_size` explicitly**, run the training job, and export each rank's artifacts to a shared location (whether the job ends normally or hits OOM).
 
-If the run was healthy, file the `stats.json` from each rank into your run registry. If the run failed or showed memory warnings, load all the artifacts into `gpumemprof analyze` or the TUI Diagnostics tab. Start with the first-cause analysis to identify which rank showed the earliest qualifying spike. Then narrow down to that rank's artifact and run gap analysis to understand whether the spike came from the allocator, from driver-level consumers, or from fragmentation. If it looks like a collective communication phase, check the collective attribution output to see whether the spike was synchronized across ranks and whether markers aligned with the timing.
+If the run was healthy, archive summaries per rank. If the run failed or showed memory warnings, **merge rank exports** (or load multiple paths in the TUI) and run analysis. Start with first-cause output to see which rank led the cluster. Then drill into that rank's series for gap findings — allocator growth vs driver-level usage vs fragmentation-like reserve inflation. If timing and gap shape look like a collective, use collective attribution output alongside your own knowledge of the step (synchrony and markers are heuristics, not proof).
 
-The key property of this workflow is that none of these analysis steps require re-running the training job. The artifacts are the evidence, and the evidence is reloadable.
+The useful property of this workflow is that inspection and classification can happen **from saved artifacts**, without re-running the training job, as long as you captured identity correctly at collection time.
 
 ---
 
 ## What's Not Covered Here
 
-Stormlog's distributed surface continues to evolve. The current implementation works well for identifying first-cause candidates in runs up to 64 ranks and has been validated against NCCL all-reduce patterns on CUDA. ROCm-specific runtime paths for gap analysis have distinct behaviors around the allocator-device divergence that may require tuning the gap ratio threshold. Cross-framework distributed runs (mixed PyTorch and TensorFlow ranks) are not yet supported in the merged timeline analysis.
+Stormlog's distributed surface continues to evolve. Cross-framework merged timelines (mixed PyTorch and TensorFlow ranks in one analysis pass) are not the primary focus of the current tooling — treat single-framework exports as the supported path unless your versions say otherwise.
 
-The [documentation](https://stormlog.readthedocs.io/en/latest/) covers the full API surface for `MemoryAnalyzer`, `load_telemetry_events`, and the distributed analysis module. The [repository](https://github.com/Silas-Asamoah/stormlog) includes gap analysis and distributed analysis tests that demonstrate the expected behavior on synthetic multi-rank telemetry.
+The [documentation](https://stormlog.readthedocs.io/en/latest/) covers installation, CLI usage, the telemetry schema, and the `MemoryAnalyzer` / `load_telemetry_events` APIs. The [repository](https://github.com/Silas-Asamoah/stormlog) contains tests and examples for gap analysis and distributed analysis on synthetic multi-rank telemetry.

@@ -50,7 +50,7 @@ Stormlog doesn't replace those counters. It builds a layer on top of them that m
 
 ## What the Workflow Looks Like
 
-Stormlog's workflow has five steps: **Instrument, Observe, Diagnose, Export, Optimize**.
+Stormlog's workflow has five steps: **Instrument, Observe, Diagnose, Export, Validate** (confirm the fix against the same metrics and artifacts).
 
 ### Step 1: Instrument
 
@@ -105,7 +105,7 @@ gpumemprof track --duration 60 --interval 0.5 --output run.json --format json
 gpumemprof analyze run.json --format txt --output analysis.txt
 ```
 
-A typical analysis output on a leaky run surfaces signals like persistent drift at `100.43 MB/s` with R² = 0.88, and for distributed runs, rank-aware attribution: participating ranks, missing ranks, and a top first-cause suspect.
+A typical analysis output on a leaky run surfaces signals like persistent drift at `100.43 MB/s` with R² = 0.88. When saved telemetry includes **multiple ranks** in one combined stream, the same analyzer can summarize distributed views: participating ranks, missing ranks, and a top first-cause suspect.
 
 ### Step 4: Export
 
@@ -126,7 +126,7 @@ gpumemprof track --duration 60 --output run.json --format json
 From there, timeline plots and HTML exports are generated via the TUI's Visualizations tab or through the `MemoryVisualizer` API:
 
 ```python
-from stormlog.visualizer import MemoryVisualizer
+from stormlog import MemoryVisualizer
 
 visualizer = MemoryVisualizer(profiler)
 visualizer.plot_memory_timeline(save_path="timeline.png")
@@ -134,7 +134,7 @@ visualizer.plot_memory_timeline(save_path="timeline.png")
 
 Each tracked run can produce a full artifact bundle: raw event streams in JSON and CSV, timeline data, summary statistics, alert records, and visual exports — all reloadable in the TUI and shareable with teammates.
 
-### Step 5: Optimize
+### Step 5: Validate
 
 After the fix, the numbers tell the story:
 

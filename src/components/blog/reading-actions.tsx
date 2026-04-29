@@ -16,8 +16,13 @@ export function ReadingActions({ slug }: { slug: string }) {
   const [bookmarked, setBookmarked] = useState(false);
 
   useEffect(() => {
-    setLiked(localStorage.getItem(likesKey(slug)) === "1");
-    setBookmarked(localStorage.getItem(bookmarkKey(slug)) === "1");
+    try {
+      setLiked(localStorage.getItem(likesKey(slug)) === "1");
+      setBookmarked(localStorage.getItem(bookmarkKey(slug)) === "1");
+    } catch {
+      setLiked(false);
+      setBookmarked(false);
+    }
   }, [slug]);
 
   const likeRequest = useOptimisticRequest<boolean>(async () => fakeMutation(), {

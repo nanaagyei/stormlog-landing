@@ -4,23 +4,26 @@ import { FormEvent, useMemo, useState } from "react";
 import { CheckCircle2, Loader2, Mail } from "lucide-react";
 import { useOptimisticRequest } from "@/hooks/use-optimistic-request";
 
-const STORAGE_KEY = "stormlog-newsletter-pending";
-
 async function submitNewsletter(email: string) {
-  await new Promise((resolve) => setTimeout(resolve, 650));
   if (!email.includes("@") || email.endsWith("@")) {
     throw new Error("Please enter a valid email address.");
   }
-  localStorage.removeItem(STORAGE_KEY);
+
+  const response = await fetch("/api/newsletter", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Could not subscribe right now. Please try again.");
+  }
 }
 
 export function NewsletterForm() {
   const [email, setEmail] = useState("");
 
-  const optimistic = useOptimisticRequest<string>(submitNewsletter, {
-    onOptimistic: (value) => localStorage.setItem(STORAGE_KEY, value),
-    onRollback: () => localStorage.removeItem(STORAGE_KEY),
-  });
+  const optimistic = useOptimisticRequest<string>(submitNewsletter);
 
   const disabled = useMemo(() => optimistic.status === "submitting", [optimistic.status]);
 

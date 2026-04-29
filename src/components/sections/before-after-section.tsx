@@ -72,7 +72,7 @@ function AfterPanel() {
         <div className="rounded-lg border border-white/[0.06] bg-surface p-4">
           <p className="text-foreground/80">After fixing the leak</p>
           <p className="mt-2 text-muted-foreground">batch_size = 64 ✓ stable again</p>
-          <p className="text-muted-foreground">peak allocated: 2.04 GB → 0.09 GB</p>
+          <p className="text-muted-foreground">peak allocated: 2.04 GiB → 0.09 GiB</p>
           <p className="text-muted-foreground">zero OOM interruptions across 50 epochs</p>
         </div>
       </div>

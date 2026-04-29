@@ -11,9 +11,22 @@ type ContactPayload = {
 };
 
 async function submitContact(payload: ContactPayload) {
-  await new Promise((resolve) => setTimeout(resolve, 700));
   if (payload.message.trim().length < 10) {
     throw new Error("Message is too short. Please add more context.");
+  }
+
+  const response = await fetch("/api/contact", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: payload.name.trim(),
+      email: payload.email.trim(),
+      message: payload.message.trim(),
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Could not send message. Please try again.");
   }
 }
 
@@ -31,7 +44,11 @@ export function ContactForm() {
 
   return (
     <form onSubmit={onSubmit} className="mt-5 space-y-2.5">
+      <label htmlFor="contact-name" className="sr-only">
+        Name
+      </label>
       <input
+        id="contact-name"
         type="text"
         required
         value={name}
@@ -39,7 +56,11 @@ export function ContactForm() {
         placeholder="Your name"
         className="h-9 w-full rounded-lg border border-white/[0.06] bg-surface px-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-emerald/30"
       />
+      <label htmlFor="contact-email" className="sr-only">
+        Email
+      </label>
       <input
+        id="contact-email"
         type="email"
         required
         value={email}
@@ -47,7 +68,11 @@ export function ContactForm() {
         placeholder="you@company.com"
         className="h-9 w-full rounded-lg border border-white/[0.06] bg-surface px-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-emerald/30"
       />
+      <label htmlFor="contact-message" className="sr-only">
+        Message
+      </label>
       <textarea
+        id="contact-message"
         required
         value={message}
         onChange={(event) => setMessage(event.target.value)}

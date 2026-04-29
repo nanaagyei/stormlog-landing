@@ -75,8 +75,9 @@ export function BlogHeader() {
           </div>
 
           <button
+            type="button"
             onClick={() => setMobileOpen((open) => !open)}
-            className="rounded-lg border border-white/[0.06] p-2 text-muted-foreground transition-colors hover:text-foreground md:hidden"
+            className="rounded-lg border border-white/[0.06] p-2 text-muted-foreground transition-colors hover:text-foreground lg:hidden"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
             {mobileOpen ? <X className="size-4" /> : <Menu className="size-4" />}
@@ -85,7 +86,7 @@ export function BlogHeader() {
       </header>
 
       {mobileOpen ? (
-        <div className="fixed inset-x-0 top-14 z-50 border-b border-white/[0.06] bg-[#09090b]/95 px-4 py-4 backdrop-blur-xl md:hidden">
+        <div className="fixed inset-x-0 top-14 z-50 border-b border-white/[0.06] bg-[#09090b]/95 px-4 py-4 backdrop-blur-xl lg:hidden">
           <div className="flex flex-col gap-1">
             {PRIMARY_LINKS.map((item) => {
               const active = isActive(pathname, item.href);

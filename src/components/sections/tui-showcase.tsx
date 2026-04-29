@@ -103,6 +103,12 @@ export function TuiShowcase() {
           className="mt-6"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
+          onFocusCapture={() => setPaused(true)}
+          onBlurCapture={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+              setPaused(false);
+            }
+          }}
         >
           <div className="overflow-hidden rounded-xl border border-white/[0.06] bg-deep">
             <div className="flex items-center justify-between border-b border-white/[0.06] px-4 py-2.5">

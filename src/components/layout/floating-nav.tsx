@@ -97,9 +97,12 @@ export function FloatingNav() {
           </div>
 
           <button
+            type="button"
             onClick={() => setMobileOpen((open) => !open)}
             className="rounded-lg border border-white/[0.06] p-2 text-muted-foreground transition-colors hover:text-foreground md:hidden"
             aria-label="Toggle menu"
+            aria-expanded={mobileOpen}
+            aria-controls="floating-nav-mobile-menu"
           >
             {mobileOpen ? <X className="size-4" /> : <Menu className="size-4" />}
           </button>
@@ -109,6 +112,7 @@ export function FloatingNav() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
+            id="floating-nav-mobile-menu"
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}

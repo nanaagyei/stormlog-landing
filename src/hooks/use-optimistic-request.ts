@@ -18,13 +18,17 @@ export function useOptimisticRequest<TPayload>(
     async (payload: TPayload) => {
       setStatus("submitting");
       setError(null);
-      opts?.onOptimistic?.(payload);
 
       try {
+        opts?.onOptimistic?.(payload);
         await executor(payload);
         setStatus("success");
       } catch (err) {
-        opts?.onRollback?.(payload);
+        try {
+          opts?.onRollback?.(payload);
+        } catch {
+          // Preserve the original failure path.
+        }
         setStatus("error");
         setError(err instanceof Error ? err.message : "Request failed. Please try again.");
       }

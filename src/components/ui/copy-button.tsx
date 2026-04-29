@@ -15,6 +15,7 @@ export function CopyButton({ text, displayText, className }: CopyButtonProps) {
 
   return (
     <button
+      type="button"
       onClick={() => copy(text)}
       className={cn(
         "group flex items-center gap-2.5 rounded-lg border border-white/[0.06] bg-surface",

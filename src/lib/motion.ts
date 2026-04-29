@@ -1,18 +1,31 @@
-import type { Variants, Transition } from "framer-motion";
+import type { Variants } from "framer-motion";
 
-export const GSAP_DEFAULTS = {
-  duration: 1,
-  ease: "power3.out" as const,
-};
+export const EASE = [0.16, 1, 0.3, 1] as const;
 
-export const STAGGER_DELAY = 0.1;
-
-export const fadeInUp: Variants = {
-  hidden: { opacity: 0, y: 30 },
+export const reveal: Variants = {
+  hidden: { opacity: 0, y: 16 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
+    transition: { duration: 0.5, ease: EASE },
+  },
+};
+
+export const revealLeft: Variants = {
+  hidden: { opacity: 0, x: -20 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.5, ease: EASE },
+  },
+};
+
+export const revealRight: Variants = {
+  hidden: { opacity: 0, x: 20 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.5, ease: EASE },
   },
 };
 
@@ -20,26 +33,16 @@ export const fadeIn: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { duration: 0.6 },
+    transition: { duration: 0.4 },
   },
 };
 
-export const staggerContainer: Variants = {
+export const stagger: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: STAGGER_DELAY,
-      delayChildren: 0.1,
+      staggerChildren: 0.06,
+      delayChildren: 0.04,
     },
   },
-};
-
-export const scaleOnHover = {
-  scale: 1.02,
-  transition: { duration: 0.3, ease: "easeOut" } as Transition,
-};
-
-export const glowOnHover = {
-  boxShadow: "0 0 30px rgba(125, 211, 252, 0.15)",
-  transition: { duration: 0.3 } as Transition,
 };

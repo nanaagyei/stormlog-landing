@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
-import { clashGrotesk, satoshi } from "@/lib/fonts";
+import { clashGrotesk, satoshi, jetbrainsMono } from "@/lib/fonts";
 import { GsapProvider } from "@/lib/gsap-provider";
 import "./globals.css";
 
@@ -9,25 +9,31 @@ const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://stormlog.dev";
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: "Stormlog — Real-time GPU Memory Profiling",
+    default: "Stormlog — Real-time GPU Memory Profiling for PyTorch & TensorFlow",
     template: "%s | Stormlog",
   },
   description:
-    "Stormlog gives PyTorch and TensorFlow teams real-time GPU memory visibility, leak detection, diagnostics, and exportable timelines across CLI, Python API, and Textual TUI workflows. Open-source and production-ready.",
+    "Open-source GPU memory profiler for PyTorch and TensorFlow. Real-time allocation monitoring, leak detection, OOM prevention, exportable diagnostics, and an interactive TUI — all from a single pip install.",
   keywords: [
     "GPU memory profiler",
-    "PyTorch",
-    "TensorFlow",
-    "CUDA",
+    "PyTorch profiler",
+    "TensorFlow profiler",
+    "CUDA memory",
     "memory monitoring",
     "leak detection",
-    "OOM",
+    "OOM prevention",
+    "out of memory",
     "machine learning",
     "deep learning",
     "MLOps",
     "GPU profiling",
     "memory profiling",
     "Textual TUI",
+    "GPU diagnostics",
+    "training debugging",
+    "memory allocation",
+    "nvidia-smi alternative",
+    "pip install stormlog",
   ],
   authors: [
     { name: "Stormlog", url: "https://github.com/Silas-Asamoah/stormlog" },
@@ -37,9 +43,15 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    "max-image-preview": "large" as const,
+    "max-snippet": -1,
+    "max-video-preview": -1,
     googleBot: {
       index: true,
       follow: true,
+      "max-image-preview": "large" as const,
+      "max-snippet": -1,
+      "max-video-preview": -1,
     },
   },
   alternates: {
@@ -52,13 +64,14 @@ export const metadata: Metadata = {
     siteName: "Stormlog",
     title: "Stormlog — Real-time GPU Memory Profiling",
     description:
-      "Open-source GPU memory profiling for PyTorch and TensorFlow. Monitor allocation, detect leaks, and ship evidence into debugging reviews and CI pipelines.",
+      "See GPU memory before it breaks your training. Open-source profiler with real-time monitoring, leak detection, and exportable diagnostics for PyTorch and TensorFlow.",
     images: [
       {
-        url: "/images/stormlog-preview.png",
-        width: 1200,
-        height: 630,
-        alt: "Stormlog — See GPU memory before it breaks your training. Real-time profiling for PyTorch and TensorFlow.",
+        url: "/new-meta.png",
+        width: 3840,
+        height: 2080,
+        alt: "Stormlog — Real-time GPU memory profiling dashboard showing CLI, TUI, and diagnostics interface",
+        type: "image/png",
       },
     ],
   },
@@ -66,8 +79,15 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Stormlog — Real-time GPU Memory Profiling",
     description:
-      "Open-source GPU memory profiling for PyTorch and TensorFlow. Monitor, detect leaks, and optimize.",
-    images: ["/images/stormlog-preview.png"],
+      "See GPU memory before it breaks your training. Open-source profiler for PyTorch & TensorFlow with real-time monitoring, leak detection, and exportable diagnostics.",
+    images: [
+      {
+        url: "/new-meta.png",
+        width: 3840,
+        height: 2080,
+        alt: "Stormlog — Real-time GPU memory profiling dashboard",
+      },
+    ],
   },
   icons: {
     icon: [
@@ -79,13 +99,64 @@ export const metadata: Metadata = {
   manifest: "/manifest.webmanifest",
   category: "technology",
   applicationName: "Stormlog",
+  other: {
+    "google-site-verification": process.env.GOOGLE_SITE_VERIFICATION || "",
+  },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#030816",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
+    { media: "(prefers-color-scheme: light)", color: "#09090b" },
+  ],
   width: "device-width",
   initialScale: 1,
 };
+
+function JsonLd() {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "Stormlog",
+    url: baseUrl,
+    description:
+      "Open-source GPU memory profiler for PyTorch and TensorFlow. Real-time allocation monitoring, leak detection, OOM prevention, and exportable diagnostics.",
+    applicationCategory: "DeveloperApplication",
+    operatingSystem: "Linux, macOS, Windows",
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+    author: {
+      "@type": "Organization",
+      name: "Stormlog",
+      url: "https://github.com/Silas-Asamoah/stormlog",
+    },
+    image: `${baseUrl}/new-meta.png`,
+    screenshot: `${baseUrl}/new-meta.png`,
+    featureList: [
+      "Real-time GPU memory monitoring",
+      "Memory leak detection",
+      "OOM prevention",
+      "Exportable diagnostics",
+      "Interactive TUI",
+      "PyTorch support",
+      "TensorFlow support",
+      "CLI interface",
+      "Python API",
+    ],
+    softwareRequirements: "Python 3.8+, NVIDIA GPU with CUDA",
+    installUrl: "https://pypi.org/project/stormlog/",
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+    />
+  );
+}
 
 export default function RootLayout({
   children,
@@ -94,8 +165,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <JsonLd />
+      </head>
       <body
-        className={`${clashGrotesk.variable} ${satoshi.variable} font-sans antialiased`}
+        className={`${clashGrotesk.variable} ${satoshi.variable} ${jetbrainsMono.variable} font-sans antialiased`}
       >
         <ThemeProvider
           attribute="class"
@@ -106,7 +180,7 @@ export default function RootLayout({
           <GsapProvider>
             <a
               href="#main-content"
-              className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:rounded-xl focus:bg-cyan focus:px-4 focus:py-2 focus:text-deep focus:text-sm"
+              className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:rounded-lg focus:bg-emerald focus:px-4 focus:py-2 focus:text-deep focus:text-sm"
             >
               Skip to content
             </a>

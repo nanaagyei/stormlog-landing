@@ -23,72 +23,57 @@ export function PostTableOfContents({
   const headingIds = useMemo(() => headings.map((heading) => heading.id), [headings]);
 
   useEffect(() => {
-    if (headings.length === 0) {
-      return;
-    }
+    if (headings.length === 0) return;
 
     const elements = headingIds
       .map((id) => document.getElementById(id))
       .filter((element): element is HTMLElement => Boolean(element));
 
-    if (elements.length === 0) {
-      return;
-    }
+    if (elements.length === 0) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
         const visibleEntries = entries
           .filter((entry) => entry.isIntersecting)
-          .sort(
-            (firstEntry, secondEntry) =>
-              secondEntry.intersectionRatio - firstEntry.intersectionRatio
-          );
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
 
         if (visibleEntries[0]?.target.id) {
           setActiveId(visibleEntries[0].target.id);
         }
       },
-      {
-        rootMargin: "-20% 0px -65% 0px",
-        threshold: [0.2, 0.5, 1],
-      }
+      { rootMargin: "-20% 0px -65% 0px", threshold: [0.2, 0.5, 1] }
     );
 
-    for (const element of elements) {
-      observer.observe(element);
-    }
-
+    for (const element of elements) observer.observe(element);
     return () => observer.disconnect();
   }, [headingIds, headings.length]);
 
-  if (headings.length === 0) {
-    return null;
-  }
+  if (headings.length === 0) return null;
 
   return (
     <div
       className={cn(
-        "glass-panel rounded-[28px] border border-white/[0.08] p-4 sm:p-5",
+        "rounded-xl border border-white/[0.06] bg-surface p-4 sm:p-5",
         className
       )}
     >
       <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.22em] text-cool-white/60">
-          <List className="size-4 text-violet" />
+        <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-muted-foreground/60">
+          <List className="size-3.5 text-emerald" />
           On this page
         </div>
         {collapsible ? (
           <button
             type="button"
-            onClick={() => setOpen((currentOpen) => !currentOpen)}
-            className="inline-flex items-center gap-1 rounded-full border border-white/[0.08] px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:text-cool-white"
+            onClick={() => setOpen((o) => !o)}
+            className="inline-flex items-center gap-1 rounded-md border border-white/[0.06] px-2.5 py-1 text-xs text-muted-foreground transition-colors hover:text-foreground"
             aria-expanded={open}
             aria-controls="blog-mobile-toc"
           >
             {open ? "Hide" : "Show"}
             <ChevronDown
               className={cn(
-                "size-3.5 transition-transform",
+                "size-3 transition-transform",
                 open ? "rotate-180" : "rotate-0"
               )}
             />
@@ -98,25 +83,23 @@ export function PostTableOfContents({
 
       <nav
         id={collapsible ? "blog-mobile-toc" : undefined}
-        className={cn("mt-4", collapsible && !open ? "hidden" : "block")}
+        className={cn("mt-3", collapsible && !open ? "hidden" : "block")}
         aria-label="Table of contents"
       >
-        <ol className="space-y-2">
+        <ol className="space-y-1">
           {headings.map((heading) => (
             <li key={heading.id}>
               <Link
                 href={`#${heading.id}`}
                 className={cn(
-                  "block rounded-2xl px-3 py-2 text-sm transition-colors",
+                  "block rounded-lg px-2.5 py-1.5 text-sm transition-colors",
                   heading.level === 3 ? "ml-4" : "",
                   activeId === heading.id
-                    ? "bg-white/[0.08] text-cool-white"
-                    : "text-muted-foreground hover:bg-white/[0.04] hover:text-cool-white"
+                    ? "bg-emerald-muted text-foreground"
+                    : "text-muted-foreground hover:bg-white/[0.04] hover:text-foreground"
                 )}
                 onClick={() => {
-                  if (collapsible) {
-                    setOpen(false);
-                  }
+                  if (collapsible) setOpen(false);
                 }}
               >
                 {heading.text}

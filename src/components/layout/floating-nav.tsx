@@ -21,15 +21,15 @@ export function FloatingNav() {
   return (
     <>
       <motion.header
-        initial={{ y: -32, opacity: 0 }}
+        initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-        className="fixed top-4 right-0 left-0 z-50 mx-auto w-full px-4 sm:top-6 sm:px-6"
+        transition={{ duration: 0.4, delay: 0.1 }}
+        className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#09090b]/80 backdrop-blur-xl"
       >
-        <nav className="glass-panel mx-auto flex max-w-6xl items-center justify-between rounded-full px-3 py-2.5 sm:px-4">
+        <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
           <a
             href="#overview"
-            className="shrink-0 rounded-full px-3 py-2 font-heading text-base font-semibold tracking-tight text-cool-white transition-colors hover:text-white"
+            className="shrink-0 font-heading text-sm font-semibold tracking-tight text-foreground transition-colors hover:text-white"
           >
             Stormlog
           </a>
@@ -42,65 +42,69 @@ export function FloatingNav() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "relative rounded-full px-4 py-2 text-sm transition-colors",
+                    "relative px-3 py-1.5 text-[13px] transition-colors",
                     isActive
-                      ? "text-white"
-                      : "text-muted-foreground hover:text-cool-white"
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
                   )}
                 >
                   {isActive && (
                     <motion.span
-                      layoutId="nav-active-pill"
-                      className="absolute inset-0 rounded-full bg-white/[0.08]"
-                      transition={{ type: "spring", duration: 0.45 }}
+                      layoutId="nav-indicator"
+                      className="absolute inset-x-1 -bottom-[calc(0.5rem+1px)] h-px bg-emerald"
+                      transition={{ type: "spring", duration: 0.35, bounce: 0 }}
                     />
                   )}
-                  <span className="relative z-10">{item.label}</span>
+                  <span className="relative">{item.label}</span>
                 </a>
               );
             })}
           </div>
 
-          <div className="hidden items-center gap-2 md:flex">
+          <div className="hidden items-center gap-3 md:flex">
             <Link
               href="/blogs"
-              className="inline-flex h-10 items-center gap-2 rounded-full border border-white/[0.08] px-4 text-sm text-cool-white transition-all hover:border-violet/40 hover:bg-white/[0.04]"
+              className="text-[13px] text-muted-foreground transition-colors hover:text-foreground"
             >
-              Blogs
+              Blog
             </Link>
+            <span className="h-3 w-px bg-white/[0.08]" />
             <a
               href={EXTERNAL_LINKS.docs}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-10 items-center gap-2 rounded-full border border-white/[0.08] px-4 text-sm text-cool-white transition-all hover:border-violet/40 hover:bg-white/[0.04]"
+              className="inline-flex items-center gap-1.5 text-[13px] text-muted-foreground transition-colors hover:text-foreground"
             >
-              <BookOpen className="size-4" />
+              <BookOpen className="size-3.5" />
               Docs
             </a>
             <a
               href={EXTERNAL_LINKS.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-10 items-center gap-2 rounded-full border border-white/[0.08] px-4 text-sm text-muted-foreground transition-all hover:border-white/15 hover:bg-white/[0.04] hover:text-cool-white"
+              className="inline-flex items-center gap-1.5 text-[13px] text-muted-foreground transition-colors hover:text-foreground"
             >
-              <Github className="size-4" />
+              <Github className="size-3.5" />
               GitHub
             </a>
             <div className="hidden xl:block">
               <CopyButton
                 text={HERO_CONTENT.installCommand}
                 displayText="pip install stormlog"
-                className="!h-10 !px-4 !py-0 text-xs"
+                className="!h-8 !px-3 !py-0 text-xs"
               />
             </div>
           </div>
 
           <button
+            type="button"
             onClick={() => setMobileOpen((open) => !open)}
-            className="rounded-full border border-white/[0.08] p-2.5 text-muted-foreground transition-colors hover:text-cool-white md:hidden"
+            className="rounded-lg border border-white/[0.06] p-2 text-muted-foreground transition-colors hover:text-foreground md:hidden"
             aria-label="Toggle menu"
+            aria-expanded={mobileOpen}
+            aria-controls="floating-nav-mobile-menu"
           >
-            {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+            {mobileOpen ? <X className="size-4" /> : <Menu className="size-4" />}
           </button>
         </nav>
       </motion.header>
@@ -108,32 +112,33 @@ export function FloatingNav() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -12 }}
+            id="floating-nav-mobile-menu"
+            initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            className="fixed top-20 right-4 left-4 z-50 rounded-[28px] border border-white/[0.08] bg-[#09122a]/95 p-4 shadow-[0_24px_90px_rgba(2,6,23,0.65)] backdrop-blur-2xl md:hidden"
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-x-0 top-14 z-50 border-b border-white/[0.06] bg-[#09090b]/95 px-4 py-4 backdrop-blur-xl md:hidden"
           >
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-1">
               <Link
                 href="/blogs"
                 onClick={() => setMobileOpen(false)}
-                className="rounded-2xl px-4 py-3 text-sm text-cool-white transition-colors hover:bg-white/[0.04]"
+                className="rounded-lg px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-white/[0.04]"
               >
-                Blogs
+                Blog
               </Link>
               {NAV_ITEMS.map((item) => {
                 const isActive = activeSection === item.href.slice(1);
-
                 return (
                   <a
                     key={item.href}
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
                     className={cn(
-                      "rounded-2xl px-4 py-3 text-sm transition-colors",
+                      "rounded-lg px-3 py-2.5 text-sm transition-colors",
                       isActive
-                        ? "bg-white/[0.08] text-cool-white"
-                        : "text-muted-foreground hover:bg-white/[0.04] hover:text-cool-white"
+                        ? "bg-white/[0.04] text-foreground"
+                        : "text-muted-foreground hover:bg-white/[0.04] hover:text-foreground"
                     )}
                   >
                     {item.label}
@@ -142,23 +147,23 @@ export function FloatingNav() {
               })}
             </div>
 
-            <div className="mt-4 grid gap-2 border-t border-white/[0.06] pt-4 sm:grid-cols-2">
+            <div className="mt-3 flex gap-2 border-t border-white/[0.06] pt-3">
               <a
                 href={EXTERNAL_LINKS.docs}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/[0.08] px-4 py-3 text-sm text-cool-white"
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-white/[0.06] px-3 py-2.5 text-sm text-foreground"
               >
-                <BookOpen className="size-4" />
+                <BookOpen className="size-3.5" />
                 Docs
               </a>
               <a
                 href={EXTERNAL_LINKS.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/[0.08] px-4 py-3 text-sm text-muted-foreground"
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-white/[0.06] px-3 py-2.5 text-sm text-muted-foreground"
               >
-                <Github className="size-4" />
+                <Github className="size-3.5" />
                 GitHub
               </a>
             </div>

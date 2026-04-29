@@ -3,25 +3,20 @@
 import { motion } from "framer-motion";
 import { CAPABILITY_GROUPS } from "@/data/content";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
-import { fadeInUp, staggerContainer } from "@/lib/motion";
+import { reveal, stagger } from "@/lib/motion";
 
 export function ProblemSection() {
   return (
     <SectionWrapper id="features">
       <motion.div
-        variants={staggerContainer}
+        variants={stagger}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        className="glass-panel overflow-hidden rounded-[36px] p-6 sm:p-8 lg:p-12"
+        viewport={{ once: true, margin: "-80px" }}
       >
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-[radial-gradient(circle_at_top,rgba(167,139,250,0.22),transparent_72%)]" />
-
-        <motion.div variants={fadeInUp} className="relative z-10 max-w-3xl">
-          <p className="text-sm font-medium uppercase tracking-[0.24em] text-violet">
-            Why Stormlog
-          </p>
-          <h2 className="mt-4 font-heading text-3xl font-semibold tracking-tight text-cool-white sm:text-4xl lg:text-5xl">
+        <motion.div variants={reveal} className="max-w-3xl">
+          <span className="mono-label">Why Stormlog</span>
+          <h2 className="mt-4 font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl">
             A product surface built around real debugging pressure.
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -31,41 +26,40 @@ export function ProblemSection() {
           </p>
         </motion.div>
 
-        <div className="relative z-10 mt-12 grid gap-6 xl:grid-cols-3">
-          {CAPABILITY_GROUPS.map((group) => (
+        <div className="mt-12 grid gap-4 lg:grid-cols-2">
+          {CAPABILITY_GROUPS.map((group, groupIndex) => (
             <motion.div
               key={group.title}
-              variants={fadeInUp}
-              className="rounded-[30px] border border-white/[0.08] bg-[#09122a]/82 p-6"
+              variants={reveal}
+              className={`rounded-xl border border-white/[0.06] bg-surface p-6 lg:p-8 ${groupIndex === CAPABILITY_GROUPS.length - 1 ? "lg:col-span-2" : ""}`}
             >
-              <p className="text-sm font-medium text-violet">{group.eyebrow}</p>
-              <h3 className="mt-4 font-heading text-2xl font-medium text-cool-white">
+              <span className="mono-label">{group.eyebrow}</span>
+              <h3 className="mt-3 font-heading text-xl font-medium tracking-tight text-foreground lg:text-2xl">
                 {group.title}
               </h3>
-              <p className="mt-3 text-sm leading-7 text-muted-foreground">
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                 {group.description}
               </p>
 
-              <div className="mt-8 space-y-5 border-t border-white/[0.06] pt-6">
+              <div className={`mt-6 border-t border-white/[0.06] pt-5 ${groupIndex === CAPABILITY_GROUPS.length - 1 ? "grid gap-3 sm:grid-cols-2 lg:grid-cols-3" : "space-y-3"}`}>
                 {group.items.map((item) => {
                   const Icon = item.icon;
-
                   return (
                     <div
                       key={item.title}
-                      className="grid gap-3 border-b border-white/[0.05] pb-5 last:border-b-0 last:pb-0"
+                      className="flex items-start gap-3"
                     >
-                      <div className="flex items-center gap-3">
-                        <span className="inline-flex size-10 items-center justify-center rounded-2xl border border-violet/15 bg-violet/10 text-violet">
-                          <Icon className="size-4" />
-                        </span>
-                        <h4 className="font-heading text-lg font-medium text-cool-white">
+                      <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-md bg-emerald-muted text-emerald">
+                        <Icon className="size-3.5" />
+                      </span>
+                      <div>
+                        <h4 className="text-sm font-medium text-foreground">
                           {item.title}
                         </h4>
+                        <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground">
+                          {item.description}
+                        </p>
                       </div>
-                      <p className="text-sm leading-7 text-muted-foreground">
-                        {item.description}
-                      </p>
                     </div>
                   );
                 })}

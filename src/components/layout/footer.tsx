@@ -7,66 +7,65 @@ import { MAINTAINERS } from "@/data/content";
 
 export function Footer() {
   return (
-    <footer className="relative px-4 pb-10 sm:px-6 lg:px-8 lg:pb-14">
-      <div className="mx-auto max-w-6xl rounded-[36px] border border-white/8 bg-[#060d1d]/88 px-6 py-10 shadow-[0_24px_100px_rgba(1,3,10,0.5)] backdrop-blur-2xl sm:px-8 lg:px-10">
-        <div className="grid gap-10 lg:grid-cols-[1.1fr_0.7fr_0.7fr_0.7fr]">
+    <footer className="relative border-t border-white/[0.06] px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl py-12 lg:py-16">
+        <div className="grid gap-10 lg:grid-cols-[1.2fr_0.6fr_0.6fr_0.6fr]">
           <div>
-            <h3 className="font-heading text-2xl font-semibold text-cool-white">
+            <h3 className="font-heading text-base font-semibold text-foreground">
               Stormlog
             </h3>
-            <p className="mt-4 max-w-md text-sm leading-7 text-muted-foreground">
-              Real-time GPU memory profiling for PyTorch and TensorFlow with
-              CLI, Python API, diagnostics artifacts, exportable timelines, and
-              an interactive TUI.
+            <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
+              Real-time GPU memory profiling for PyTorch and TensorFlow.
+              Open-source CLI, Python API, and interactive TUI.
             </p>
           </div>
 
           <div>
-            <h4 className="text-sm font-medium uppercase tracking-[0.22em] text-cool-white/55">
+            <h4 className="font-mono text-xs font-medium uppercase tracking-wider text-muted-foreground/60">
               Product
             </h4>
-            <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
+            <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground">
               <li>
-                <Link href="/#overview" className="transition-colors hover:text-cool-white">
+                <Link href="/#overview" className="transition-colors hover:text-foreground">
                   Overview
                 </Link>
               </li>
               <li>
-                <Link href="/#features" className="transition-colors hover:text-cool-white">
+                <Link href="/#features" className="transition-colors hover:text-foreground">
                   Features
                 </Link>
               </li>
               <li>
-                <Link href="/#workflow" className="transition-colors hover:text-cool-white">
+                <Link href="/#workflow" className="transition-colors hover:text-foreground">
                   Workflow
                 </Link>
               </li>
               <li>
-                <Link href="/#tui" className="transition-colors hover:text-cool-white">
-                  TUI showcase
+                <Link href="/#tui" className="transition-colors hover:text-foreground">
+                  TUI
                 </Link>
               </li>
               <li>
-                <Link href="/blogs" className="transition-colors hover:text-cool-white">
-                  Blogs
+                <Link href="/blogs" className="transition-colors hover:text-foreground">
+                  Blog
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-sm font-medium uppercase tracking-[0.22em] text-cool-white/55">
+            <h4 className="font-mono text-xs font-medium uppercase tracking-wider text-muted-foreground/60">
               Resources
             </h4>
-            <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
+            <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground">
               <li>
                 <a
                   href={EXTERNAL_LINKS.docs}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 transition-colors hover:text-cool-white"
+                  className="inline-flex items-center gap-1.5 transition-colors hover:text-foreground"
                 >
-                  <BookOpen className="size-4" />
+                  <BookOpen className="size-3.5" />
                   Documentation
                 </a>
               </li>
@@ -75,9 +74,9 @@ export function Footer() {
                   href={EXTERNAL_LINKS.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 transition-colors hover:text-cool-white"
+                  className="inline-flex items-center gap-1.5 transition-colors hover:text-foreground"
                 >
-                  <Github className="size-4" />
+                  <Github className="size-3.5" />
                   GitHub
                 </a>
               </li>
@@ -86,10 +85,10 @@ export function Footer() {
                   href={EXTERNAL_LINKS.pypi}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 transition-colors hover:text-cool-white"
+                  className="inline-flex items-center gap-1.5 transition-colors hover:text-foreground"
                 >
-                  <Package className="size-4" />
-                  PyPI package
+                  <Package className="size-3.5" />
+                  PyPI
                 </a>
               </li>
               <li>
@@ -97,9 +96,9 @@ export function Footer() {
                   href={EXTERNAL_LINKS.issues}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 transition-colors hover:text-cool-white"
+                  className="inline-flex items-center gap-1.5 transition-colors hover:text-foreground"
                 >
-                  <TriangleAlert className="size-4" />
+                  <TriangleAlert className="size-3.5" />
                   Issues
                 </a>
               </li>
@@ -107,17 +106,17 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-sm font-medium uppercase tracking-[0.22em] text-cool-white/55">
+            <h4 className="font-mono text-xs font-medium uppercase tracking-wider text-muted-foreground/60">
               Maintainers
             </h4>
-            <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
+            <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground">
               {MAINTAINERS.map((maintainer) => (
                 <li key={maintainer.github}>
                   <a
                     href={`https://github.com/${maintainer.github}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="transition-colors hover:text-cool-white"
+                    className="transition-colors hover:text-foreground"
                   >
                     {maintainer.name}
                   </a>
@@ -127,9 +126,9 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col gap-2 border-t border-white/6 pt-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p>Evidence-rich GPU memory debugging, shipped in the open.</p>
-          <p>&copy; {new Date().getFullYear()} Stormlog contributors.</p>
+        <div className="mt-12 flex flex-col gap-2 border-t border-white/[0.06] pt-6 font-mono text-xs text-muted-foreground/50 sm:flex-row sm:items-center sm:justify-between">
+          <p>&copy; {new Date().getFullYear()} Stormlog contributors</p>
+          <p>GPU memory debugging, shipped in the open.</p>
         </div>
       </div>
     </footer>

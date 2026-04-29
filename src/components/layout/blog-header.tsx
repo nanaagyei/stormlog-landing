@@ -9,14 +9,11 @@ import { cn } from "@/lib/utils";
 
 const PRIMARY_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Blogs", href: "/blogs" },
+  { label: "Blog", href: "/blogs" },
 ] as const;
 
 function isActive(pathname: string, href: (typeof PRIMARY_LINKS)[number]["href"]) {
-  if (href === "/") {
-    return pathname === "/";
-  }
-
+  if (href === "/") return pathname === "/";
   return pathname.startsWith(href);
 }
 
@@ -26,11 +23,11 @@ export function BlogHeader() {
 
   return (
     <>
-      <header className="fixed top-4 right-0 left-0 z-50 mx-auto w-full px-4 sm:top-6 sm:px-6">
-        <nav className="glass-panel mx-auto flex max-w-6xl items-center justify-between rounded-full px-3 py-2.5 sm:px-4">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#09090b]/80 backdrop-blur-xl">
+        <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
           <Link
             href="/"
-            className="shrink-0 rounded-full px-3 py-2 font-heading text-base font-semibold tracking-tight text-cool-white transition-colors hover:text-white"
+            className="shrink-0 font-heading text-sm font-semibold tracking-tight text-foreground transition-colors hover:text-white"
           >
             Stormlog
           </Link>
@@ -38,16 +35,15 @@ export function BlogHeader() {
           <div className="hidden items-center gap-1 lg:flex">
             {PRIMARY_LINKS.map((item) => {
               const active = isActive(pathname, item.href);
-
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "rounded-full px-4 py-2 text-sm transition-colors",
+                    "px-3 py-1.5 text-[13px] transition-colors",
                     active
-                      ? "bg-white/[0.08] text-cool-white"
-                      : "text-muted-foreground hover:text-cool-white"
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
                   )}
                   aria-current={active ? "page" : undefined}
                 >
@@ -57,84 +53,80 @@ export function BlogHeader() {
             })}
           </div>
 
-          <div className="hidden items-center gap-2 md:flex">
+          <div className="hidden items-center gap-3 md:flex">
             <a
               href={EXTERNAL_LINKS.docs}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-10 items-center gap-2 rounded-full border border-white/[0.08] px-4 text-sm text-cool-white transition-all hover:border-violet/40 hover:bg-white/[0.04]"
+              className="inline-flex items-center gap-1.5 text-[13px] text-muted-foreground transition-colors hover:text-foreground"
             >
-              <BookOpen className="size-4" />
+              <BookOpen className="size-3.5" />
               Docs
             </a>
             <a
               href={EXTERNAL_LINKS.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-10 items-center gap-2 rounded-full border border-white/[0.08] px-4 text-sm text-muted-foreground transition-all hover:border-white/15 hover:bg-white/[0.04] hover:text-cool-white"
+              className="inline-flex items-center gap-1.5 text-[13px] text-muted-foreground transition-colors hover:text-foreground"
             >
-              <Github className="size-4" />
+              <Github className="size-3.5" />
               GitHub
             </a>
           </div>
 
           <button
+            type="button"
             onClick={() => setMobileOpen((open) => !open)}
-            className="rounded-full border border-white/[0.08] p-2.5 text-muted-foreground transition-colors hover:text-cool-white md:hidden"
+            className="rounded-lg border border-white/[0.06] p-2 text-muted-foreground transition-colors hover:text-foreground lg:hidden"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
-            {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+            {mobileOpen ? <X className="size-4" /> : <Menu className="size-4" />}
           </button>
         </nav>
       </header>
 
       {mobileOpen ? (
-        <div className="fixed top-20 right-4 left-4 z-50 rounded-[28px] border border-white/[0.08] bg-[#09122a]/95 p-4 shadow-[0_24px_90px_rgba(2,6,23,0.65)] backdrop-blur-2xl md:hidden">
-          <div className="flex flex-col gap-1.5">
+        <div className="fixed inset-x-0 top-14 z-50 border-b border-white/[0.06] bg-[#09090b]/95 px-4 py-4 backdrop-blur-xl lg:hidden">
+          <div className="flex flex-col gap-1">
             {PRIMARY_LINKS.map((item) => {
               const active = isActive(pathname, item.href);
-
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
                   className={cn(
-                    "flex items-center gap-3 rounded-2xl px-4 py-3 text-sm transition-colors",
+                    "flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm transition-colors",
                     active
-                      ? "bg-white/[0.08] text-cool-white"
-                      : "text-muted-foreground hover:bg-white/[0.04] hover:text-cool-white"
+                      ? "bg-white/[0.04] text-foreground"
+                      : "text-muted-foreground hover:bg-white/[0.04] hover:text-foreground"
                   )}
                   aria-current={active ? "page" : undefined}
                 >
-                  {item.href === "/" ? (
-                    <Home className="size-4" />
-                  ) : (
-                    <BookOpen className="size-4" />
-                  )}
+                  {item.href === "/" ? <Home className="size-3.5" /> : <BookOpen className="size-3.5" />}
                   {item.label}
                 </Link>
               );
             })}
           </div>
 
-          <div className="mt-4 grid gap-2 border-t border-white/[0.06] pt-4 sm:grid-cols-2">
+          <div className="mt-3 flex gap-2 border-t border-white/[0.06] pt-3">
             <a
               href={EXTERNAL_LINKS.docs}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/[0.08] px-4 py-3 text-sm text-cool-white"
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-white/[0.06] px-3 py-2.5 text-sm text-foreground"
             >
-              <BookOpen className="size-4" />
+              <BookOpen className="size-3.5" />
               Docs
             </a>
             <a
               href={EXTERNAL_LINKS.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/[0.08] px-4 py-3 text-sm text-muted-foreground"
+              className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg border border-white/[0.06] px-3 py-2.5 text-sm text-muted-foreground"
             >
-              <Github className="size-4" />
+              <Github className="size-3.5" />
               GitHub
             </a>
           </div>

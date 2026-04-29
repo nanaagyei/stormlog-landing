@@ -51,15 +51,13 @@ export function Compare({ before, after, className }: CompareProps) {
   return (
     <div
       ref={containerRef}
-      className={cn("relative overflow-hidden rounded-3xl select-none", className)}
+      className={cn("relative overflow-hidden select-none", className)}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
     >
-      {/* After (full width behind) */}
       <div className="relative w-full">{after}</div>
 
-      {/* Before (clipped) */}
       <div
         className="absolute inset-0 overflow-hidden"
         style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
@@ -67,9 +65,8 @@ export function Compare({ before, after, className }: CompareProps) {
         {before}
       </div>
 
-      {/* Slider handle */}
       <div
-        className="absolute top-0 bottom-0 z-10 w-px -translate-x-1/2 cursor-ew-resize bg-violet/90"
+        className="absolute top-0 bottom-0 z-10 w-px -translate-x-1/2 cursor-ew-resize bg-emerald/80"
         style={{ left: `${position}%` }}
         role="slider"
         aria-label="Compare slider"
@@ -79,9 +76,9 @@ export function Compare({ before, after, className }: CompareProps) {
         tabIndex={0}
         onKeyDown={handleKeyDown}
       >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/20 bg-white px-2.5 py-2 shadow-[0_0_40px_rgba(167,139,250,0.35)]">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M5 3L2 8L5 13M11 3L14 8L11 13" stroke="#5B21B6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <div className="absolute top-1/2 left-1/2 flex size-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded border border-emerald/40 bg-deep">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+            <path d="M3 2L1 5L3 8M7 2L9 5L7 8" stroke="#00e599" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
       </div>

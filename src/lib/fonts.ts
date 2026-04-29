@@ -13,3 +13,10 @@ export const satoshi = localFont({
   display: "swap",
   weight: "300 900",
 });
+
+export const jetbrainsMono = localFont({
+  src: "../app/fonts/JetBrainsMono-Variable.woff2",
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+  weight: "100 800",
+});

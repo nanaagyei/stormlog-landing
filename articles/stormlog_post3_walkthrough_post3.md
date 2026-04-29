@@ -260,7 +260,7 @@ The same artifacts produced by the training runs are reloadable in the TUI witho
 stormlog
 ```
 
-In the Diagnostics tab, point the artifact loader at any of the `events.json` files from the tutorial output. The rank table and timeline panes rebuild from the saved data, which is the post-hoc inspection path for saved tracker exports. The Visualizations tab exports PNG or HTML plots from the current live monitoring timeline; for artifact-backed plots outside a live TUI session, use the CLI or the `MemoryVisualizer` API.
+In the Diagnostics tab, point the artifact loader at any of the `events.json` files from the tutorial output. The rank table and timeline panes rebuild from the saved data, which is the post-hoc inspection path for saved tracker exports. The Visualizations tab exports PNG or HTML plots from the current session or a loaded artifact; for artifact-backed plots outside the TUI, use the CLI or the `MemoryVisualizer` API.
 
 The value here isn't just visual convenience. It's that the full debugging sequence — live tracking, export, analysis, and interactive inspection — all use the same artifacts and the same formats. You can move between interfaces without converting data or re-running jobs, which means the evidence you captured at run time stays useful indefinitely.
 

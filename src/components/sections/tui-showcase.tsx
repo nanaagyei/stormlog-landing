@@ -120,7 +120,7 @@ export function TuiShowcase() {
               </span>
             </div>
 
-            <div className="relative aspect-[16_10]">
+            <div className="relative aspect-16/10">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeItem.image}

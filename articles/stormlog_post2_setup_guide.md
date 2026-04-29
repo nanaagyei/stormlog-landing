@@ -97,7 +97,7 @@ Once you have an artifact, you can analyze it without re-running the job:
 gpumemprof analyze run.json --format txt --output analysis.txt
 ```
 
-The analyzer classifies drift patterns — persistent growth (using linear regression) vs. transient spikes (using z-scores) — and writes a summary you can attach to a bug report or share with a teammate.
+The analyzer classifies hidden-memory gap patterns — persistent device-vs-allocator drift using linear regression, transient gap spikes using z-scores, and distributed first-cause signals when multi-rank telemetry is present — then writes a summary you can attach to a bug report or share with a teammate.
 
 ### Run a diagnostic bundle
 
@@ -105,7 +105,13 @@ The analyzer classifies drift patterns — persistent growth (using linear regre
 gpumemprof diagnose --duration 0 --output ./diag_output
 ```
 
-This captures a full environment snapshot and risk summary into a directory. `--duration 0` runs a point-in-time snapshot rather than a time-windowed capture. The output directory is reloadable in the TUI diagnostics tab later.
+This captures an environment snapshot and risk summary into a directory. `--duration 0` runs a point-in-time snapshot rather than a time-windowed capture, so it is useful for environment triage but does not produce timeline samples for the TUI.
+
+If you want a diagnose bundle that can rebuild a timeline in the TUI diagnostics tab, capture a short window instead:
+
+```bash
+gpumemprof diagnose --duration 5 --interval 0.5 --output ./diag_output
+```
 
 ---
 

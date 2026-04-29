@@ -178,7 +178,7 @@ With artifacts in hand, the CLI can classify what happened:
 gpumemprof analyze artifacts/events.json --format txt --output analysis.txt
 ```
 
-On the leaky run's artifacts, the analyzer reports persistent drift at **100.43 MB/s** with R² = 0.88, and one transient spike with a max z-score of **2.5**. The R² value matters: 0.88 means memory growth was highly linear — the signature of a steady, predictable accumulation rather than a one-time spike.
+For this tutorial's tensor-retention bug, the primary evidence is allocator-visible: the exported timeline and comparison scripts show peak allocated memory and allocated-memory slope jumping sharply from the clean baseline to the leaky run. `gpumemprof analyze` still gives you a telemetry-backed report from the saved events, and it adds hidden-memory gap findings when device-level usage diverges from allocator-reserved memory. That distinction matters: allocator-visible retention leaks and hidden device-vs-allocator gaps are different failure modes, even though both are investigated from the same exported telemetry.
 
 For a broader environment snapshot:
 
@@ -260,7 +260,7 @@ The same artifacts produced by the training runs are reloadable in the TUI witho
 stormlog
 ```
 
-In the Diagnostics tab, point the artifact loader at any of the `events.json` files from the tutorial output. The rank table and timeline panes rebuild from the saved data. In the Visualizations tab, you can generate a PNG or HTML timeline plot from the loaded artifact — the same chart, interactive in the browser or static in the terminal.
+In the Diagnostics tab, point the artifact loader at any of the `events.json` files from the tutorial output. The rank table and timeline panes rebuild from the saved data, which is the post-hoc inspection path for saved tracker exports. The Visualizations tab exports PNG or HTML plots from the current live monitoring timeline; for artifact-backed plots outside a live TUI session, use the CLI or the `MemoryVisualizer` API.
 
 The value here isn't just visual convenience. It's that the full debugging sequence — live tracking, export, analysis, and interactive inspection — all use the same artifacts and the same formats. You can move between interfaces without converting data or re-running jobs, which means the evidence you captured at run time stays useful indefinitely.
 

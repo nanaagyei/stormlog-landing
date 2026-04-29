@@ -203,7 +203,7 @@ Stormlog's **collective attribution** step looks for gap spikes that look like a
 2. **Checks cross-rank timing** — whether a similar jump lines up across ranks within a short time window (synchrony), which is what you expect when a collective lands everywhere at once.
 3. **Uses optional context** — if your tracker events include `context` strings that mention collectives (for example NCCL-related markers), overlapping spikes with that context strengthen the attribution.
 
-Those ingredients are combined into a **confidence score**, which is bucketed into labels such as `collective_confident`, `collective_likely`, and `collective_suspect`. Each result also carries **reason codes** for auditing (for example synchrony vs weak marker signal). The API exposes tunable presets (`low` / `medium` / `high`) that adjust thresholds for gap size, synchrony, and outlier sensitivity — `medium` is the default; use `low` if unrelated synchronized work creates noise, or `high` if you need a narrower net.
+Those ingredients are combined into a **confidence score**, which is bucketed into labels such as `collective_confident`, `collective_likely`, and `collective_suspect`. Each result also carries **reason codes** for auditing (for example synchrony vs weak marker signal). The API exposes tunable sensitivity presets (`low` / `medium` / `high`) that adjust thresholds for gap size, synchrony, and outlier detection — `medium` is the default; use `low` for a stricter, narrower pass when unrelated synchronized work creates noise, or `high` when you want a broader, more sensitive pass.
 
 ```python
 from stormlog import MemoryAnalyzer

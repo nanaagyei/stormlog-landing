@@ -31,7 +31,7 @@ export function MaintainersSection() {
             shipping it.
           </h2>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Stormlog's proof is the public codebase, the published package,
+            Stormlog&apos;s proof is the public codebase, the published package,
             the documentation footprint, and the maintainers who keep the
             project moving.
           </p>

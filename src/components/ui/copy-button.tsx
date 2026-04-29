@@ -18,9 +18,9 @@ export function CopyButton({ text, displayText, className }: CopyButtonProps) {
       type="button"
       onClick={() => copy(text)}
       className={cn(
-        "group flex items-center gap-2.5 rounded-lg border border-white/[0.06] bg-surface",
+        "group flex items-center gap-2.5 rounded-lg border border-white/6 bg-surface",
         "px-4 py-2.5 font-mono text-sm",
-        "transition-all hover:border-white/[0.12] hover:bg-surface-2",
+        "transition-all hover:border-white/20 hover:bg-surface-2",
         className
       )}
       aria-label={`Copy "${text}" to clipboard`}

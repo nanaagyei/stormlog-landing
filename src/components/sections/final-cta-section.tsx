@@ -16,9 +16,9 @@ export function FinalCtaSection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
-        className="relative border-t border-white/[0.06] pt-16 text-center lg:pt-20"
+        className="relative border-t border-white/6 pt-16 text-center lg:pt-20"
       >
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald/30 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-emerald/30 to-transparent" />
 
         <motion.span variants={reveal} className="mono-label">
           {FINAL_CTA.eyebrow}
@@ -54,7 +54,7 @@ export function FinalCtaSection() {
             href={EXTERNAL_LINKS.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-10 items-center gap-2 rounded-lg border border-white/[0.06] bg-surface px-5 text-sm font-medium text-foreground transition-all hover:border-white/[0.12] hover:bg-surface-2"
+            className="inline-flex h-10 items-center gap-2 rounded-lg border border-white/6 bg-surface px-5 text-sm font-medium text-foreground transition-all hover:border-white/20 hover:bg-surface-2"
           >
             <Github className="size-3.5" />
             Explore GitHub

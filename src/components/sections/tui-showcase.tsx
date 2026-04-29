@@ -79,7 +79,7 @@ export function TuiShowcase() {
                   "relative rounded-md px-3 py-1.5 font-mono text-xs transition-all overflow-hidden",
                   index === activeIndex
                     ? "bg-emerald-muted text-emerald border border-emerald/20"
-                    : "border border-white/[0.06] bg-surface text-muted-foreground hover:text-foreground"
+                    : "border border-white/6 bg-surface text-muted-foreground hover:text-foreground"
                 )}
               >
                 {index === activeIndex && !paused && !reducedMotion && (
@@ -110,8 +110,8 @@ export function TuiShowcase() {
             }
           }}
         >
-          <div className="overflow-hidden rounded-xl border border-white/[0.06] bg-deep">
-            <div className="flex items-center justify-between border-b border-white/[0.06] px-4 py-2.5">
+          <div className="overflow-hidden rounded-xl border border-white/6 bg-deep">
+            <div className="flex items-center justify-between border-b border-white/20 px-4 py-2.5">
               <span className="font-mono text-[11px] uppercase tracking-wider text-emerald/70">
                 {activeItem.tag}
               </span>
@@ -120,7 +120,7 @@ export function TuiShowcase() {
               </span>
             </div>
 
-            <div className="relative aspect-[16/10]">
+            <div className="relative aspect-[16_10]">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeItem.image}

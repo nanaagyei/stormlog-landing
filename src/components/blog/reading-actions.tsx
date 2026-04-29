@@ -15,6 +15,7 @@ export function ReadingActions({ slug }: { slug: string }) {
   const [liked, setLiked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
 
+  /* eslint-disable react-hooks/set-state-in-effect -- SSR-safe: must read localStorage after hydration to avoid server/client mismatch */
   useEffect(() => {
     try {
       setLiked(localStorage.getItem(likesKey(slug)) === "1");
@@ -24,6 +25,7 @@ export function ReadingActions({ slug }: { slug: string }) {
       setBookmarked(false);
     }
   }, [slug]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const likeRequest = useOptimisticRequest<boolean>(async () => fakeMutation(), {
     onOptimistic: (value) => {

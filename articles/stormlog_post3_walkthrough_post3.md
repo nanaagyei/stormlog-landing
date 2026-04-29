@@ -178,7 +178,7 @@ With artifacts in hand, the CLI can classify what happened:
 gpumemprof analyze artifacts/events.json --format txt --output analysis.txt
 ```
 
-On the leaky run's artifacts, the analyzer reports persistent drift at **100.43 MB/s** with R² = 0.88, and one transient spike with a max z-score of **2.5**. The R² value matters: 0.88 means memory growth was highly linear — the signature of a steady, predictable accumulation rather than a one-time spike.
+For this tutorial's tensor-retention bug, the primary evidence is allocator-visible: the exported timeline and comparison scripts show peak allocated memory and allocated-memory slope jumping sharply from the clean baseline to the leaky run. `gpumemprof analyze` still gives you a telemetry-backed report from the saved events, and it adds hidden-memory gap findings when device-level usage diverges from allocator-reserved memory. That distinction matters: allocator-visible retention leaks and hidden device-vs-allocator gaps are different failure modes, even though both are investigated from the same exported telemetry.
 
 For a broader environment snapshot:
 

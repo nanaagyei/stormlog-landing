@@ -97,7 +97,7 @@ Once you have an artifact, you can analyze it without re-running the job:
 gpumemprof analyze run.json --format txt --output analysis.txt
 ```
 
-The analyzer classifies drift patterns — persistent growth (using linear regression) vs. transient spikes (using z-scores) — and writes a summary you can attach to a bug report or share with a teammate.
+The analyzer classifies hidden-memory gap patterns — persistent device-vs-allocator drift using linear regression, transient gap spikes using z-scores, and distributed first-cause signals when multi-rank telemetry is present — then writes a summary you can attach to a bug report or share with a teammate.
 
 ### Run a diagnostic bundle
 

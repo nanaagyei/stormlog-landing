@@ -98,14 +98,14 @@ stormlog
 
 ### Step 3: Diagnose
 
-When something is wrong, Stormlog tells you what and where. The CLI analyzer classifies drift using linear regression for persistent growth and z-scores for transient spikes. After saving telemetry to a file:
+When something is wrong, Stormlog turns the run into evidence you can inspect after the process exits. The CLI analyzer classifies hidden-memory gap patterns — persistent device-vs-allocator drift using linear regression, transient gap spikes using z-scores, and rank-aware first-cause signals when multiple ranks are present. After saving telemetry to a file:
 
 ```bash
 gpumemprof track --duration 60 --interval 0.5 --output run.json --format json
 gpumemprof analyze run.json --format txt --output analysis.txt
 ```
 
-A typical analysis output on a leaky run surfaces signals like persistent drift at `100.43 MB/s` with R² = 0.88. When saved telemetry includes **multiple ranks** in one combined stream, the same analyzer can summarize distributed views: participating ranks, missing ranks, and a top first-cause suspect.
+A typical hidden-memory analysis can surface signals like persistent device-vs-allocator drift with an R² score, or transient gap spikes with z-score evidence. For allocator-visible tensor retention leaks, the exported event stream still preserves the allocated and reserved timeline so you can compare slope, peak, and recovery across runs. When saved telemetry includes **multiple ranks** in one combined stream, the same analyzer can summarize distributed views: participating ranks, missing ranks, and a top first-cause suspect.
 
 ### Step 4: Export
 

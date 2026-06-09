@@ -8,6 +8,7 @@ import { MaintainersSection } from "@/components/sections/maintainers-section";
 import { ProblemSection } from "@/components/sections/problem-section";
 import { SpotlightSection } from "@/components/sections/spotlight-section";
 import { TuiShowcase } from "@/components/sections/tui-showcase";
+import { WhatsNewSection } from "@/components/sections/whats-new-section";
 import { WorkflowShowcase } from "@/components/sections/workflow-showcase";
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
       <main id="main-content" className="overflow-x-clip">
         <HeroSection />
         <EcosystemStrip />
+        <WhatsNewSection />
         <ProblemSection />
         <SpotlightSection />
         <WorkflowShowcase />

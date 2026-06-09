@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
 import { clashGrotesk, satoshi, jetbrainsMono } from "@/lib/fonts";
 import { GsapProvider } from "@/lib/gsap-provider";
+import { WhatsNewDialog } from "@/components/updates/whats-new-dialog";
 import "./globals.css";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://stormlog.dev";
@@ -185,6 +186,7 @@ export default function RootLayout({
               Skip to content
             </a>
             {children}
+            <WhatsNewDialog />
           </GsapProvider>
         </ThemeProvider>
       </body>

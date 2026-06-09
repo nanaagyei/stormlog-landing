@@ -17,7 +17,11 @@ export const EXTERNAL_LINKS = {
 } as const;
 
 /**
- * Current released version of the stormlog package. Keep this in sync with the
- * latest tag on the stormlog repository so the site reflects what teams install.
+ * Current released version of the stormlog package.
+ *
+ * Re-exported from the auto-generated `stormlog-version.ts`, which is refreshed
+ * from PyPI at build time by `scripts/sync-version.mjs` (the `prebuild` hook),
+ * so the site stays in sync with what teams actually install. The committed
+ * value acts as an offline fallback.
  */
-export const STORMLOG_VERSION = "0.3.5";
+export { STORMLOG_VERSION } from "./stormlog-version";

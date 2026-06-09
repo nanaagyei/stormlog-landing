@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
 import { clashGrotesk, satoshi, jetbrainsMono } from "@/lib/fonts";
 import { GsapProvider } from "@/lib/gsap-provider";
+import { WhatsNewDialog } from "@/components/updates/whats-new-dialog";
+import { STORMLOG_VERSION } from "@/data/navigation";
 import "./globals.css";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://stormlog.dev";
@@ -143,10 +145,14 @@ function JsonLd() {
       "Interactive TUI",
       "PyTorch support",
       "TensorFlow support",
+      "JAX support",
+      "OpenAI-compatible inference profiling",
       "CLI interface",
       "Python API",
     ],
-    softwareRequirements: "Python 3.8+, NVIDIA GPU with CUDA",
+    softwareVersion: STORMLOG_VERSION,
+    softwareRequirements:
+      "Python 3.10+; optional CUDA GPU (also supports CPU and Apple Silicon MPS)",
     installUrl: "https://pypi.org/project/stormlog/",
   };
 
@@ -185,6 +191,7 @@ export default function RootLayout({
               Skip to content
             </a>
             {children}
+            <WhatsNewDialog />
           </GsapProvider>
         </ThemeProvider>
       </body>

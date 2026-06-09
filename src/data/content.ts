@@ -27,12 +27,12 @@ export const HERO_CONTENT: HeroContent = {
   eyebrow: "Open-source GPU memory visibility",
   title: "See GPU memory before it breaks your training.",
   description:
-    "Stormlog gives PyTorch and TensorFlow teams real-time GPU memory visibility, leak detection, diagnostics, and exportable timelines across CLI, Python API, and Textual TUI workflows.",
+    "Stormlog gives PyTorch, TensorFlow, and JAX teams real-time GPU memory visibility, leak detection, diagnostics, and exportable timelines across CLI, Python API, and Textual TUI workflows — now with inference endpoint profiling.",
   supportLabels: [
-    "PyTorch and TensorFlow",
+    "PyTorch, TensorFlow, and JAX",
     "CLI + Python API",
     "Textual TUI",
-    "JSON, CSV, and HTML exports",
+    "Inference endpoint profiling",
   ],
   floatingTags: [
     "Live leak detection",
@@ -51,6 +51,8 @@ export interface EcosystemBadge {
 export const ECOSYSTEM_BADGES: EcosystemBadge[] = [
   { label: "PyTorch", tone: "framework" },
   { label: "TensorFlow", tone: "framework" },
+  { label: "JAX", tone: "framework" },
+  { label: "OpenAI-compatible inference", tone: "workflow" },
   { label: "CLI", tone: "workflow" },
   { label: "Python API", tone: "workflow" },
   { label: "Textual TUI", tone: "workflow" },

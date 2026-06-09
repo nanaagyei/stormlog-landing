@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { PRODUCT_UPDATES, WHATS_NEW_META } from "@/data/updates";
-import { EXTERNAL_LINKS } from "@/data/navigation";
+import { EXTERNAL_LINKS, STORMLOG_VERSION } from "@/data/navigation";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { CodeSnippet } from "@/components/ui/code-snippet";
 import { CopyButton } from "@/components/ui/copy-button";
@@ -19,7 +19,9 @@ export function WhatsNewSection() {
         viewport={{ once: true, margin: "-80px" }}
       >
         <motion.div variants={reveal} className="max-w-2xl">
-          <span className="mono-label">{WHATS_NEW_META.eyebrow}</span>
+          <span className="mono-label">
+            {WHATS_NEW_META.eyebrow} · v{STORMLOG_VERSION}
+          </span>
           <h2 className="mt-4 font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl">
             {WHATS_NEW_META.title}
           </h2>

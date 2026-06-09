@@ -9,7 +9,7 @@ import {
   WHATS_NEW_META,
   WHATS_NEW_VERSION,
 } from "@/data/updates";
-import { EXTERNAL_LINKS } from "@/data/navigation";
+import { EXTERNAL_LINKS, STORMLOG_VERSION } from "@/data/navigation";
 import { CodeSnippet } from "@/components/ui/code-snippet";
 import { CopyButton } from "@/components/ui/copy-button";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
@@ -113,7 +113,9 @@ export function WhatsNewDialog() {
                 {/* Header */}
                 <div className="flex items-start justify-between gap-4 border-b border-white/[0.06] px-6 pb-5 pt-6">
                   <div>
-                    <span className="mono-label">{WHATS_NEW_META.eyebrow}</span>
+                    <span className="mono-label">
+                      {WHATS_NEW_META.eyebrow} · v{STORMLOG_VERSION}
+                    </span>
                     <Dialog.Title className="mt-2 font-heading text-xl font-semibold tracking-[-0.02em] text-foreground">
                       {WHATS_NEW_META.title}
                     </Dialog.Title>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { BookOpen, Github, Package, TriangleAlert } from "lucide-react";
-import { EXTERNAL_LINKS } from "@/data/navigation";
+import { EXTERNAL_LINKS, STORMLOG_VERSION } from "@/data/navigation";
 import { MAINTAINERS } from "@/data/content";
 
 export function Footer() {
@@ -15,8 +15,9 @@ export function Footer() {
               Stormlog
             </h3>
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
-              Real-time GPU memory profiling for PyTorch and TensorFlow.
-              Open-source CLI, Python API, and interactive TUI.
+              Real-time GPU memory profiling for PyTorch, TensorFlow, and JAX,
+              plus OpenAI-compatible inference profiling. Open-source CLI,
+              Python API, and interactive TUI.
             </p>
           </div>
 
@@ -127,7 +128,18 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col gap-2 border-t border-white/[0.06] pt-6 font-mono text-xs text-muted-foreground/50 sm:flex-row sm:items-center sm:justify-between">
-          <p>&copy; {new Date().getFullYear()} Stormlog contributors</p>
+          <p className="flex items-center gap-2">
+            <span>&copy; {new Date().getFullYear()} Stormlog contributors</span>
+            <span className="text-muted-foreground/30">·</span>
+            <a
+              href={EXTERNAL_LINKS.releases}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-emerald"
+            >
+              v{STORMLOG_VERSION}
+            </a>
+          </p>
           <p>GPU memory debugging, shipped in the open.</p>
         </div>
       </div>

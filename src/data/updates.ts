@@ -1,5 +1,3 @@
-import { Boxes, Gauge, type LucideIcon } from "lucide-react";
-
 /**
  * Bump this whenever the highlighted updates change. The "What's new" dialog
  * uses it as the localStorage key so returning visitors only see the popup
@@ -9,8 +7,8 @@ export const WHATS_NEW_VERSION = "2026-06-jax-inference";
 
 export interface ProductUpdate {
   id: string;
-  /** Short label rendered as a chip above the title. */
-  tag: string;
+  /** Short monospace kicker rendered above the title (mirrors `.mono-label`). */
+  kicker: string;
   title: string;
   summary: string;
   highlights: string[];
@@ -19,7 +17,6 @@ export interface ProductUpdate {
   /** Language hint for the secondary code sample. */
   codeLabel: string;
   code: string;
-  icon: LucideIcon;
   /** Anchor used by the on-page section + dialog "Learn more" link. */
   href: string;
 }
@@ -36,7 +33,7 @@ export interface ProductUpdate {
 export const PRODUCT_UPDATES: ProductUpdate[] = [
   {
     id: "jax-support",
-    tag: "New framework",
+    kicker: "JAX support",
     title: "JAX memory profiling, natively",
     summary:
       "Stormlog now tracks XLA allocations for JAX workloads with the same workflow you already use for PyTorch and TensorFlow — jit, pmap, and sharding included, across CPU, GPU, and TPU.",
@@ -58,12 +55,11 @@ with profiler.profile_context("jitted_step"):
 
 results = profiler.get_results()
 print(f"Peak memory: {results.peak_memory_mb:.2f} MB")`,
-    icon: Boxes,
     href: "#whats-new",
   },
   {
     id: "inference-profiling",
-    tag: "New surface",
+    kicker: "Inference profiling",
     title: "Profile any OpenAI-compatible endpoint",
     summary:
       "The new stormlog infer command group drives controlled load against Chat Completions endpoints — vLLM, SGLang, TensorRT-LLM, MLX-LM, or a hosted gateway — and reports latency, throughput, and device memory.",
@@ -82,7 +78,6 @@ print(f"Peak memory: {results.peak_memory_mb:.2f} MB")`,
   --input-tokens 512,2048 \\
   --requests 50 \\
   --output artifacts/infer.jsonl`,
-    icon: Gauge,
     href: "#whats-new",
   },
 ];

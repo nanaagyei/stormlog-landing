@@ -3,13 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Dialog } from "radix-ui";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowLeft,
-  ArrowRight,
-  ArrowUpRight,
-  Sparkles,
-  X,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, X } from "lucide-react";
 import {
   PRODUCT_UPDATES,
   WHATS_NEW_META,
@@ -64,19 +58,14 @@ export function WhatsNewDialog() {
     [markSeen]
   );
 
-  const goTo = useCallback(
-    (next: number) => {
-      const clamped = Math.max(0, Math.min(TOTAL - 1, next));
-      setSlide(([current]) => [clamped, clamped > current ? 1 : -1]);
-    },
-    []
-  );
+  const goTo = useCallback((next: number) => {
+    const clamped = Math.max(0, Math.min(TOTAL - 1, next));
+    setSlide(([current]) => [clamped, clamped > current ? 1 : -1]);
+  }, []);
 
   const update = PRODUCT_UPDATES[index];
-  const Icon = update.icon;
   const isLast = index === TOTAL - 1;
-
-  const slideOffset = prefersReducedMotion ? 0 : 40;
+  const slideOffset = prefersReducedMotion ? 0 : 32;
 
   return (
     <Dialog.Root open={open} onOpenChange={handleOpenChange}>
@@ -84,14 +73,10 @@ export function WhatsNewDialog() {
       <Dialog.Trigger asChild>
         <button
           type="button"
-          className="group fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-full border border-emerald/30 bg-deep/90 px-4 py-2.5 text-sm font-medium text-foreground shadow-lg shadow-black/30 backdrop-blur-md transition-colors hover:border-emerald/60 hover:bg-surface"
+          className="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-lg border border-white/[0.08] bg-surface px-3.5 py-2 text-[13px] text-muted-foreground shadow-lg shadow-black/30 transition-colors hover:border-white/20 hover:text-foreground"
           aria-label="See what's new in Stormlog"
         >
-          <span className="relative flex size-2">
-            <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald opacity-60 motion-reduce:hidden" />
-            <span className="relative inline-flex size-2 rounded-full bg-emerald" />
-          </span>
-          <Sparkles className="size-4 text-emerald" />
+          <span className="size-1.5 rounded-full bg-emerald" />
           <span className="hidden sm:inline">What&apos;s new</span>
         </button>
       </Dialog.Trigger>
@@ -104,8 +89,8 @@ export function WhatsNewDialog() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.25 }}
-                className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm"
+                transition={{ duration: 0.2 }}
+                className="fixed inset-0 z-50 bg-black/70"
               />
             </Dialog.Overlay>
 
@@ -115,40 +100,29 @@ export function WhatsNewDialog() {
               onOpenAutoFocus={(event) => event.preventDefault()}
             >
               <motion.div
-                initial={{
-                  opacity: 0,
-                  y: prefersReducedMotion ? 0 : 16,
-                  scale: prefersReducedMotion ? 1 : 0.98,
-                }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{
-                  opacity: 0,
-                  y: prefersReducedMotion ? 0 : 12,
-                  scale: prefersReducedMotion ? 1 : 0.98,
-                }}
-                transition={{ duration: 0.3, ease: EASE }}
+                initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: prefersReducedMotion ? 0 : 8 }}
+                transition={{ duration: 0.25, ease: EASE }}
                 onKeyDown={(event) => {
                   if (event.key === "ArrowRight") goTo(index + 1);
                   if (event.key === "ArrowLeft") goTo(index - 1);
                 }}
-                className="fixed left-1/2 top-1/2 z-50 flex max-h-[90dvh] w-[calc(100vw-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-surface shadow-2xl shadow-black/50"
+                className="fixed left-1/2 top-1/2 z-50 flex max-h-[90dvh] w-[calc(100vw-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-surface shadow-2xl shadow-black/50"
               >
                 {/* Header */}
-                <div className="relative flex items-start justify-between gap-4 border-b border-white/[0.06] bg-gradient-to-b from-emerald/[0.07] to-transparent px-6 pb-5 pt-6">
+                <div className="flex items-start justify-between gap-4 border-b border-white/[0.06] px-6 pb-5 pt-6">
                   <div>
-                    <span className="mono-label inline-flex items-center gap-1.5">
-                      <Sparkles className="size-3.5" />
-                      {WHATS_NEW_META.eyebrow}
-                    </span>
+                    <span className="mono-label">{WHATS_NEW_META.eyebrow}</span>
                     <Dialog.Title className="mt-2 font-heading text-xl font-semibold tracking-[-0.02em] text-foreground">
                       {WHATS_NEW_META.title}
                     </Dialog.Title>
-                    <Dialog.Description className="mt-1 text-sm text-muted-foreground">
+                    <Dialog.Description className="mt-1 text-sm leading-relaxed text-muted-foreground">
                       {WHATS_NEW_META.description}
                     </Dialog.Description>
                   </div>
                   <Dialog.Close
-                    className="shrink-0 rounded-lg border border-white/[0.06] p-1.5 text-muted-foreground transition-colors hover:text-foreground"
+                    className="shrink-0 rounded-md border border-white/[0.06] p-1.5 text-muted-foreground transition-colors hover:text-foreground"
                     aria-label="Close"
                   >
                     <X className="size-4" />
@@ -164,28 +138,20 @@ export function WhatsNewDialog() {
                       initial={{ opacity: 0, x: direction * slideOffset }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: direction * -slideOffset }}
-                      transition={{ duration: 0.28, ease: EASE }}
+                      transition={{ duration: 0.24, ease: EASE }}
                     >
-                      <div className="flex items-center gap-3">
-                        <span className="flex size-10 items-center justify-center rounded-lg border border-emerald/20 bg-emerald-muted text-emerald">
-                          <Icon className="size-5" />
-                        </span>
-                        <span className="rounded-full border border-emerald/20 bg-emerald-muted px-2.5 py-0.5 font-mono text-[11px] uppercase tracking-wider text-emerald">
-                          {update.tag}
-                        </span>
-                      </div>
-
-                      <h3 className="mt-4 font-heading text-2xl font-semibold tracking-[-0.02em] text-foreground">
+                      <span className="mono-label">{update.kicker}</span>
+                      <h3 className="mt-2 font-heading text-2xl font-semibold tracking-[-0.02em] text-foreground">
                         {update.title}
                       </h3>
                       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                         {update.summary}
                       </p>
 
-                      <ul className="mt-5 space-y-2.5">
+                      <ul className="mt-5 space-y-3 border-t border-white/[0.06] pt-5">
                         {update.highlights.map((highlight) => (
                           <li key={highlight} className="flex items-start gap-3">
-                            <span className="mt-1.5 h-px w-4 shrink-0 bg-emerald" />
+                            <span className="mt-1.5 h-px w-3.5 shrink-0 bg-emerald" />
                             <span className="text-sm leading-relaxed text-muted-foreground">
                               {highlight}
                             </span>
@@ -193,7 +159,7 @@ export function WhatsNewDialog() {
                         ))}
                       </ul>
 
-                      <div className="mt-5 flex flex-col gap-4">
+                      <div className="mt-5 flex flex-col gap-3">
                         <CopyButton
                           text={update.command}
                           className="w-full justify-start overflow-x-auto whitespace-nowrap !text-xs"
@@ -205,7 +171,7 @@ export function WhatsNewDialog() {
                         href={EXTERNAL_LINKS.docs}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-emerald transition-colors hover:text-foreground"
+                        className="mt-5 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
                       >
                         Read the docs
                         <ArrowUpRight className="size-3.5" />
@@ -216,22 +182,24 @@ export function WhatsNewDialog() {
 
                 {/* Footer / carousel controls */}
                 <div className="flex items-center justify-between gap-4 border-t border-white/[0.06] px-6 py-4">
-                  <div className="flex items-center gap-2" aria-hidden="true">
-                    {PRODUCT_UPDATES.map((slide, dotIndex) => (
-                      <button
-                        key={slide.id}
-                        type="button"
-                        onClick={() => goTo(dotIndex)}
-                        className={cn(
-                          "h-1.5 rounded-full transition-all",
-                          dotIndex === index
-                            ? "w-6 bg-emerald"
-                            : "w-1.5 bg-white/15 hover:bg-white/30"
-                        )}
-                        aria-label={`Go to update ${dotIndex + 1}`}
-                      />
-                    ))}
-                    <span className="ml-1 font-mono text-[11px] text-muted-foreground/50">
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex items-center gap-1.5" aria-hidden="true">
+                      {PRODUCT_UPDATES.map((slide, dotIndex) => (
+                        <button
+                          key={slide.id}
+                          type="button"
+                          onClick={() => goTo(dotIndex)}
+                          className={cn(
+                            "h-1.5 rounded-full transition-all",
+                            dotIndex === index
+                              ? "w-5 bg-emerald"
+                              : "w-1.5 bg-white/15 hover:bg-white/30"
+                          )}
+                          aria-label={`Go to update ${dotIndex + 1}`}
+                        />
+                      ))}
+                    </div>
+                    <span className="font-mono text-[11px] text-muted-foreground/50">
                       {index + 1} / {TOTAL}
                     </span>
                   </div>
@@ -241,7 +209,7 @@ export function WhatsNewDialog() {
                       type="button"
                       onClick={() => goTo(index - 1)}
                       disabled={index === 0}
-                      className="inline-flex size-8 items-center justify-center rounded-lg border border-white/[0.06] text-muted-foreground transition-colors hover:text-foreground disabled:cursor-not-allowed disabled:opacity-30"
+                      className="inline-flex size-8 items-center justify-center rounded-md border border-white/[0.06] text-muted-foreground transition-colors hover:text-foreground disabled:cursor-not-allowed disabled:opacity-30"
                       aria-label="Previous update"
                     >
                       <ArrowLeft className="size-4" />
@@ -250,7 +218,7 @@ export function WhatsNewDialog() {
                       <button
                         type="button"
                         onClick={() => handleOpenChange(false)}
-                        className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-emerald px-3.5 text-sm font-medium text-deep transition-colors hover:bg-emerald/90"
+                        className="inline-flex h-8 items-center rounded-md bg-emerald px-3.5 text-sm font-medium text-deep transition-colors hover:bg-emerald/90"
                       >
                         Got it
                       </button>
@@ -258,7 +226,7 @@ export function WhatsNewDialog() {
                       <button
                         type="button"
                         onClick={() => goTo(index + 1)}
-                        className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-emerald px-3.5 text-sm font-medium text-deep transition-colors hover:bg-emerald/90"
+                        className="inline-flex h-8 items-center gap-1.5 rounded-md border border-white/[0.06] px-3.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
                         aria-label="Next update"
                       >
                         Next

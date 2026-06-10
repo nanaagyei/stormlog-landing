@@ -46,7 +46,7 @@ export function MaintainersSection() {
                 href={proofLinks[item.href]}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-start gap-4 rounded-xl border border-white/[0.06] bg-surface p-5 transition-all hover:border-white/[0.12] hover:bg-surface-2"
+                className="group flex items-start gap-4 rounded-xl border border-white/6 bg-surface p-5 transition-all hover:border-white/12 hover:bg-surface-2"
               >
                 <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-emerald-muted text-emerald">
                   <Icon className="size-4" />
@@ -69,8 +69,9 @@ export function MaintainersSection() {
 
         <motion.div
           variants={reveal}
-          className="mt-10 flex flex-wrap items-center justify-center gap-8 border-t border-white/[0.06] pt-10 sm:gap-12"
+          className="mt-10 flex flex-wrap items-center justify-center gap-8 border-t border-white/6 pt-10 sm:gap-12"
         >
+          <div className="flex flex-wrap items-center justify-center gap-8">
           {MAINTAINERS.map((maintainer) => (
             <a
               key={maintainer.github}
@@ -79,7 +80,7 @@ export function MaintainersSection() {
               rel="noopener noreferrer"
               className="group flex flex-col items-center gap-3 transition-opacity hover:opacity-80"
             >
-              <div className="relative size-14 overflow-hidden rounded-full border border-white/[0.06]">
+              <div className="relative size-14 overflow-hidden rounded-full border border-white/6">
                 <Image
                   src={maintainer.avatar}
                   alt={maintainer.name}
@@ -98,6 +99,7 @@ export function MaintainersSection() {
               </div>
             </a>
           ))}
+          </div>
         </motion.div>
       </motion.div>
     </SectionWrapper>

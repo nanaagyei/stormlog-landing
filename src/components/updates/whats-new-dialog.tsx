@@ -170,12 +170,12 @@ export function WhatsNewDialog() {
                       </div>
 
                       <a
-                        href={EXTERNAL_LINKS.docs}
+                        href={update.externalLink || EXTERNAL_LINKS.docs}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="mt-5 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
                       >
-                        Read the docs
+                        {update.externalLink ? "Read the docs" : "Read the docs"}
                         <ArrowUpRight className="size-3.5" />
                       </a>
                     </motion.div>

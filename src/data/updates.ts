@@ -1,3 +1,5 @@
+import { EXTERNAL_LINKS } from "./navigation";
+
 /**
  * Bump this whenever the highlighted updates change. The "What's new" dialog
  * uses it as the localStorage key so returning visitors only see the popup
@@ -19,6 +21,7 @@ export interface ProductUpdate {
   code: string;
   /** Anchor used by the on-page section + dialog "Learn more" link. */
   href: string;
+  externalLink?: string;
 }
 
 /**
@@ -56,6 +59,7 @@ with profiler.profile_context("jitted_step"):
 results = profiler.get_results()
 print(f"Peak memory: {results.peak_memory_mb:.2f} MB")`,
     href: "#whats-new",
+    externalLink: "https://stormlog.readthedocs.io/en/latest/cookbook/jax.html"
   },
   {
     id: "inference-profiling",
@@ -79,6 +83,7 @@ print(f"Peak memory: {results.peak_memory_mb:.2f} MB")`,
   --requests 50 \\
   --output artifacts/infer.jsonl`,
     href: "#whats-new",
+    externalLink: EXTERNAL_LINKS.docs,
   },
 ];
 

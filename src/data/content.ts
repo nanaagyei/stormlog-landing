@@ -359,6 +359,12 @@ export const MAINTAINERS: Maintainer[] = [
     avatar: "https://github.com/dwamenad.png",
     role: "Core Maintainer",
   },
+  {
+    name: "Derek Amuna",
+    github: "DeeNA95",
+    avatar: "https://github.com/DeeNA95.png",
+    role: "Contributor"
+  }
 ];
 
 export interface OpenSourceProofItem {

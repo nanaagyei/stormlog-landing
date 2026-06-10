@@ -73,7 +73,7 @@ export function WhatsNewDialog() {
       <Dialog.Trigger asChild>
         <button
           type="button"
-          className="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-lg border border-white/[0.08] bg-surface px-3.5 py-2 text-[13px] text-muted-foreground shadow-lg shadow-black/30 transition-colors hover:border-white/20 hover:text-foreground"
+          className="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-lg border border-white/8 bg-surface px-3.5 py-2 text-[13px] text-muted-foreground shadow-lg shadow-black/30 transition-colors hover:border-white/20 hover:text-foreground"
           aria-label="See what's new in Stormlog"
         >
           <span className="size-1.5 rounded-full bg-emerald" />
@@ -108,10 +108,10 @@ export function WhatsNewDialog() {
                   if (event.key === "ArrowRight") goTo(index + 1);
                   if (event.key === "ArrowLeft") goTo(index - 1);
                 }}
-                className="fixed left-1/2 top-1/2 z-50 flex max-h-[90dvh] w-[calc(100vw-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-surface shadow-2xl shadow-black/50"
+                className="fixed left-1/2 top-1/2 z-50 flex max-h-[90dvh] w-[calc(100vw-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-xl border border-white/8 bg-surface shadow-2xl shadow-black/50"
               >
                 {/* Header */}
-                <div className="flex items-start justify-between gap-4 border-b border-white/[0.06] px-6 pb-5 pt-6">
+                <div className="flex items-start justify-between gap-4 border-b border-white/6 px-6 pb-5 pt-6">
                   <div>
                     <span className="mono-label">
                       {WHATS_NEW_META.eyebrow} · v{STORMLOG_VERSION}
@@ -124,7 +124,7 @@ export function WhatsNewDialog() {
                     </Dialog.Description>
                   </div>
                   <Dialog.Close
-                    className="shrink-0 rounded-md border border-white/[0.06] p-1.5 text-muted-foreground transition-colors hover:text-foreground"
+                    className="shrink-0 rounded-md border border-white/6 p-1.5 text-muted-foreground transition-colors hover:text-foreground"
                     aria-label="Close"
                   >
                     <X className="size-4" />
@@ -150,9 +150,9 @@ export function WhatsNewDialog() {
                         {update.summary}
                       </p>
 
-                      <ul className="mt-5 space-y-3 border-t border-white/[0.06] pt-5">
-                        {update.highlights.map((highlight) => (
-                          <li key={highlight} className="flex items-start gap-3">
+                      <ul className="mt-5 space-y-3 border-t border-white/6 pt-5">
+                        {update.highlights.map((highlight, idx) => (
+                          <li key={idx} className="flex items-start gap-3">
                             <span className="mt-1.5 h-px w-3.5 shrink-0 bg-emerald" />
                             <span className="text-sm leading-relaxed text-muted-foreground">
                               {highlight}
@@ -164,7 +164,7 @@ export function WhatsNewDialog() {
                       <div className="mt-5 flex flex-col gap-3">
                         <CopyButton
                           text={update.command}
-                          className="w-full justify-start overflow-x-auto whitespace-nowrap !text-xs"
+                          className="w-full justify-start overflow-x-auto whitespace-nowrap text-xs!"
                         />
                         <CodeSnippet code={update.code} label={update.codeLabel} />
                       </div>
@@ -183,7 +183,7 @@ export function WhatsNewDialog() {
                 </div>
 
                 {/* Footer / carousel controls */}
-                <div className="flex items-center justify-between gap-4 border-t border-white/[0.06] px-6 py-4">
+                <div className="flex items-center justify-between gap-4 border-t border-white/6 px-6 py-4">
                   <div className="flex items-center gap-2.5">
                     <div className="flex items-center gap-1.5" aria-hidden="true">
                       {PRODUCT_UPDATES.map((slide, dotIndex) => (
@@ -211,7 +211,7 @@ export function WhatsNewDialog() {
                       type="button"
                       onClick={() => goTo(index - 1)}
                       disabled={index === 0}
-                      className="inline-flex size-8 items-center justify-center rounded-md border border-white/[0.06] text-muted-foreground transition-colors hover:text-foreground disabled:cursor-not-allowed disabled:opacity-30"
+                      className="inline-flex size-8 items-center justify-center rounded-md border border-white/6 text-muted-foreground transition-colors hover:text-foreground disabled:cursor-not-allowed disabled:opacity-30"
                       aria-label="Previous update"
                     >
                       <ArrowLeft className="size-4" />
@@ -228,7 +228,7 @@ export function WhatsNewDialog() {
                       <button
                         type="button"
                         onClick={() => goTo(index + 1)}
-                        className="inline-flex h-8 items-center gap-1.5 rounded-md border border-white/[0.06] px-3.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                        className="inline-flex h-8 items-center gap-1.5 rounded-md border border-white/6 px-3.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
                         aria-label="Next update"
                       >
                         Next

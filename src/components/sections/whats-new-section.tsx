@@ -35,7 +35,7 @@ export function WhatsNewSection() {
             <motion.article
               key={update.id}
               variants={reveal}
-              className="flex flex-col rounded-xl border border-white/[0.06] bg-surface p-6 lg:p-8"
+              className="flex flex-col rounded-xl border border-white/6 bg-surface p-6 lg:p-8"
             >
               <span className="mono-label">{update.kicker}</span>
               <h3 className="mt-3 font-heading text-xl font-medium tracking-tight text-foreground lg:text-2xl">
@@ -45,7 +45,7 @@ export function WhatsNewSection() {
                 {update.summary}
               </p>
 
-              <ul className="mt-6 space-y-3 border-t border-white/[0.06] pt-5">
+              <ul className="mt-6 space-y-3 border-t border-white/6 pt-5">
                 {update.highlights.map((highlight) => (
                   <li key={highlight} className="flex items-start gap-3">
                     <span className="mt-1.5 h-px w-3.5 shrink-0 bg-emerald" />
@@ -59,7 +59,7 @@ export function WhatsNewSection() {
               <div className="mt-6 flex flex-col gap-3">
                 <CopyButton
                   text={update.command}
-                  className="w-full justify-start overflow-x-auto whitespace-nowrap !text-xs sm:!text-sm"
+                  className="w-full justify-start overflow-x-auto whitespace-nowrap text-xs! sm:text-sm!"
                 />
                 <CodeSnippet code={update.code} label={update.codeLabel} />
               </div>

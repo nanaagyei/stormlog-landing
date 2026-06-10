@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { BookOpen, Github, Menu, X } from "lucide-react";
 import { HERO_CONTENT } from "@/data/content";
-import { EXTERNAL_LINKS, NAV_ITEMS } from "@/data/navigation";
+import { EXTERNAL_LINKS, NAV_ITEMS, STORMLOG_VERSION } from "@/data/navigation";
 import { useActiveSection } from "@/hooks/use-active-section";
 import { CopyButton } from "@/components/ui/copy-button";
 import { cn } from "@/lib/utils";
@@ -27,12 +27,23 @@ export function FloatingNav() {
         className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#09090b]/80 backdrop-blur-xl"
       >
         <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
-          <a
-            href="#overview"
-            className="shrink-0 font-heading text-sm font-semibold tracking-tight text-foreground transition-colors hover:text-white"
-          >
-            Stormlog
-          </a>
+          <div className="flex shrink-0 items-center gap-2">
+            <a
+              href="#overview"
+              className="font-heading text-sm font-semibold tracking-tight text-foreground transition-colors hover:text-white"
+            >
+              Stormlog
+            </a>
+            <a
+              href={EXTERNAL_LINKS.releases}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-md border border-white/[0.06] bg-surface px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground transition-colors hover:border-white/[0.12] hover:text-emerald"
+              aria-label={`Stormlog version ${STORMLOG_VERSION} release notes`}
+            >
+              v{STORMLOG_VERSION}
+            </a>
+          </div>
 
           <div className="hidden items-center gap-1 lg:flex">
             {NAV_ITEMS.map((item) => {

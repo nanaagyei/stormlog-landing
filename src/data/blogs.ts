@@ -13,6 +13,17 @@ export interface BlogRegistryEntry {
 
 export const BLOG_POSTS: BlogRegistryEntry[] = [
   {
+    slug: "jax-and-inference-profiling",
+    articleFile: "stormlog_jax_inference_update.md",
+    title: "JAX Support Lands in Stormlog — Plus a New Inference Endpoint Profiler",
+    description:
+      "Stormlog now profiles JAX/XLA memory natively and ships a dedicated profiler for OpenAI-compatible inference endpoints. Here's what landed and how to use both.",
+    category: "Release",
+    thumbnail: "/images/tui-3.png",
+    featured: true,
+    relatedSlugs: ["introducing-stormlog", "getting-started"],
+  },
+  {
     slug: "introducing-stormlog",
     articleFile: "stormlog_post1_launch_post.md",
     title: "Introducing Stormlog: GPU Memory Profiling That Stays Useful After the First Crash",
@@ -20,7 +31,6 @@ export const BLOG_POSTS: BlogRegistryEntry[] = [
       "Meet Stormlog's launch story, the workflow problem it solves, and the five-step path from live visibility to exportable debugging evidence.",
     category: "Launch",
     thumbnail: "/images/stormlog-preview.png",
-    featured: true,
     relatedSlugs: ["getting-started", "memory-leak-walkthrough"],
   },
   {

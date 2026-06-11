@@ -333,11 +333,27 @@ export const TUI_GALLERY_ITEMS: TuiGalleryItem[] = [
   },
 ];
 
-export interface Maintainer {
+export type PersonKind = "maintainer" | "contributor";
+
+/**
+ * A person shown in the open-source people directory. Maintainers are curated
+ * here; contributors are fetched live from the GitHub API at runtime (see
+ * `useContributors`) so every contributor is recognised automatically.
+ */
+export interface Person {
   name: string;
   github: string;
   avatar: string;
+  kind: PersonKind;
+  /** Human-readable role, e.g. "Core Maintainer". Maintainers only. */
+  role?: string;
+  /** Commit count, surfaced for contributors fetched from GitHub. */
+  contributions?: number;
+}
+
+export interface Maintainer extends Person {
   role: string;
+  kind: "maintainer";
 }
 
 export const MAINTAINERS: Maintainer[] = [
@@ -346,25 +362,22 @@ export const MAINTAINERS: Maintainer[] = [
     github: "nanaagyei",
     avatar: "https://github.com/nanaagyei.png",
     role: "Core Maintainer",
+    kind: "maintainer",
   },
   {
     name: "Silas Asamoah",
     github: "Silas-Asamoah",
     avatar: "https://github.com/Silas-Asamoah.png",
     role: "Core Maintainer",
+    kind: "maintainer",
   },
   {
     name: "Derrick Dwamena",
     github: "dwamenad",
     avatar: "https://github.com/dwamenad.png",
     role: "Core Maintainer",
+    kind: "maintainer",
   },
-  {
-    name: "Derek Amuna",
-    github: "DeeNA95",
-    avatar: "https://github.com/DeeNA95.png",
-    role: "Contributor"
-  }
 ];
 
 export interface OpenSourceProofItem {

@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { MAINTAINERS, OPEN_SOURCE_PROOF } from "@/data/content";
+import { OPEN_SOURCE_PROOF } from "@/data/content";
 import { EXTERNAL_LINKS } from "@/data/navigation";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
+import { OpenSourcePeople } from "@/components/ui/open-source-people";
 import { reveal, stagger } from "@/lib/motion";
 
 const proofLinks = {
@@ -69,37 +69,9 @@ export function MaintainersSection() {
 
         <motion.div
           variants={reveal}
-          className="mt-10 flex flex-wrap items-center justify-center gap-8 border-t border-white/6 pt-10 sm:gap-12"
+          className="mt-10 border-t border-white/6 pt-10"
         >
-          <div className="flex flex-wrap items-center justify-center gap-8">
-          {MAINTAINERS.map((maintainer) => (
-            <a
-              key={maintainer.github}
-              href={`https://github.com/${maintainer.github}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex flex-col items-center gap-3 transition-opacity hover:opacity-80"
-            >
-              <div className="relative size-14 overflow-hidden rounded-full border border-white/6">
-                <Image
-                  src={maintainer.avatar}
-                  alt={maintainer.name}
-                  fill
-                  className="object-cover"
-                  sizes="56px"
-                />
-              </div>
-              <div className="text-center">
-                <p className="text-sm font-medium text-foreground">
-                  {maintainer.name}
-                </p>
-                <p className="font-mono text-xs text-muted-foreground/60">
-                  @{maintainer.github}
-                </p>
-              </div>
-            </a>
-          ))}
-          </div>
+          <OpenSourcePeople />
         </motion.div>
       </motion.div>
     </SectionWrapper>

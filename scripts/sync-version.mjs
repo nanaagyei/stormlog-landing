@@ -17,7 +17,7 @@ import path from "node:path";
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const OUT_FILE = path.join(ROOT, "..", "src", "data", "stormlog-version.ts");
-const DEFAULT_VERSION = "0.3.5";
+const DEFAULT_VERSION = "0.3.6";
 
 const PYPI_URL = "https://pypi.org/pypi/stormlog/json";
 const GITHUB_TAGS_URL =

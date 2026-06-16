@@ -3,7 +3,8 @@ import { ThemeProvider } from "next-themes";
 import { clashGrotesk, satoshi, jetbrainsMono } from "@/lib/fonts";
 import { GsapProvider } from "@/lib/gsap-provider";
 import { WhatsNewDialog } from "@/components/updates/whats-new-dialog";
-import { STORMLOG_VERSION } from "@/data/navigation";
+import { StormlogVersionProvider } from "@/components/providers/stormlog-version-provider";
+import { getStormlogMeta } from "@/lib/stormlog-meta";
 import "./globals.css";
 
 const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://stormlog.dev";
@@ -115,7 +116,7 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-function JsonLd() {
+function JsonLd({ version }: { version: string }) {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -150,7 +151,7 @@ function JsonLd() {
       "CLI interface",
       "Python API",
     ],
-    softwareVersion: STORMLOG_VERSION,
+    softwareVersion: version,
     softwareRequirements:
       "Python 3.10+; optional CUDA GPU (also supports CPU and Apple Silicon MPS)",
     installUrl: "https://pypi.org/project/stormlog/",
@@ -164,15 +165,17 @@ function JsonLd() {
   );
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { version } = await getStormlogMeta();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <JsonLd />
+        <JsonLd version={version} />
       </head>
       <body
         className={`${clashGrotesk.variable} ${satoshi.variable} ${jetbrainsMono.variable} font-sans antialiased`}
@@ -183,16 +186,18 @@ export default function RootLayout({
           forcedTheme="dark"
           disableTransitionOnChange
         >
-          <GsapProvider>
-            <a
-              href="#main-content"
-              className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-emerald focus:px-4 focus:py-2 focus:text-deep focus:text-sm"
-            >
-              Skip to content
-            </a>
-            {children}
-            <WhatsNewDialog />
-          </GsapProvider>
+          <StormlogVersionProvider version={version}>
+            <GsapProvider>
+              <a
+                href="#main-content"
+                className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-emerald focus:px-4 focus:py-2 focus:text-deep focus:text-sm"
+              >
+                Skip to content
+              </a>
+              {children}
+              <WhatsNewDialog />
+            </GsapProvider>
+          </StormlogVersionProvider>
         </ThemeProvider>
       </body>
     </html>

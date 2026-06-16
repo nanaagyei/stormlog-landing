@@ -5,13 +5,15 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { BookOpen, Github, Menu, X } from "lucide-react";
 import { HERO_CONTENT } from "@/data/content";
-import { EXTERNAL_LINKS, NAV_ITEMS, STORMLOG_VERSION } from "@/data/navigation";
+import { EXTERNAL_LINKS, NAV_ITEMS } from "@/data/navigation";
 import { useActiveSection } from "@/hooks/use-active-section";
 import { CopyButton } from "@/components/ui/copy-button";
+import { useStormlogVersion } from "@/components/providers/stormlog-version-provider";
 import { cn } from "@/lib/utils";
 
 export function FloatingNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const stormlogVersion = useStormlogVersion();
   const sectionIds = useMemo(
     () => NAV_ITEMS.map((item) => item.href.slice(1)),
     []
@@ -39,9 +41,9 @@ export function FloatingNav() {
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-md border border-white/[0.06] bg-surface px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground transition-colors hover:border-white/[0.12] hover:text-emerald"
-              aria-label={`Stormlog version ${STORMLOG_VERSION} release notes`}
+              aria-label={`Stormlog version ${stormlogVersion} release notes`}
             >
-              v{STORMLOG_VERSION}
+              v{stormlogVersion}
             </a>
           </div>
 

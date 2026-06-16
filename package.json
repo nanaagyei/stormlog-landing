@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "sync-version": "node scripts/sync-version.mjs",
+    "sync-content": "node scripts/generate-updates.mjs",
+    "sync-content:dry": "DRY_RUN=1 node scripts/generate-updates.mjs",
+    "validate-updates": "node -e \"import('./scripts/lib/validate-updates.mjs').then(async m => { const j = JSON.parse(await (await import('node:fs/promises')).readFile('src/data/updates.json','utf8')); const r = m.validateUpdatesContent(j); if(!r.ok){r.errors.forEach(e=>console.error('  - '+e));process.exit(1);} else console.log('updates.json OK'); })\"",
     "prebuild": "node scripts/sync-version.mjs",
     "build": "next build",
     "start": "next start",

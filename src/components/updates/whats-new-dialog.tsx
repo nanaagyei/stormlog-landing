@@ -3,26 +3,42 @@
 import { useCallback, useEffect, useState } from "react";
 import { Dialog } from "radix-ui";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, ArrowRight, ArrowUpRight, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Sparkles, X } from "lucide-react";
 import {
   PRODUCT_UPDATES,
   WHATS_NEW_META,
+  WHATS_NEW_RELEASED_AT,
   WHATS_NEW_VERSION,
 } from "@/data/updates";
-import { EXTERNAL_LINKS, STORMLOG_VERSION } from "@/data/navigation";
+import { EXTERNAL_LINKS } from "@/data/navigation";
 import { CodeSnippet } from "@/components/ui/code-snippet";
 import { CopyButton } from "@/components/ui/copy-button";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
+import { useStormlogVersion } from "@/components/providers/stormlog-version-provider";
 import { EASE } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const STORAGE_KEY = `stormlog:whats-new:${WHATS_NEW_VERSION}`;
 const TOTAL = PRODUCT_UPDATES.length;
 
+function formatReleaseDate(iso: string): string | null {
+  if (!iso) return null;
+  const date = new Date(`${iso}T00:00:00Z`);
+  if (Number.isNaN(date.getTime())) return null;
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
 export function WhatsNewDialog() {
   const [open, setOpen] = useState(false);
   const [[index, direction], setSlide] = useState<[number, number]>([0, 0]);
   const prefersReducedMotion = useReducedMotion();
+  const stormlogVersion = useStormlogVersion();
+  const releasedAt = formatReleaseDate(WHATS_NEW_RELEASED_AT);
 
   // Auto-open once for first-time visitors of this update set.
   useEffect(() => {
@@ -73,11 +89,25 @@ export function WhatsNewDialog() {
       <Dialog.Trigger asChild>
         <button
           type="button"
-          className="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 rounded-lg border border-white/8 bg-surface px-3.5 py-2 text-[13px] text-muted-foreground shadow-lg shadow-black/30 transition-colors hover:border-white/20 hover:text-foreground"
+          className={cn(
+            "group/whats-new fixed z-40 inline-flex items-center gap-2 rounded-full border border-white/[0.08] bg-surface/95 px-3.5 py-2 text-[13px] text-muted-foreground shadow-lg shadow-black/40 backdrop-blur transition-all",
+            "bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 sm:bottom-5 sm:right-5",
+            "hover:border-emerald/40 hover:text-foreground hover:shadow-emerald/10",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald/60 focus-visible:ring-offset-2 focus-visible:ring-offset-deep"
+          )}
           aria-label="See what's new in Stormlog"
         >
-          <span className="size-1.5 rounded-full bg-emerald" />
+          <span className="relative flex size-2 items-center justify-center">
+            <span className="absolute size-2 animate-ping rounded-full bg-emerald/60" />
+            <span className="relative size-1.5 rounded-full bg-emerald" />
+          </span>
           <span className="hidden sm:inline">What&apos;s new</span>
+          <span
+            aria-hidden="true"
+            className="hidden font-mono text-[11px] text-muted-foreground/50 transition-colors group-hover/whats-new:text-emerald sm:inline"
+          >
+            v{stormlogVersion}
+          </span>
         </button>
       </Dialog.Trigger>
 
@@ -90,7 +120,7 @@ export function WhatsNewDialog() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed inset-0 z-50 bg-black/70"
+                className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm"
               />
             </Dialog.Overlay>
 
@@ -108,14 +138,31 @@ export function WhatsNewDialog() {
                   if (event.key === "ArrowRight") goTo(index + 1);
                   if (event.key === "ArrowLeft") goTo(index - 1);
                 }}
-                className="fixed left-1/2 top-1/2 z-50 flex max-h-[90dvh] w-[calc(100vw-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-xl border border-white/8 bg-surface shadow-2xl shadow-black/50"
+                className="fixed left-1/2 top-1/2 z-50 flex max-h-[90dvh] w-[calc(100vw-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-surface shadow-2xl shadow-black/50"
               >
                 {/* Header */}
-                <div className="flex items-start justify-between gap-4 border-b border-white/6 px-6 pb-5 pt-6">
-                  <div>
-                    <span className="mono-label">
-                      {WHATS_NEW_META.eyebrow} · v{STORMLOG_VERSION}
-                    </span>
+                <div className="relative flex items-start justify-between gap-4 border-b border-white/[0.06] px-6 pb-5 pt-6">
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald/30 to-transparent"
+                  />
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                      <span className="inline-flex items-center gap-1.5">
+                        <Sparkles
+                          aria-hidden="true"
+                          className="size-3 text-emerald"
+                        />
+                        <span className="mono-label">
+                          {WHATS_NEW_META.eyebrow} · v{stormlogVersion}
+                        </span>
+                      </span>
+                      {releasedAt && (
+                        <span className="font-mono text-[10.5px] uppercase tracking-wider text-muted-foreground/50">
+                          {releasedAt}
+                        </span>
+                      )}
+                    </div>
                     <Dialog.Title className="mt-2 font-heading text-xl font-semibold tracking-[-0.02em] text-foreground">
                       {WHATS_NEW_META.title}
                     </Dialog.Title>
@@ -124,7 +171,7 @@ export function WhatsNewDialog() {
                     </Dialog.Description>
                   </div>
                   <Dialog.Close
-                    className="shrink-0 rounded-md border border-white/6 p-1.5 text-muted-foreground transition-colors hover:text-foreground"
+                    className="shrink-0 rounded-md border border-white/[0.06] p-1.5 text-muted-foreground transition-colors hover:border-white/[0.18] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald/60"
                     aria-label="Close"
                   >
                     <X className="size-4" />
@@ -150,10 +197,13 @@ export function WhatsNewDialog() {
                         {update.summary}
                       </p>
 
-                      <ul className="mt-5 space-y-3 border-t border-white/6 pt-5">
+                      <ul className="mt-5 space-y-3 border-t border-white/[0.06] pt-5">
                         {update.highlights.map((highlight, idx) => (
                           <li key={idx} className="flex items-start gap-3">
-                            <span className="mt-1.5 h-px w-3.5 shrink-0 bg-emerald" />
+                            <span
+                              aria-hidden="true"
+                              className="mt-1.5 h-px w-3.5 shrink-0 bg-emerald"
+                            />
                             <span className="text-sm leading-relaxed text-muted-foreground">
                               {highlight}
                             </span>
@@ -175,7 +225,7 @@ export function WhatsNewDialog() {
                         rel="noopener noreferrer"
                         className="mt-5 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
                       >
-                        {update.externalLink ? "Read the docs" : "Read the docs"}
+                        Read the docs
                         <ArrowUpRight className="size-3.5" />
                       </a>
                     </motion.div>
@@ -183,7 +233,7 @@ export function WhatsNewDialog() {
                 </div>
 
                 {/* Footer / carousel controls */}
-                <div className="flex items-center justify-between gap-4 border-t border-white/6 px-6 py-4">
+                <div className="flex items-center justify-between gap-4 border-t border-white/[0.06] px-6 py-4">
                   <div className="flex items-center gap-2.5">
                     <div className="flex items-center gap-1.5" aria-hidden="true">
                       {PRODUCT_UPDATES.map((slide, dotIndex) => (
@@ -192,7 +242,7 @@ export function WhatsNewDialog() {
                           type="button"
                           onClick={() => goTo(dotIndex)}
                           className={cn(
-                            "h-1.5 rounded-full transition-all",
+                            "h-1.5 rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald/60",
                             dotIndex === index
                               ? "w-5 bg-emerald"
                               : "w-1.5 bg-white/15 hover:bg-white/30"
@@ -211,7 +261,7 @@ export function WhatsNewDialog() {
                       type="button"
                       onClick={() => goTo(index - 1)}
                       disabled={index === 0}
-                      className="inline-flex size-8 items-center justify-center rounded-md border border-white/6 text-muted-foreground transition-colors hover:text-foreground disabled:cursor-not-allowed disabled:opacity-30"
+                      className="inline-flex size-8 items-center justify-center rounded-md border border-white/[0.06] text-muted-foreground transition-colors hover:border-white/[0.18] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald/60 disabled:cursor-not-allowed disabled:opacity-30"
                       aria-label="Previous update"
                     >
                       <ArrowLeft className="size-4" />
@@ -220,7 +270,7 @@ export function WhatsNewDialog() {
                       <button
                         type="button"
                         onClick={() => handleOpenChange(false)}
-                        className="inline-flex h-8 items-center rounded-md bg-emerald px-3.5 text-sm font-medium text-deep transition-colors hover:bg-emerald/90"
+                        className="inline-flex h-8 items-center rounded-md bg-emerald px-3.5 text-sm font-medium text-deep transition-colors hover:bg-emerald/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald/60 focus-visible:ring-offset-2 focus-visible:ring-offset-surface"
                       >
                         Got it
                       </button>
@@ -228,7 +278,7 @@ export function WhatsNewDialog() {
                       <button
                         type="button"
                         onClick={() => goTo(index + 1)}
-                        className="inline-flex h-8 items-center gap-1.5 rounded-md border border-white/6 px-3.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                        className="inline-flex h-8 items-center gap-1.5 rounded-md border border-white/[0.06] px-3.5 text-sm text-muted-foreground transition-colors hover:border-white/[0.18] hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald/60"
                         aria-label="Next update"
                       >
                         Next

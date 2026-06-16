@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { BookOpen, Github, Package, TriangleAlert } from "lucide-react";
-import { EXTERNAL_LINKS, STORMLOG_VERSION } from "@/data/navigation";
+import { EXTERNAL_LINKS } from "@/data/navigation";
 import { MAINTAINERS } from "@/data/content";
+import { useStormlogVersion } from "@/components/providers/stormlog-version-provider";
 
 export function Footer() {
+  const stormlogVersion = useStormlogVersion();
   return (
     <footer className="relative border-t border-white/[0.06] px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl py-12 lg:py-16">
@@ -137,7 +139,7 @@ export function Footer() {
               rel="noopener noreferrer"
               className="transition-colors hover:text-emerald"
             >
-              v{STORMLOG_VERSION}
+              v{stormlogVersion}
             </a>
           </p>
           <p>GPU memory debugging, shipped in the open.</p>

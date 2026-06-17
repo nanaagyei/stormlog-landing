@@ -21,8 +21,8 @@ export default function Home() {
         <EcosystemStrip />
         <WhatsNewSection />
         <ProblemSection />
-        <SpotlightSection />
         <InferenceProfilingSection />
+        <SpotlightSection />
         <WorkflowShowcase />
         <TuiShowcase />
         <BeforeAfterSection />

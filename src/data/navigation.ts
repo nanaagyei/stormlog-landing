@@ -2,6 +2,7 @@ export const NAV_ITEMS = [
   { label: "Overview", href: "#overview" },
   { label: "What's New", href: "#whats-new" },
   { label: "Features", href: "#features" },
+  { label: "Inference", href: "#inference" },
   { label: "Workflow", href: "#workflow" },
   { label: "TUI", href: "#tui" },
   { label: "Open Source", href: "#open-source" },

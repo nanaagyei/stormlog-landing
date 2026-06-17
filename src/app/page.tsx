@@ -4,6 +4,7 @@ import { BeforeAfterSection } from "@/components/sections/before-after-section";
 import { EcosystemStrip } from "@/components/sections/ecosystem-strip";
 import { FinalCtaSection } from "@/components/sections/final-cta-section";
 import { HeroSection } from "@/components/sections/hero-section";
+import { InferenceProfilingSection } from "@/components/sections/inference-profiling-section";
 import { MaintainersSection } from "@/components/sections/maintainers-section";
 import { ProblemSection } from "@/components/sections/problem-section";
 import { SpotlightSection } from "@/components/sections/spotlight-section";
@@ -20,6 +21,7 @@ export default function Home() {
         <EcosystemStrip />
         <WhatsNewSection />
         <ProblemSection />
+        <InferenceProfilingSection />
         <SpotlightSection />
         <WorkflowShowcase />
         <TuiShowcase />

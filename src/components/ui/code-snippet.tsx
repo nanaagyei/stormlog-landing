@@ -43,7 +43,7 @@ export function CodeSnippet({ code, label, className }: CodeSnippetProps) {
           )}
         </button>
       </div>
-      <pre className="overflow-x-auto px-4 py-3 font-mono text-[12.5px] leading-relaxed text-foreground/90">
+      <pre className="overflow-x-auto px-3 py-3 font-mono text-[11.5px] leading-relaxed text-foreground/90 sm:px-4 sm:text-[12.5px]">
         <code>{code}</code>
       </pre>
     </div>

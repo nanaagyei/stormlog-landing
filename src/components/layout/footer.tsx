@@ -11,7 +11,7 @@ export function Footer() {
   return (
     <footer className="relative border-t border-white/[0.06] px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl py-12 lg:py-16">
-        <div className="grid gap-10 lg:grid-cols-[1.2fr_0.6fr_0.6fr_0.6fr]">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.2fr_0.6fr_0.6fr_0.6fr]">
           <div>
             <h3 className="font-heading text-base font-semibold text-foreground">
               Stormlog
@@ -36,6 +36,11 @@ export function Footer() {
               <li>
                 <Link href="/#features" className="transition-colors hover:text-foreground">
                   Features
+                </Link>
+              </li>
+              <li>
+                <Link href="/#inference" className="transition-colors hover:text-foreground">
+                  Inference profiling
                 </Link>
               </li>
               <li>

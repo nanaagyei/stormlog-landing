@@ -5,12 +5,14 @@ import {
   ChartColumnIncreasing,
   Cpu,
   FileJson2,
+  Gauge,
   MonitorPlay,
   Package,
   Radar,
   ScanSearch,
   ShieldAlert,
   TerminalSquare,
+  Timer,
   type LucideIcon,
 } from "lucide-react";
 
@@ -154,7 +156,7 @@ export const CAPABILITY_GROUPS: CapabilityGroup[] = [
     eyebrow: "Flexible workflows",
     title: "Fit Stormlog into the stack you already have.",
     description:
-      "Adopt the profiler incrementally, from quick CLI sessions to deeper instrumentation in Python-heavy training code.",
+      "Adopt the profiler incrementally — from quick CLI sessions and deeper Python instrumentation in training code, to load-driven profiling of OpenAI-compatible inference endpoints.",
     items: [
       {
         title: "CLI automation",
@@ -174,9 +176,81 @@ export const CAPABILITY_GROUPS: CapabilityGroup[] = [
           "Prepare and test profiling routines before moving them onto production GPU infrastructure.",
         icon: Cpu,
       },
+      {
+        title: "Inference endpoint profiling",
+        description:
+          "Drive controlled load against any OpenAI-compatible Chat Completions endpoint and capture latency, throughput, and device-memory results.",
+        icon: Gauge,
+      },
     ],
   },
 ];
+
+export interface InferenceFact {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+}
+
+export interface InferenceSectionContent {
+  eyebrow: string;
+  title: string;
+  description: string;
+  command: string;
+  codeLabel: string;
+  code: string;
+  highlights: InferenceFact[];
+  serverChips: string[];
+}
+
+export const INFERENCE_SECTION: InferenceSectionContent = {
+  eyebrow: "Inference profiling",
+  title: "Profile what your serving stack actually delivers.",
+  description:
+    "The stormlog infer command group drives controlled load against OpenAI-compatible Chat Completions endpoints and reports the numbers you need to size, tune, and compare deployments.",
+  command: "stormlog infer profile --base-url http://localhost:8000/v1",
+  codeLabel: "bash",
+  code: `stormlog infer profile \\
+  --base-url http://localhost:8000/v1 \\
+  --model Qwen/Qwen2.5-7B-Instruct \\
+  --concurrency 1,4,8 \\
+  --input-tokens 512,2048 \\
+  --requests 50 \\
+  --output artifacts/infer.jsonl`,
+  highlights: [
+    {
+      title: "Latency percentiles",
+      description:
+        "End-to-end latency and TTFT percentiles for both streaming and non-streaming responses.",
+      icon: Timer,
+    },
+    {
+      title: "Throughput under load",
+      description:
+        "Requests/sec, output tokens/sec, and total tokens/sec under configurable concurrency.",
+      icon: Activity,
+    },
+    {
+      title: "Accurate token accounting",
+      description:
+        "Server usage metadata with a tokenizer fallback so token counts stay trustworthy across providers.",
+      icon: ChartColumnIncreasing,
+    },
+    {
+      title: "Peak device memory",
+      description:
+        "Peak sampled device memory captured when system telemetry is available alongside latency and throughput.",
+      icon: Gauge,
+    },
+  ],
+  serverChips: [
+    "vLLM",
+    "SGLang",
+    "TensorRT-LLM",
+    "MLX-LM",
+    "Hosted gateways",
+  ],
+};
 
 export interface SpotlightContent {
   eyebrow: string;
@@ -419,7 +493,8 @@ export interface FinalCtaContent {
 
 export const FINAL_CTA: FinalCtaContent = {
   eyebrow: "Ready to debug with context?",
-  title: "Trace memory clearly, export evidence, and keep training runs stable.",
+  title:
+    "Trace memory, profile inference, and keep training runs stable.",
   description:
-    "Use the docs to get started, inspect the repository, or install Stormlog from PyPI for your next debugging run.",
+    "Use the docs to get started, inspect the repository, or install Stormlog from PyPI for your next training run or inference benchmark.",
 };

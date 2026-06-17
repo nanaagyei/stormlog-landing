@@ -41,7 +41,7 @@ export function ProblemSection() {
                 {group.description}
               </p>
 
-              <div className={`mt-6 border-t border-white/[0.06] pt-5 ${groupIndex === CAPABILITY_GROUPS.length - 1 ? "grid gap-3 sm:grid-cols-2 lg:grid-cols-3" : "space-y-3"}`}>
+              <div className={`mt-6 border-t border-white/[0.06] pt-5 ${groupIndex === CAPABILITY_GROUPS.length - 1 ? "grid gap-3 sm:grid-cols-2 lg:grid-cols-4" : "space-y-3"}`}>
                 {group.items.map((item) => {
                   const Icon = item.icon;
                   return (

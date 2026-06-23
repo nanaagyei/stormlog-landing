@@ -98,11 +98,10 @@ async function getRelease(version) {
 }
 
 function whatsNewKeyFor(version, releasedAt) {
-  // Convention: 'YYYY-MM-<short-slug>'. Falls back to a date-only key.
-  const date = new Date(releasedAt);
-  if (Number.isNaN(date.getTime())) {
-    return `release-v${version.replace(/\./g, "-")}`;
-  }
+  // Convention: 'YYYY-MM-vX-Y-Z'. Fall back to today if releasedAt is unparseable
+  // so the format stays consistent with buildFallbackContent.
+  const parsed = new Date(releasedAt);
+  const date = Number.isNaN(parsed.getTime()) ? new Date() : parsed;
   const yyyy = date.getUTCFullYear();
   const mm = String(date.getUTCMonth() + 1).padStart(2, "0");
   return `${yyyy}-${mm}-v${version.replace(/\./g, "-")}`;

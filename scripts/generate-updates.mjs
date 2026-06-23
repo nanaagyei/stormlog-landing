@@ -98,11 +98,10 @@ async function getRelease(version) {
 }
 
 function whatsNewKeyFor(version, releasedAt) {
-  // Convention: 'YYYY-MM-<short-slug>'. Falls back to a date-only key.
-  const date = new Date(releasedAt);
-  if (Number.isNaN(date.getTime())) {
-    return `release-v${version.replace(/\./g, "-")}`;
-  }
+  // Convention: 'YYYY-MM-vX-Y-Z'. Fall back to today if releasedAt is unparseable
+  // so the format stays consistent with buildFallbackContent.
+  const parsed = new Date(releasedAt);
+  const date = Number.isNaN(parsed.getTime()) ? new Date() : parsed;
   const yyyy = date.getUTCFullYear();
   const mm = String(date.getUTCMonth() + 1).padStart(2, "0");
   return `${yyyy}-${mm}-v${version.replace(/\./g, "-")}`;
@@ -133,7 +132,7 @@ You MUST return ONLY valid JSON matching this shape (no markdown, no commentary)
   "updates": [                                       // 1 to 4 items
     {
       "id": "<lowercase-slug>",
-      "kicker": "<2-3 word topic>",                  // 1-28 chars
+      "kicker": "<2-3 word topic>",                  // HARD LIMIT 28 chars — aim for ≤24
       "title": "<headline>",                         // 1-80 chars
       "summary": "<1-2 sentences>",                  // 1-320 chars
       "highlights": ["<bullet>", ...],               // 2-6 items, 1-200 chars each
@@ -145,6 +144,13 @@ You MUST return ONLY valid JSON matching this shape (no markdown, no commentary)
     }
   ]
 }
+
+Length budgets are HARD LIMITS — exceeding them fails schema validation and breaks the build. Before returning, count characters on every "kicker" (≤28), "title" (≤80), "summary" (≤320), and "highlights[]" entry (≤200). When in doubt, shorten.
+
+Kicker guidance:
+- Aim for 2 short words (e.g. "JAX support", "Inference profiling", "Rollup summaries"). Never 4+ words.
+- Drop filler words like "views", "support" if it pushes you over budget.
+- If you're tempted to write 25+ characters, you can almost certainly say it in fewer.
 
 Rules:
 - Only include updates that are MAJOR or USER-FACING from the release notes. Skip pure refactors, doc-only changes, CI fixes, dependency bumps.
@@ -265,27 +271,56 @@ async function main() {
   let next;
   let providerUsed = "fallback-template";
 
+  const pinMeta = (obj) => {
+    if (!obj || typeof obj !== "object") return obj;
+    obj.version = latest.version;
+    obj.releasedAt = releasedAt;
+    if (!obj.whatsNewKey) {
+      obj.whatsNewKey = whatsNewKeyFor(latest.version, releasedAt);
+    }
+    return obj;
+  };
+
   if (provider) {
     console.log(`[generate-updates] using provider: ${provider.name} (${provider.model})`);
+    const userPrompt = buildUserPrompt({
+      version: latest.version,
+      releasedAt,
+      releaseTitle,
+      releaseBody,
+      previous,
+    });
     try {
-      next = await generateJson({
-        provider,
-        systemPrompt: SYSTEM_PROMPT,
-        userPrompt: buildUserPrompt({
-          version: latest.version,
-          releasedAt,
-          releaseTitle,
-          releaseBody,
-          previous,
-        }),
-      });
-      // Trust but verify: the AI is told to set these, but pin them just in case.
-      next.version = latest.version;
-      next.releasedAt = releasedAt;
-      if (!next.whatsNewKey) {
-        next.whatsNewKey = whatsNewKeyFor(latest.version, releasedAt);
-      }
+      next = pinMeta(
+        await generateJson({ provider, systemPrompt: SYSTEM_PROMPT, userPrompt })
+      );
       providerUsed = provider.name;
+
+      // Validate; if the model produced something out of bounds, give it one
+      // shot to fix itself before we fall back to the template. LLMs reliably
+      // self-correct length issues when handed the specific errors.
+      let check = validateUpdatesContent(next);
+      if (!check.ok) {
+        console.warn(
+          "[generate-updates] first attempt failed validation, retrying with feedback:"
+        );
+        for (const e of check.errors) console.warn(`  - ${e}`);
+        const repairPrompt = `${userPrompt}\n\nYour previous response failed schema validation with these errors:\n\n${check.errors.map((e) => `- ${e}`).join("\n")}\n\nPrevious response:\n${JSON.stringify(next, null, 2)}\n\nReturn a corrected JSON object that fixes EVERY error above. Pay special attention to character-count limits — count carefully. Return ONLY the JSON object.`;
+        next = pinMeta(
+          await generateJson({
+            provider,
+            systemPrompt: SYSTEM_PROMPT,
+            userPrompt: repairPrompt,
+          })
+        );
+        check = validateUpdatesContent(next);
+        if (!check.ok) {
+          throw new Error(
+            `validation still failing after retry: ${check.errors.join("; ")}`
+          );
+        }
+        providerUsed = `${provider.name}+repair`;
+      }
     } catch (err) {
       console.warn(
         `[generate-updates] provider ${provider.name} failed: ${err.message}`
@@ -297,6 +332,7 @@ async function main() {
         release,
         previous,
       });
+      providerUsed = "fallback-template";
     }
   } else {
     console.warn(
@@ -310,9 +346,12 @@ async function main() {
     });
   }
 
+  // Final guard: the template path should always validate, but if it somehow
+  // doesn't (e.g. a future schema tightening), fail loudly so the next run
+  // gets a real signal rather than silently shipping bad content.
   const { ok, errors } = validateUpdatesContent(next);
   if (!ok) {
-    console.error("[generate-updates] generated content failed validation:");
+    console.error("[generate-updates] final content failed validation:");
     for (const e of errors) console.error(`  - ${e}`);
     console.error("\n--- generated ---");
     console.error(JSON.stringify(next, null, 2));

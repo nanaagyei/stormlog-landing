@@ -1,47 +1,58 @@
 {
   "$schema": "./updates.schema.json",
-  "version": "0.3.6",
-  "releasedAt": "2026-06-13",
-  "whatsNewKey": "2026-06-jax-inference",
+  "version": "0.3.7",
+  "releasedAt": "2026-06-22",
+  "whatsNewKey": "2026-06-rollup-correlation",
   "meta": {
     "eyebrow": "Latest release",
     "title": "What's new in Stormlog",
-    "description": "Two major additions land this cycle: native JAX memory profiling and a dedicated profiler for OpenAI-compatible inference endpoints."
+    "description": "Rollup summaries for long-running sessions, correlated investigation views, and improved JAX edge-case handling."
   },
   "updates": [
     {
-      "id": "jax-support",
-      "kicker": "JAX support",
-      "title": "JAX memory profiling, natively",
-      "summary": "Stormlog now tracks XLA allocations for JAX workloads with the same workflow you already use for PyTorch and TensorFlow — jit, pmap, and sharding included, across CPU, GPU, and TPU.",
+      "id": "rollup-summaries",
+      "kicker": "Rollup summaries",
+      "title": "Summarize long-running monitor sessions",
+      "summary": "Multi-hour profiling jobs now roll up telemetry into periodic snapshots, reducing memory overhead and making it easier to spot memory growth patterns without drowning in raw samples.",
       "highlights": [
-        "Profile jax.jit / XLA allocations through profile_context and the profile_function decorator",
-        "jaxmemprof CLI for info, monitor, track, and diagnose sessions",
-        "Multi-device aggregation across jax.sharding and jax.pmap on GPU and TPU",
-        "OOM flight recorder, telemetry sinks, and rank-aware artifacts carried over from the core profiler"
+        "Automatic telemetry rollup sidecars for multi-hour monitor sessions",
+        "Configurable rollup windows to balance detail and storage",
+        "Peak memory, allocation rate, and fragmentation trends across the entire run"
       ],
-      "command": "pip install \"stormlog[jax]\"",
-      "codeLabel": "python",
-      "code": "from stormlog.jax import JAXMemoryProfiler\n\nprofiler = JAXMemoryProfiler()\n\nwith profiler.profile_context(\"jitted_step\"):\n    y = fast_training_step(x)\n    y.block_until_ready()\n\nresults = profiler.get_results()\nprint(f\"Peak memory: {results.peak_memory_mb:.2f} MB\")",
-      "href": "#whats-new",
-      "externalLink": "https://stormlog.readthedocs.io/en/latest/cookbook/jax.html"
+      "command": "stormlog monitor --rollup-window 60s <pid>",
+      "codeLabel": "bash",
+      "code": "stormlog monitor \\\n  --rollup-window 60s \\\n  --output artifacts/long_run.jsonl \\\n  12345",
+      "href": "#whats-new"
     },
     {
-      "id": "inference-profiling",
-      "kicker": "Inference profiling",
-      "title": "Profile any OpenAI-compatible endpoint",
-      "summary": "The new stormlog infer command group drives controlled load against Chat Completions endpoints — vLLM, SGLang, TensorRT-LLM, MLX-LM, or a hosted gateway — and reports latency, throughput, and device memory.",
+      "id": "correlated-views",
+      "kicker": "Correlation views",
+      "title": "Correlated investigation views",
+      "summary": "Cross-reference memory allocations, device operations, and telemetry events to understand causality. Improved correlation handling surfaces the chain of allocation → peak → OOM.",
       "highlights": [
-        "End-to-end latency and TTFT percentiles for streaming and non-streaming responses",
-        "Requests/sec, output tokens/sec, and total tokens/sec under configurable concurrency",
-        "Server usage metadata with tokenizer fallback for accurate token accounting",
-        "Peak sampled device memory when system telemetry is available"
+        "Trace allocations across memory pool, device, and host boundaries",
+        "Correlate kernel dispatch with memory pressure for inference and training",
+        "Enhanced sidecar indexing for sub-millisecond latency on large datasets"
       ],
-      "command": "stormlog infer profile --base-url http://localhost:8000/v1",
+      "command": "stormlog investigate <trace.jsonl> --correlate",
       "codeLabel": "bash",
-      "code": "stormlog infer profile \\\n  --base-url http://localhost:8000/v1 \\\n  --model Qwen/Qwen2.5-7B-Instruct \\\n  --concurrency 1,4,8 \\\n  --input-tokens 512,2048 \\\n  --requests 50 \\\n  --output artifacts/infer.jsonl",
-      "href": "#whats-new",
-      "externalLink": "https://stormlog.readthedocs.io/en/latest/index.html"
+      "code": "stormlog investigate artifacts/trace.jsonl \\\n  --correlate \\\n  --output artifacts/correlated.html",
+      "href": "#whats-new"
+    },
+    {
+      "id": "jax-fixes",
+      "kicker": "JAX improvements",
+      "title": "JAX profiling edge cases fixed",
+      "summary": "Resolved corner cases in XLA allocation tracking and expanded test coverage for jit, pmap, and multi-device sharding scenarios.",
+      "highlights": [
+        "Fixed XLA buffer pool tracking under dynamic shapes",
+        "Improved multi-device correlation for jax.pmap and jax.sharding",
+        "Expanded test coverage for async dispatch and OOM flight recorder"
+      ],
+      "command": "pip install \"stormlog[jax]>=0.3.7\"",
+      "codeLabel": "bash",
+      "code": "from stormlog.jax import JAXMemoryProfiler\n\nprofiler = JAXMemoryProfiler()\nwith profiler.profile_context(\"dynamic_shapes\"):\n    # Now handles dynamic shapes and sharded arrays correctly\n    y = jax.pmap(fn)(x)\nresults = profiler.get_results()",
+      "href": "#whats-new"
     }
   ]
 }

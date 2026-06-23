@@ -89,7 +89,10 @@ jobs:
         if: steps.diff.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v8
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # Fine-grained PAT scoped to this repo only (contents: write,
+          # pull-requests: write). Using a PAT instead of GITHUB_TOKEN so the
+          # resulting PR triggers CI (PRs created by GITHUB_TOKEN do not).
+          token: ${{ secrets.CONTENT_SYNC_PAT }}
           branch: bot/sync-stormlog-content
           base: dev
           commit-message: |

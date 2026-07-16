@@ -2,4 +2,4 @@
 // Source of truth: the latest published `stormlog` release on PyPI
 // (https://pypi.org/project/stormlog/), with the GitHub tag list as a fallback.
 // Regenerate with: npm run sync-version
-export const STORMLOG_VERSION = "0.3.7";
+export const STORMLOG_VERSION = "0.3.8";

@@ -1,57 +1,72 @@
 {
   "$schema": "./updates.schema.json",
-  "version": "0.3.7",
-  "releasedAt": "2026-06-22",
-  "whatsNewKey": "2026-06-rollup-correlation",
+  "version": "0.3.8",
+  "releasedAt": "2026-07-16",
+  "whatsNewKey": "2026-07-jax-stability",
   "meta": {
     "eyebrow": "Latest release",
     "title": "What's new in Stormlog",
-    "description": "Rollup summaries for long-running sessions, correlated investigation views, and improved JAX edge-case handling."
+    "description": "JAX dataset iterator replay, thread-safe event snapshots, and fixes for profiler analysis edge cases across visualization and tracking pipelines."
   },
   "updates": [
     {
-      "id": "rollup-summaries",
-      "kicker": "Rollup summaries",
-      "title": "Summarize long-running monitor sessions",
-      "summary": "Multi-hour profiling jobs now roll up telemetry into periodic snapshots, reducing memory overhead and making it easier to spot memory growth patterns without drowning in raw samples.",
+      "id": "jax-dataset-replay",
+      "kicker": "JAX dataset replay",
+      "title": "JAX dataset iterator replay support",
+      "summary": "Stormlog now correctly handles JAX dataset iterator checkpointing and replay in profiling contexts, eliminating state corruption when resuming long-running data pipelines.",
       "highlights": [
-        "Automatic telemetry rollup sidecars for multi-hour monitor sessions",
-        "Configurable rollup windows to balance detail and storage",
-        "Peak memory, allocation rate, and fragmentation trends across the entire run"
+        "Transparent iterator state preservation across profile checkpoint/resume cycles",
+        "Support for jax.experimental.io.dataset replay patterns",
+        "Maintains data ordering and synchronization semantics during profiling"
       ],
-      "command": "stormlog monitor --rollup-window 60s <pid>",
-      "codeLabel": "bash",
-      "code": "stormlog monitor \\\n  --rollup-window 60s \\\n  --output artifacts/long_run.jsonl \\\n  12345",
+      "command": "pip install \"stormlog[jax]>=0.3.8\"",
+      "codeLabel": "python",
+      "code": "from stormlog.jax import JAXMemoryProfiler\nimport jax.experimental.io as jax_io\n\nprofiler = JAXMemoryProfiler()\nds = jax_io.dataset.load('data.tfrecord')\n\nwith profiler.profile_context(\"dataset_replay\"):\n    for batch in ds.repeat().take(1000):\n        # Iterator state correctly preserved across restarts\n        result = model(batch)",
       "href": "#whats-new"
     },
     {
-      "id": "correlated-views",
-      "kicker": "Correlation views",
-      "title": "Correlated investigation views",
-      "summary": "Cross-reference memory allocations, device operations, and telemetry events to understand causality. Improved correlation handling surfaces the chain of allocation → peak → OOM.",
+      "id": "thread-safe-snapshots",
+      "kicker": "Thread safety",
+      "title": "Thread-safe MemoryTracker event snapshots",
+      "summary": "MemoryTracker event snapshots are now properly locked, preventing race conditions in multi-threaded profiling and eliminating data corruption in concurrent allocation scenarios.",
       "highlights": [
-        "Trace allocations across memory pool, device, and host boundaries",
-        "Correlate kernel dispatch with memory pressure for inference and training",
-        "Enhanced sidecar indexing for sub-millisecond latency on large datasets"
+        "Mutex-protected event snapshot acquisition in MemoryTracker",
+        "Safe concurrent profiling for multi-threaded PyTorch models and data loaders",
+        "No performance regression on single-threaded workloads"
       ],
-      "command": "stormlog investigate <trace.jsonl> --correlate",
+      "command": "stormlog monitor --multi-thread <pid>",
       "codeLabel": "bash",
-      "code": "stormlog investigate artifacts/trace.jsonl \\\n  --correlate \\\n  --output artifacts/correlated.html",
+      "code": "# Multi-threaded PyTorch DataLoader now profiles safely\nstormlog monitor \\\n  --multi-thread \\\n  --output artifacts/threaded.jsonl \\\n  $(pgrep -f 'python train.py')",
       "href": "#whats-new"
     },
     {
-      "id": "jax-fixes",
-      "kicker": "JAX improvements",
-      "title": "JAX profiling edge cases fixed",
-      "summary": "Resolved corner cases in XLA allocation tracking and expanded test coverage for jit, pmap, and multi-device sharding scenarios.",
+      "id": "analysis-fixes",
+      "kicker": "Profiler stability",
+      "title": "Profiler analysis and visualization fixes",
+      "summary": "Fixed edge cases in profiler analysis, visualization rendering, and event tracking pipelines that caused incorrect memory attribution and incomplete trace reports.",
       "highlights": [
-        "Fixed XLA buffer pool tracking under dynamic shapes",
-        "Improved multi-device correlation for jax.pmap and jax.sharding",
-        "Expanded test coverage for async dispatch and OOM flight recorder"
+        "Corrected memory attribution in mixed allocation/deallocation bursts",
+        "Fixed visualization rendering for fragmented heap layouts",
+        "Improved tracking edge case handling for async allocators"
       ],
-      "command": "pip install \"stormlog[jax]>=0.3.7\"",
+      "command": "stormlog investigate <trace.jsonl> --output report.html",
       "codeLabel": "bash",
-      "code": "from stormlog.jax import JAXMemoryProfiler\n\nprofiler = JAXMemoryProfiler()\nwith profiler.profile_context(\"dynamic_shapes\"):\n    # Now handles dynamic shapes and sharded arrays correctly\n    y = jax.pmap(fn)(x)\nresults = profiler.get_results()",
+      "code": "# Now handles edge cases in analysis pipeline\nstormlog investigate artifacts/trace.jsonl \\\n  --correlate \\\n  --percentile 50,95,99 \\\n  --output artifacts/analysis.html",
+      "href": "#whats-new"
+    },
+    {
+      "id": "run-envelopes",
+      "kicker": "Run envelopes",
+      "title": "Investigate run envelopes and catalogs",
+      "summary": "Experimental support for run envelope metadata and attachment catalogs enables richer profiling context, linking traces to commit hashes, model configs, and build artifacts.",
+      "highlights": [
+        "Capture run envelope metadata (commit, model version, config) alongside traces",
+        "Attachment catalogs for linking auxiliary artifacts (graphs, checkpoints)",
+        "Foundation for multi-run comparative analysis"
+      ],
+      "command": "stormlog profile --envelope metadata.json <script.py>",
+      "codeLabel": "python",
+      "code": "from stormlog.api import attach_run_envelope\n\nenvelope = {\n    \"commit\": \"abc123\",\n    \"model\": \"transformer-7b\",\n    \"config\": \"config.yaml\"\n}\n\nattach_run_envelope(envelope)\n# Profiling now includes run context for comparative analysis",
       "href": "#whats-new"
     }
   ]

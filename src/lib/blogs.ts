@@ -183,11 +183,24 @@ export const getBlogPost = cache((slug: string): BlogPost | null => {
 
   const currentPost = previews[currentIndex];
   const content = stripLeadingTitle(readArticleFile(currentPost.articleFile));
-  const previousPost = previews[currentIndex - 1] ?? null;
-  const nextPost = previews[currentIndex + 1] ?? null;
+  // Prev/next walk the series, not the registry. Registry order is
+  // newest-first, so index-based navigation ran "Next" backwards through time
+  // and pushed readers of the standalone release note into the middle of a
+  // sequence it is not part of. A post outside the series gets no prev/next.
+  const series = currentPost.series;
+  const siblings = series ? getSeriesPosts() : [];
+  const seriesIndex = series
+    ? siblings.findIndex((post) => post.slug === currentPost.slug)
+    : -1;
+  const previousPost =
+    seriesIndex > 0 ? siblings[seriesIndex - 1] : null;
+  const nextPost =
+    seriesIndex >= 0 && seriesIndex < siblings.length - 1
+      ? siblings[seriesIndex + 1]
+      : null;
 
-  // relatedSlugs are hand-authored while prev/next come from registry order,
-  // so they overlap heavily — on several articles all four end-of-page cards
+  // relatedSlugs are hand-authored while prev/next come from the series, so
+  // they overlap heavily — on several articles all four end-of-page cards
   // resolved to the same two posts, each rendered twice. Prev/next wins; the
   // related grid shows only what is not already on screen.
   const adjacent = new Set(
@@ -219,4 +232,18 @@ export function formatPublished(iso: string): string {
     day: "numeric",
     timeZone: "UTC",
   });
+}
+
+/** The series in reading order. Empty of the standalone release note. */
+export function getSeriesPosts(): BlogPostPreview[] {
+  return getAllBlogPosts()
+    .filter((post) => Boolean(post.series))
+    .sort((a, b) => (a.series?.order ?? 0) - (b.series?.order ?? 0));
+}
+
+/** Posts that belong to no series, newest first. */
+export function getStandalonePosts(): BlogPostPreview[] {
+  return getAllBlogPosts()
+    .filter((post) => !post.series)
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
 }

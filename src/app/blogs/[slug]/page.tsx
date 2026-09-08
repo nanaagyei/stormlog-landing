@@ -6,7 +6,7 @@ import { BlogCard } from "@/components/blog/blog-card";
 import { BlogMarkdown } from "@/components/blog/blog-markdown";
 import { PostTableOfContents } from "@/components/blog/post-table-of-contents";
 import { ReadingProgress } from "@/components/blog/reading-progress";
-import { formatPublished, getBlogPost, getBlogPostSlugs } from "@/lib/blogs";
+import { formatPublished, getBlogPost, getBlogPostSlugs, getSeriesPosts } from "@/lib/blogs";
 import { notFound } from "next/navigation";
 
 type BlogPostPageProps = {
@@ -85,6 +85,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
   const post = getBlogPost(slug);
   if (!post) notFound();
+  const seriesLength = getSeriesPosts().length;
 
   return (
     <>
@@ -111,6 +112,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </p>
 
               <div className="mt-6 flex flex-wrap items-center gap-2.5 text-xs">
+                {post.series && (
+                  <>
+                    <span className="rounded-md border border-emerald/20 bg-emerald-muted px-2 py-0.5 font-mono text-xs text-emerald">
+                      Part {post.series.order} of {seriesLength}
+                    </span>
+                    <span className="text-muted-dim" aria-hidden="true">·</span>
+                  </>
+                )}
                 <time
                   dateTime={post.publishedAt}
                   className="font-mono text-muted-dim"
@@ -118,9 +127,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   {formatPublished(post.publishedAt)}
                 </time>
                 <span className="text-muted-dim" aria-hidden="true">·</span>
-                <span className="rounded-md border border-emerald/20 bg-emerald-muted px-2 py-0.5 font-mono text-xs uppercase tracking-wider text-emerald">
-                  {post.category}
-                </span>
+                {!post.series && (
+                  <span className="rounded-md border border-emerald/20 bg-emerald-muted px-2 py-0.5 font-mono text-xs uppercase tracking-wider text-emerald">
+                    {post.category}
+                  </span>
+                )}
                 <span className="inline-flex items-center gap-1 font-mono text-muted-dim">
                   <Clock3 className="size-3" aria-hidden="true" />
                   {post.readTimeLabel}
@@ -170,8 +181,22 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <section className="relative px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
           <div className="mx-auto max-w-6xl">
             <div className="grid gap-4 md:grid-cols-2">
-              <PostNavCard label="Previous article" post={post.previousPost} />
-              <PostNavCard label="Next article" post={post.nextPost} />
+              <PostNavCard
+                label={
+                  post.previousPost?.series
+                    ? `Part ${post.previousPost.series.order}`
+                    : "Previous"
+                }
+                post={post.previousPost}
+              />
+              <PostNavCard
+                label={
+                  post.nextPost?.series
+                    ? `Part ${post.nextPost.series.order}`
+                    : "Next"
+                }
+                post={post.nextPost}
+              />
             </div>
 
             {post.relatedPosts.length > 0 ? (

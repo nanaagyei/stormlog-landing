@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { BLOG_SERIES } from "@/data/blogs";
 import { BlogCard } from "@/components/blog/blog-card";
-import { getAllBlogPosts, getFeaturedBlogPost } from "@/lib/blogs";
+import { formatPublished, getSeriesPosts, getStandalonePosts } from "@/lib/blogs";
 
 export const metadata: Metadata = {
   title: "Blogs",
@@ -27,9 +29,8 @@ export const metadata: Metadata = {
 };
 
 export default function BlogsPage() {
-  const posts = getAllBlogPosts();
-  const featuredPost = getFeaturedBlogPost();
-  const remainingPosts = posts.filter((post) => post.slug !== featuredPost.slug);
+  const seriesPosts = getSeriesPosts();
+  const standalonePosts = getStandalonePosts();
 
   return (
     <div className="relative">
@@ -46,32 +47,69 @@ export default function BlogsPage() {
             </p>
           </div>
 
-          <div className="mt-12">
-            <div className="mb-4 flex items-center justify-between gap-4">
-              <span className="font-mono text-xs uppercase tracking-wider text-muted-dim">
-                Featured
-              </span>
-            </div>
-            <BlogCard post={featuredPost} featured />
-          </div>
+          {/* The series reads as a path, not a feed: numbered, in order, with an
+              explicit entry point. Numbering is earned here because part 4
+              assumes part 3 — the sequence is the information. */}
+          <div className="mt-14">
+            <h2 className="font-heading text-2xl font-semibold tracking-[-0.02em] text-foreground sm:text-3xl">
+              {BLOG_SERIES.title}
+            </h2>
+            <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+              A {seriesPosts.length}-part sequence, written to be read in order.
+              Each part also stands on its own if you already know where your
+              problem is.
+            </p>
 
-          <div className="mt-12">
-            <div className="mb-4 flex items-center justify-between gap-4">
-              <span className="font-mono text-xs uppercase tracking-wider text-muted-dim">
-                All posts
-              </span>
-              <span className="hidden items-center gap-1.5 font-mono text-xs text-muted-dim md:inline-flex">
-                Static pages
-                <ArrowRight className="size-3" />
-              </span>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-2">
-              {remainingPosts.map((post) => (
-                <BlogCard key={post.slug} post={post} />
+            <ol className="mt-6 divide-y divide-white/[0.06] overflow-hidden rounded-xl border border-white/[0.06] bg-surface">
+              {seriesPosts.map((post) => (
+                <li key={post.slug}>
+                  <Link
+                    href={`/blogs/${post.slug}`}
+                    className="group flex items-start gap-4 px-5 py-4 transition-colors hover:bg-surface-2 sm:gap-5 sm:px-6 sm:py-5"
+                  >
+                    <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-md border border-white/[0.06] bg-deep font-mono text-xs font-semibold text-emerald">
+                      {post.series?.order}
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-heading text-base font-medium tracking-tight text-foreground sm:text-lg">
+                        {post.title}
+                      </span>
+                      <span className="mt-1 block text-sm leading-relaxed text-muted-foreground">
+                        {post.description}
+                      </span>
+                      <span className="mt-2 flex flex-wrap items-center gap-2.5 font-mono text-xs text-muted-dim">
+                        <time dateTime={post.publishedAt}>
+                          {formatPublished(post.publishedAt)}
+                        </time>
+                        <span aria-hidden="true">·</span>
+                        <span>{post.readTimeLabel}</span>
+                      </span>
+                    </span>
+                    <ArrowRight
+                      aria-hidden="true"
+                      className="mt-1 size-4 shrink-0 text-muted-dim transition-colors group-hover:text-emerald"
+                    />
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ol>
           </div>
+
+          {standalonePosts.length > 0 && (
+            <div className="mt-14">
+              <h2 className="font-heading text-2xl font-semibold tracking-[-0.02em] text-foreground sm:text-3xl">
+                Release notes
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+                What shipped, and how to use it.
+              </p>
+              <div className="mt-6 grid gap-4 md:grid-cols-2">
+                {standalonePosts.map((post) => (
+                  <BlogCard key={post.slug} post={post} />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </section>
     </div>

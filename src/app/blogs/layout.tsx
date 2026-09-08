@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Footer } from "@/components/layout/footer";
 import { BlogHeader } from "@/components/layout/blog-header";
+import { WhatsNewDialog } from "@/components/updates/whats-new-dialog";
 
 export default function BlogsLayout({ children }: { children: ReactNode }) {
   return (
@@ -10,6 +11,7 @@ export default function BlogsLayout({ children }: { children: ReactNode }) {
         {children}
       </main>
       <Footer />
+      <WhatsNewDialog />
     </>
   );
 }

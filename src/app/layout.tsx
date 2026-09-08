@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
 import { clashGrotesk, satoshi, jetbrainsMono } from "@/lib/fonts";
 import { MotionProvider } from "@/components/providers/motion-provider";
-import { WhatsNewDialog } from "@/components/updates/whats-new-dialog";
 import { StormlogVersionProvider } from "@/components/providers/stormlog-version-provider";
 import { getStormlogMeta } from "@/lib/stormlog-meta";
 import "./globals.css";
@@ -195,7 +194,6 @@ export default async function RootLayout({
                 Skip to content
               </a>
               {children}
-              <WhatsNewDialog />
             </MotionProvider>
           </StormlogVersionProvider>
         </ThemeProvider>

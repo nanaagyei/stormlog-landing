@@ -1,5 +1,6 @@
 import { FloatingNav } from "@/components/layout/floating-nav";
 import { Footer } from "@/components/layout/footer";
+import { WhatsNewDialog } from "@/components/updates/whats-new-dialog";
 import { BeforeAfterSection } from "@/components/sections/before-after-section";
 import { EcosystemStrip } from "@/components/sections/ecosystem-strip";
 import { FinalCtaSection } from "@/components/sections/final-cta-section";
@@ -28,6 +29,7 @@ export default function Home() {
         <FinalCtaSection />
       </main>
       <Footer />
+      <WhatsNewDialog />
     </>
   );
 }

@@ -2,6 +2,12 @@ export const BLOG_AUTHOR = "Stormlog Team";
 
 export interface BlogRegistryEntry {
   slug: string;
+  /**
+   * ISO date the article entered the repository, taken from git history rather
+   * than assigned by hand. Five of the six landed in the same commit, so the
+   * registry order (which is series order) breaks ties.
+   */
+  publishedAt: string;
   articleFile: string;
   title: string;
   description: string;
@@ -14,6 +20,7 @@ export interface BlogRegistryEntry {
 export const BLOG_POSTS: BlogRegistryEntry[] = [
   {
     slug: "jax-and-inference-profiling",
+    publishedAt: "2026-06-09",
     articleFile: "stormlog_jax_inference_update.md",
     title: "JAX Support Lands in Stormlog — Plus a New Inference Endpoint Profiler",
     description:
@@ -25,6 +32,7 @@ export const BLOG_POSTS: BlogRegistryEntry[] = [
   },
   {
     slug: "introducing-stormlog",
+    publishedAt: "2026-03-18",
     articleFile: "stormlog_post1_launch_post.md",
     title: "Introducing Stormlog: GPU Memory Profiling That Stays Useful After the First Crash",
     description:
@@ -35,6 +43,7 @@ export const BLOG_POSTS: BlogRegistryEntry[] = [
   },
   {
     slug: "getting-started",
+    publishedAt: "2026-03-18",
     articleFile: "stormlog_post2_setup_guide.md",
     title: "Getting Started with Stormlog: Install, Instrument, and Run Your First Profile",
     description:
@@ -45,6 +54,7 @@ export const BLOG_POSTS: BlogRegistryEntry[] = [
   },
   {
     slug: "memory-leak-walkthrough",
+    publishedAt: "2026-03-18",
     articleFile: "stormlog_post3_walkthrough_post3.md",
     title: "Catching a Real Memory Leak: A Complete Stormlog Walkthrough on Apple Silicon",
     description:
@@ -55,6 +65,7 @@ export const BLOG_POSTS: BlogRegistryEntry[] = [
   },
   {
     slug: "artifacts-explained",
+    publishedAt: "2026-03-18",
     articleFile: "stormlog_post4_artifacts.md",
     title: "Understanding Stormlog Artifacts: What Gets Exported and Why It Matters",
     description:
@@ -65,6 +76,7 @@ export const BLOG_POSTS: BlogRegistryEntry[] = [
   },
   {
     slug: "distributed-diagnostics",
+    publishedAt: "2026-03-18",
     articleFile: "stormlog_post5_distributed.md",
     title: "Distributed Diagnostics with Stormlog: Rank-Aware Analysis for Multi-GPU Runs",
     description:

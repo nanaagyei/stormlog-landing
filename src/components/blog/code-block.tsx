@@ -29,7 +29,10 @@ export function CodeBlock({ code, language, children }: CodeBlockProps) {
           {copied ? "Copied" : "Copy"}
         </button>
       </div>
-      <div className="overflow-x-auto">{children}</div>
+      {/* Must stay a <pre>: it is what carries `white-space: pre`. Rendering
+          the children in a plain div collapses indentation and blank lines,
+          which silently breaks every Python sample. */}
+      <pre className="overflow-x-auto">{children}</pre>
     </div>
   );
 }

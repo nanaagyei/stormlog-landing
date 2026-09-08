@@ -183,16 +183,40 @@ export const getBlogPost = cache((slug: string): BlogPost | null => {
 
   const currentPost = previews[currentIndex];
   const content = stripLeadingTitle(readArticleFile(currentPost.articleFile));
+  const previousPost = previews[currentIndex - 1] ?? null;
+  const nextPost = previews[currentIndex + 1] ?? null;
+
+  // relatedSlugs are hand-authored while prev/next come from registry order,
+  // so they overlap heavily — on several articles all four end-of-page cards
+  // resolved to the same two posts, each rendered twice. Prev/next wins; the
+  // related grid shows only what is not already on screen.
+  const adjacent = new Set(
+    [previousPost?.slug, nextPost?.slug].filter(Boolean) as string[]
+  );
   const relatedPosts = currentPost.relatedSlugs
     .map((relatedSlug) => previews.find((post) => post.slug === relatedSlug) ?? null)
-    .filter((post): post is BlogPostPreview => Boolean(post));
+    .filter((post): post is BlogPostPreview => Boolean(post))
+    .filter((post) => !adjacent.has(post.slug));
 
   return {
     ...currentPost,
     content,
     headings: extractHeadings(content),
-    previousPost: previews[currentIndex - 1] ?? null,
-    nextPost: previews[currentIndex + 1] ?? null,
+    previousPost,
+    nextPost,
     relatedPosts,
   };
 });
+
+/** Render an ISO publish date for display. Kept beside the registry so the
+ *  article page and the index cannot drift apart on format. */
+export function formatPublished(iso: string): string {
+  const date = new Date(`${iso}T00:00:00Z`);
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC",
+  });
+}

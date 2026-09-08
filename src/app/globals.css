@@ -347,3 +347,23 @@
     min-width: 560px;
   }
 }
+
+/* Syntax-token contrast floor.
+   vitesse-dark ships three tokens that fail WCAG AA against the code frame's
+   `deep` fill at 15.6px: punctuation #666666 (3.46:1, the most frequent token
+   on the page), string glyphs #C98A7D77 (2.33:1) and comments #758575DD
+   (4.06:1). PRODUCT.md sets AA as the baseline and DESIGN.md names the
+   Readable Floor Rule, so the theme is corrected rather than replaced — its
+   low-chroma character is the reason it was chosen. Shiki writes inline
+   styles, hence the !important. */
+.blog-prose pre code [style*="#666666"] {
+  color: #8a8a8a !important;
+}
+.blog-prose pre code [style*="#758575DD"],
+.blog-prose pre code [style*="#758575dd"] {
+  color: #8b9a8c !important;
+}
+.blog-prose pre code [style*="#C98A7D77"],
+.blog-prose pre code [style*="#c98a7d77"] {
+  color: #c98a7d !important;
+}

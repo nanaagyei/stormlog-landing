@@ -7,7 +7,7 @@ import { BlogMarkdown } from "@/components/blog/blog-markdown";
 import { PostTableOfContents } from "@/components/blog/post-table-of-contents";
 import { ReadingProgress } from "@/components/blog/reading-progress";
 import { ReadingActions } from "@/components/blog/reading-actions";
-import { getBlogPost, getBlogPostSlugs } from "@/lib/blogs";
+import { formatPublished, getBlogPost, getBlogPostSlugs } from "@/lib/blogs";
 import { notFound } from "next/navigation";
 
 type BlogPostPageProps = {
@@ -56,13 +56,9 @@ function PostNavCard({
   label: string;
   post: NonNullable<ReturnType<typeof getBlogPost>>["previousPost"] | NonNullable<ReturnType<typeof getBlogPost>>["nextPost"];
 }) {
-  if (!post) {
-    return (
-      <div className="rounded-xl border border-dashed border-white/[0.06] px-5 py-5 text-sm text-muted-foreground">
-        No {label.toLowerCase()} article.
-      </div>
-    );
-  }
+  // Render nothing rather than a dashed box announcing an absence; the
+  // surviving card takes the full width via the grid.
+  if (!post) return null;
 
   return (
     <Link
@@ -106,24 +102,33 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </Link>
 
             <div className="mt-8">
-              <div className="flex flex-wrap items-center gap-2.5 text-xs">
-                <span className="rounded-md border border-emerald/20 bg-emerald-muted px-2 py-0.5 font-mono text-xs uppercase tracking-wider text-emerald">
-                  {post.category}
-                </span>
-                <span className="inline-flex items-center gap-1 font-mono text-muted-dim">
-                  <Clock3 className="size-3" />
-                  {post.readTimeLabel}
-                </span>
-                <span className="font-mono text-muted-dim">{post.author}</span>
-                <ReadingActions slug={post.slug} />
-              </div>
-
-              <h1 className="mt-6 max-w-4xl font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl">
+              {/* Heading first: DESIGN.md's No Kicker Rule puts metadata below
+                  the heading as a caption, not stacked above it. */}
+              <h1 className="max-w-4xl font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl">
                 {post.title}
               </h1>
               <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">
                 {post.description}
               </p>
+
+              <div className="mt-6 flex flex-wrap items-center gap-2.5 text-xs">
+                <time
+                  dateTime={post.publishedAt}
+                  className="font-mono text-muted-dim"
+                >
+                  {formatPublished(post.publishedAt)}
+                </time>
+                <span className="text-muted-dim" aria-hidden="true">·</span>
+                <span className="rounded-md border border-emerald/20 bg-emerald-muted px-2 py-0.5 font-mono text-xs uppercase tracking-wider text-emerald">
+                  {post.category}
+                </span>
+                <span className="inline-flex items-center gap-1 font-mono text-muted-dim">
+                  <Clock3 className="size-3" aria-hidden="true" />
+                  {post.readTimeLabel}
+                </span>
+                <span className="font-mono text-muted-dim">{post.author}</span>
+                <ReadingActions slug={post.slug} />
+              </div>
 
               <div className="relative mt-8 overflow-hidden rounded-xl border border-white/[0.06]">
                 <div className="relative aspect-[16/8]">

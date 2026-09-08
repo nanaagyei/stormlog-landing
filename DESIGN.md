@@ -2,18 +2,18 @@
 name: Stormlog
 description: Real-time GPU memory profiling for PyTorch, TensorFlow, and JAX teams.
 colors:
-  deep: "#09090b"
-  surface: "#18181b"
-  surface-2: "#27272a"
-  emerald: "#00e599"
-  emerald-muted: "rgba(0, 229, 153, 0.15)"
-  foreground: "#fafafa"
-  muted-foreground: "#a1a1aa"
-  muted-dim: "#94949c"
-  prose-em: "#d4d4d8"
-  emerald-hover: "#34d399"
+  deep: "#060a10"
+  surface: "#141920"
+  surface-2: "#22282f"
+  emerald: "#40c786"
+  emerald-muted: "rgba(64, 199, 134, 0.15)"
+  foreground: "#f5f7fa"
+  muted-foreground: "#a1a7ae"
+  muted-dim: "#909499"
+  prose-em: "#ced1d6"
+  emerald-hover: "#6adfa1"
   border: "rgba(255, 255, 255, 0.06)"
-  destructive: "#ef4444"
+  destructive: "#e56963"
 typography:
   display:
     fontFamily: "Clash Grotesk, ui-sans-serif, system-ui, sans-serif"
@@ -41,7 +41,7 @@ typography:
     letterSpacing: "normal"
   label:
     fontFamily: "JetBrains Mono, ui-monospace, SF Mono, monospace"
-    fontSize: "0.6875rem"
+    fontSize: "0.75rem"
     fontWeight: 500
     lineHeight: 1.4
     letterSpacing: "0.1em"
@@ -128,27 +128,29 @@ Restraint is doing real work here, so the rejections are as load-bearing as the 
 
 ## Colors
 
-A near-monochrome greyscale stack lit by exactly one chromatic voice — the palette of a dark room with a single instrument glowing in it.
+A near-monochrome stack lit by exactly one chromatic voice — the palette of a dark room with a single instrument glowing in it. The neutrals are **not** a stock scale: every step is derived in OKLCH at hue 257, sampled from the logo's own dark layers, so the ground shares a family resemblance with the mark instead of borrowing a framework default.
 
 ### Primary
-- **Phosphor Mint** (`#00e599`, token `emerald`): The brand color and the signal color at once. It carries CTAs, mono eyebrow labels, active navigation underlines, live indicators, copy-success confirmations, inline code, blockquote rules, and link text in prose. Named for CRT phosphor — it belongs to the terminal lineage the product comes from. It is the brand color and is meant to be used, not rationed.
-- **Phosphor Mint Wash** (`rgba(0, 229, 153, 0.15)`, token `emerald-muted`): The accent at low opacity for chip and badge backgrounds where full mint would shout. Related washes appear at 0.2 for text selection, 0.08 for the accent glow, 0.07 for highlighted code lines, and 0.04 for blockquote fill.
+- **Signal Green** (`#40c786`, token `emerald`): The brand color and the signal color at once. It carries CTAs, mono eyebrow labels, active navigation underlines, live indicators, copy-success confirmations, inline code, blockquote rules, and link text in prose. Derived from the logo's own mint, deepened and pulled off the cyan axis (OKLCH hue 158) so it reads as an instrument readout rather than the neon cyan-on-black that marks generated dark UIs. It is the brand color and is meant to be used, not rationed.
+- **Signal Green Wash** (`rgba(64, 199, 134, 0.15)`, token `emerald-muted`): The accent at low opacity for chip and badge backgrounds where full mint would shout. Related washes appear at 0.2 for text selection, 0.08 for the accent glow, 0.07 for highlighted code lines, and 0.04 for blockquote fill.
 
 ### Neutral
-- **Darkroom Black** (`#09090b`, token `deep`): The page ground and the inside of every code and video frame. It is the darkest surface in the system; nothing sits behind it.
-- **Developing Tray** (`#18181b`, token `surface`): Cards, buttons at rest, chips, and the nav's solid fallback. One step up from the ground — visible as a distinct plane without a border, though it usually gets one anyway.
-- **Raised Tray** (`#27272a`, token `surface-2`): Hover and active surfaces, and secondary fills. The top of the ladder. Reaching it is how the system says "you are touching this."
-- **Print White** (`#fafafa`, token `foreground`): Headings, body emphasis, and primary text. Never pure #ffffff — the slight warmth keeps large type from vibrating against near-black.
-- **Contact Sheet Grey** (`#a1a1aa`, token `muted-foreground`): Body copy, descriptions, and captions. Carries most of the reading load. Sub-opacities (`/60`, `/50`, `/40`, `/30`) step down to frame captions and idle icons.
-- **Dimmed Grey** (`#94949c`, token `muted-dim`): Tertiary text — frame captions, placeholders, timestamps, idle icons. One visible step below Contact Sheet Grey and the floor of the readable range: it clears AA (4.5:1) on all three ladder steps, which the former `muted-foreground/30..70` opacity variants did not.
+- **Darkroom Black** (`#060a10`, token `deep`): The page ground and the inside of every code and video frame. It is the darkest surface in the system; nothing sits behind it.
+- **Developing Tray** (`#141920`, token `surface`): Cards, buttons at rest, chips, and the nav's solid fallback. One step up from the ground — visible as a distinct plane without a border, though it usually gets one anyway.
+- **Raised Tray** (`#22282f`, token `surface-2`): Hover and active surfaces, and secondary fills. The top of the ladder. Reaching it is how the system says "you are touching this."
+- **Print White** (`#f5f7fa`, token `foreground`): Headings, body emphasis, and primary text. Never pure #ffffff — the slight warmth keeps large type from vibrating against near-black.
+- **Contact Sheet Grey** (`#a1a7ae`, token `muted-foreground`): Body copy, descriptions, and captions. Carries most of the reading load. Sub-opacities (`/60`, `/50`, `/40`, `/30`) step down to frame captions and idle icons.
+- **Dimmed Grey** (`#909499`, token `muted-dim`): Tertiary text — frame captions, placeholders, timestamps, idle icons. One visible step below Contact Sheet Grey and the floor of the readable range: it clears AA (4.5:1) on all three ladder steps, which the former `muted-foreground/30..70` opacity variants did not.
 - **Hairline** (`rgba(255, 255, 255, 0.06)`, token `border`): Every default edge in the system — cards, frames, nav, dividers, table rules. Brightens to 0.12 on hover and 0.20 on interactive focus.
 
 ### Tertiary
-- **Alert Red** (`#ef4444`, token `destructive`): Destructive and invalid states only. Present in the component layer, effectively unused on the marketing surface.
+- **Alert Red** (`#e56963`, token `destructive`): Destructive and invalid states only. Present in the component layer, effectively unused on the marketing surface.
 
 ### Named Rules
 
 **The Readable Floor Rule.** Never dim text with an opacity modifier. `text-muted-foreground/50` and its siblings bottomed out at 1.68:1 against `deep`. Tertiary text uses the `muted-dim` token, which is the dimmest step that still clears AA on every surface in the ladder.
+
+**The No Stock Ramp Rule.** Every neutral is generated in OKLCH at hue 257 with deliberate chroma, not copied from a framework scale. The previous palette was Tailwind `zinc` end to end — the same values shadcn ships as its dark default — which is the single most recognizable tell of a generated interface. A new neutral is derived from the ramp or it does not enter the system.
 
 **The Single Voice Rule.** Mint is the only chromatic color in the system. Adding a second hue — a blue for "info", an amber for "warning", a purple for anything — breaks the darkroom. If a state needs distinguishing, use the tonal ladder, opacity, or type weight, not a new hue.
 
@@ -169,8 +171,8 @@ A near-monochrome greyscale stack lit by exactly one chromatic voice — the pal
 - **Headline** (Clash Grotesk 600, `clamp(1.75rem → 2.5rem)`, 1.15, −0.025em): Section headings and blog `h2`.
 - **Title** (Clash Grotesk 600, `clamp(1.35rem → 1.75rem)`, 1.2): Card headings, subsection headings, blog `h3`.
 - **Body** (Satoshi 400, 1.0625rem/1.85 in prose, 1rem–1.125rem in sections, `leading-relaxed`): Descriptions and article text, in Contact Sheet Grey. Drops to 1rem/1.8 below 768px.
-- **Label** (JetBrains Mono 500, 0.6875rem, 0.1em tracking, uppercase, mint): The `.mono-label` eyebrow. Appears above section headings and in frame chrome. This is the system's most recognizable typographic signature.
-- **Code** (JetBrains Mono 400, 0.71875rem → 0.78125rem in snippets, 0.92rem in article code blocks, 1.75): Terminal output, install commands, and code samples.
+- **Label** (JetBrains Mono 500, 0.75rem, 0.1em tracking, uppercase): Frame chrome, code-frame captions, version chips, and status text. Never an eyebrow above a heading — see The No Kicker Rule.
+- **Code** (JetBrains Mono 400, 0.75rem → 0.78125rem in snippets, 0.92rem in article code blocks, 1.75): Terminal output, install commands, and code samples.
 
 ### Named Rules
 
@@ -178,7 +180,7 @@ A near-monochrome greyscale stack lit by exactly one chromatic voice — the pal
 
 **The Tighten As You Grow Rule.** Letter-spacing decreases as type size increases (−0.02em at title, −0.025em at headline, −0.03em at display). Default tracking on a 4.5rem headline is the single fastest way to make this system look generic.
 
-**The Eyebrow Pairing Rule.** A `.mono-label` eyebrow precedes a display or headline. It is never used alone, never in body copy, and never in a color other than mint.
+**The No Kicker Rule.** A heading opens its own section. No mono label, category tag, or eyebrow sits above a display or headline — the *kicker → headline → subhead* stack is the most recognizable shape of a generated landing page, and every one of this site's headings is specific enough to stand without a label announcing it. Metadata that genuinely belongs to a section (a version, a release date) goes **below** the heading as a caption, where metadata belongs.
 
 ## Layout
 
@@ -269,7 +271,7 @@ All motion runs on Framer Motion — there is no second animation library. Revea
 ### Do:
 - **Do** build depth with the tonal ladder — `deep` → `surface` → `surface-2` — and let the hairline border sharpen the step rather than create it.
 - **Do** open every quoted piece of machine output with the frame chrome bar: hairline, 11px uppercase mono caption, `deep` fill.
-- **Do** pair a mint `.mono-label` eyebrow with each section heading; it is the system's most recognizable signature.
+- **Do** let each section open on its heading, with any release or version metadata as a caption beneath it.
 - **Do** tighten letter-spacing as type scales up (−0.02em → −0.025em → −0.03em).
 - **Do** keep imagery to real product captures — the TUI screenshots and overview video are the only imagery this system uses, and they are genuine.
 - **Do** let `MotionConfig reducedMotion="user"` carry the motion preference, and keep focus rings visible.
@@ -281,5 +283,6 @@ All motion runs on Framer Motion — there is no second animation library. Revea
 - **Don't** build a light mode or branch components on theme. `:root` and `.dark` are identical by design.
 - **Don't** exceed a 12px radius outside deliberate pills.
 - **Don't** set marketing prose, headings, or button labels in JetBrains Mono for texture. Mono means machine.
+- **Don't** reintroduce a kicker, eyebrow, or category label above a heading in any form.
 - **Don't** drift toward the confirmed anti-references: gradient meshes, glowing orbs, aurora blurs, or gradient text (generic dark SaaS); frosted decorative panels (glassmorphism); mascots, illustrations, or pastels (consumer app); stock photography, abstract 3D, or logo walls (enterprise stock).
 - **Don't** add looping, bouncing, or scale-on-hover motion, and never dim text with an opacity modifier. Reveal once and stop; dim with `muted-dim`.

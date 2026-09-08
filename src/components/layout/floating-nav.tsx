@@ -27,7 +27,7 @@ export function FloatingNav() {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.4, delay: 0.1 }}
-        className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#09090b]/80 backdrop-blur-xl"
+        className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#060a10]/80 backdrop-blur-xl"
       >
         <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
           <div className="flex shrink-0 items-center gap-2">
@@ -42,7 +42,7 @@ export function FloatingNav() {
               href={EXTERNAL_LINKS.releases}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-6 items-center rounded-md border border-white/[0.06] bg-surface px-2 font-mono text-[11px] text-muted-foreground transition-colors hover:border-white/[0.12] hover:text-emerald"
+              className="inline-flex min-h-6 items-center rounded-md border border-white/[0.06] bg-surface px-2 font-mono text-xs text-muted-foreground transition-colors hover:border-white/[0.12] hover:text-emerald"
               aria-label={`Stormlog version ${stormlogVersion} release notes`}
             >
               v{stormlogVersion}
@@ -176,7 +176,7 @@ export function FloatingNav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-x-0 top-14 z-50 border-b border-white/[0.06] bg-[#09090b]/95 px-4 py-4 backdrop-blur-xl lg:hidden"
+            className="fixed inset-x-0 top-14 z-50 border-b border-white/[0.06] bg-[#060a10]/95 px-4 py-4 backdrop-blur-xl lg:hidden"
           >
             <div className="flex flex-col gap-1">
               <Link

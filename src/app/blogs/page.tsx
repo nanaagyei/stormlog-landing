@@ -36,8 +36,7 @@ export default function BlogsPage() {
       <section className="relative px-4 pb-12 sm:px-6 lg:px-8 lg:pb-16">
         <div className="mx-auto max-w-6xl">
           <div>
-            <span className="mono-label">Stormlog journal</span>
-            <h1 className="mt-4 max-w-4xl font-heading text-4xl font-semibold tracking-[-0.03em] text-foreground sm:text-5xl lg:text-[3.5rem] lg:leading-[1.05]">
+            <h1 className="max-w-4xl font-heading text-4xl font-semibold tracking-[-0.03em] text-foreground sm:text-5xl lg:text-[3.5rem] lg:leading-[1.05]">
               Technical writing for teams tracing memory issues in real workloads.
             </h1>
             <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground sm:text-lg">

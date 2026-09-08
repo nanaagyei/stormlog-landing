@@ -26,7 +26,7 @@ export function BlogHeader() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#09090b]/80 backdrop-blur-xl">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#060a10]/80 backdrop-blur-xl">
         <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
           <div className="flex shrink-0 items-center gap-2">
             <Link
@@ -40,7 +40,7 @@ export function BlogHeader() {
               href={EXTERNAL_LINKS.releases}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-6 items-center rounded-md border border-white/[0.06] bg-surface px-2 font-mono text-[11px] text-muted-foreground transition-colors hover:border-white/[0.12] hover:text-emerald"
+              className="inline-flex min-h-6 items-center rounded-md border border-white/[0.06] bg-surface px-2 font-mono text-xs text-muted-foreground transition-colors hover:border-white/[0.12] hover:text-emerald"
               aria-label={`Stormlog version ${stormlogVersion} release notes`}
             >
               v{stormlogVersion}
@@ -102,7 +102,7 @@ export function BlogHeader() {
       </header>
 
       {mobileOpen ? (
-        <div className="fixed inset-x-0 top-14 z-50 border-b border-white/[0.06] bg-[#09090b]/95 px-4 py-4 backdrop-blur-xl lg:hidden">
+        <div className="fixed inset-x-0 top-14 z-50 border-b border-white/[0.06] bg-[#060a10]/95 px-4 py-4 backdrop-blur-xl lg:hidden">
           <div className="flex flex-col gap-1">
             {PRIMARY_LINKS.map((item) => {
               const active = isActive(pathname, item.href);

@@ -25,12 +25,11 @@ export function MaintainersSection() {
         viewport={{ once: true, margin: "-80px" }}
       >
         <motion.div variants={reveal} className="max-w-3xl">
-          <span className="mono-label">Open source</span>
-          <h2 className="mt-4 font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-[2.75rem] lg:leading-[1.08]">
+          <h2 className="font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-[2.75rem] lg:leading-[1.08]">
             Credibility comes from the repo, the docs, and the people
             shipping it.
           </h2>
-          <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
+          <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             Stormlog&apos;s proof is the public codebase, the published package,
             the documentation footprint, and the maintainers who keep the
             project moving.

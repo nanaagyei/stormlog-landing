@@ -16,7 +16,7 @@ export function CodeBlock({ code, language, children }: CodeBlockProps) {
   return (
     <div className="group relative my-6 overflow-hidden rounded-lg border border-white/[0.06] bg-deep">
       <div className="flex items-center justify-between border-b border-white/[0.06] px-4 py-2.5">
-        <span className="font-mono text-[11px] uppercase tracking-wider text-muted-dim">
+        <span className="font-mono text-xs uppercase tracking-wider text-muted-dim">
           {language || "code"}
         </span>
         <button

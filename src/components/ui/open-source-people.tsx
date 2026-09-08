@@ -27,7 +27,9 @@ export function OpenSourcePeople() {
   return (
     <div className="grid gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-12">
       <div>
-        <span className="mono-label">Maintainers</span>
+        <h3 className="font-heading text-lg font-medium tracking-tight text-foreground">
+          Maintainers
+        </h3>
         <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
           Core maintainers who set direction, review changes, and keep Stormlog
           production-ready.
@@ -74,7 +76,9 @@ export function OpenSourcePeople() {
       </div>
 
       <div>
-        <span className="mono-label">Contributors</span>
+        <h3 className="font-heading text-lg font-medium tracking-tight text-foreground">
+          Contributors
+        </h3>
         <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
           Everyone who has shipped code to the repository, synced live from
           GitHub.

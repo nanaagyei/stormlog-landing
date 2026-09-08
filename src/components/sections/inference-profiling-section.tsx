@@ -20,10 +20,7 @@ export function InferenceProfilingSection() {
         className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start lg:gap-12"
       >
         <motion.div variants={reveal} className="min-w-0">
-          <span className="mono-label break-words">
-            {INFERENCE_SECTION.eyebrow}
-          </span>
-          <h2 className="mt-4 max-w-xl font-heading text-[1.75rem] font-semibold leading-[1.1] tracking-[-0.03em] text-foreground sm:text-4xl lg:text-[2.75rem] lg:leading-[1.08]">
+          <h2 className="max-w-xl font-heading text-[1.75rem] font-semibold leading-[1.1] tracking-[-0.03em] text-foreground sm:text-4xl lg:text-[2.75rem] lg:leading-[1.08]">
             {INFERENCE_SECTION.title}
           </h2>
           <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-muted-foreground sm:mt-4 sm:text-base lg:text-lg">
@@ -34,7 +31,7 @@ export function InferenceProfilingSection() {
             {INFERENCE_SECTION.serverChips.map((chip) => (
               <span
                 key={chip}
-                className="rounded-md border border-white/[0.06] bg-surface px-2.5 py-1 font-mono text-[11px] text-emerald sm:text-xs"
+                className="rounded-md border border-white/[0.06] bg-surface px-2.5 py-1 font-mono text-xs text-emerald"
               >
                 {chip}
               </span>
@@ -82,14 +79,14 @@ export function InferenceProfilingSection() {
         >
           <div className="flex items-center gap-2">
             <Terminal className="size-3.5 text-emerald" aria-hidden="true" />
-            <span className="font-mono text-[10.5px] uppercase tracking-wider text-muted-dim sm:text-[11px]">
+            <span className="font-mono text-xs tracking-wide text-muted-dim">
               stormlog infer · OpenAI-compatible
             </span>
           </div>
 
           <CopyButton
             text={INFERENCE_SECTION.command}
-            className="w-full max-w-full justify-start overflow-x-auto whitespace-nowrap px-3! py-2! text-[11px]! sm:px-4! sm:py-2.5! sm:text-xs!"
+            className="w-full max-w-full justify-start overflow-x-auto whitespace-nowrap px-3! py-2! text-xs! sm:px-4! sm:py-2.5!"
           />
 
           <CodeSnippet

@@ -26,10 +26,10 @@ export interface HeroContent {
 }
 
 export const HERO_CONTENT: HeroContent = {
-  eyebrow: "Open-source GPU memory visibility",
+  eyebrow: "Open-source GPU visibility",
   title: "See GPU memory before it breaks your training.",
   description:
-    "Stormlog gives PyTorch, TensorFlow, and JAX teams real-time GPU memory visibility, leak detection, diagnostics, and exportable timelines across CLI, Python API, and Textual TUI workflows — now with inference endpoint profiling.",
+    "Stormlog is an open-source profiler that gives PyTorch, TensorFlow, and JAX teams real-time GPU memory visibility, leak detection, diagnostics, and exportable timelines across CLI, Python API, and Textual TUI workflows — now with inference endpoint profiling.",
   supportLabels: [
     "PyTorch, TensorFlow, and JAX",
     "CLI + Python API",

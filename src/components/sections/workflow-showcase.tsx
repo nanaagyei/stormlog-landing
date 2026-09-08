@@ -9,8 +9,7 @@ export function WorkflowShowcase() {
   return (
     <SectionWrapper id="workflow">
       <div className="mx-auto max-w-3xl text-center">
-        <span className="mono-label">Workflow</span>
-        <h2 className="mt-4 font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl">
+        <h2 className="font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl">
           Instrument, observe, diagnose, export, optimize.
         </h2>
         <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -47,7 +46,7 @@ export function WorkflowShowcase() {
 
               <div className="overflow-hidden rounded-lg border border-white/[0.06] bg-deep">
                 <div className="flex items-center border-b border-white/[0.06] px-4 py-2">
-                  <span className="font-mono text-[11px] uppercase tracking-wider text-muted-dim">
+                  <span className="font-mono text-xs uppercase tracking-wider text-muted-dim">
                     step {step.step.toString().padStart(2, "0")}
                   </span>
                 </div>

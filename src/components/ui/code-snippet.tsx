@@ -8,26 +8,39 @@ interface CodeSnippetProps {
   code: string;
   label?: string;
   className?: string;
+  /** Render without its own border when placed inside a card. */
+  nested?: boolean;
 }
 
-export function CodeSnippet({ code, label, className }: CodeSnippetProps) {
+export function CodeSnippet({
+  code,
+  label,
+  className,
+  nested = false,
+}: CodeSnippetProps) {
   const { copied, copy } = useCopyToClipboard();
 
   return (
     <div
       className={cn(
-        "group/snippet relative overflow-hidden rounded-lg border border-white/[0.06] bg-deep",
+        "group/snippet relative overflow-hidden bg-deep",
+        // Standalone frames carry their own hairline and corners. Inside a card
+        // they drop both and read as a flush inset panel; the deep-on-surface
+        // tonal step separates them without nesting one card inside another.
+        nested
+          ? "-mx-5 border-y border-white/[0.06] sm:-mx-6 lg:-mx-8"
+          : "rounded-lg border border-white/[0.06]",
         className
       )}
     >
       <div className="flex items-center justify-between border-b border-white/[0.06] px-3 py-2">
-        <span className="font-mono text-[11px] uppercase tracking-wider text-muted-dim">
+        <span className="font-mono text-xs uppercase tracking-wider text-muted-dim">
           {label ?? "snippet"}
         </span>
         <button
           type="button"
           onClick={() => copy(code)}
-          className="inline-flex items-center gap-1.5 rounded-md px-1.5 py-1 font-mono text-[11px] text-muted-dim transition-colors hover:text-foreground"
+          className="inline-flex items-center gap-1.5 rounded-md px-1.5 py-1 font-mono text-xs text-muted-dim transition-colors hover:text-foreground"
           aria-label="Copy code to clipboard"
         >
           {copied ? (
@@ -46,7 +59,7 @@ export function CodeSnippet({ code, label, className }: CodeSnippetProps) {
           {copied ? "Copied to clipboard" : ""}
         </span>
       </div>
-      <pre className="overflow-x-auto px-3 py-3 font-mono text-[11.5px] leading-relaxed text-foreground/90 sm:px-4 sm:text-[12.5px]">
+      <pre className="overflow-x-auto px-3 py-3 font-mono text-xs leading-relaxed text-foreground/90 sm:px-4 sm:text-[12.5px]">
         <code>{code}</code>
       </pre>
     </div>

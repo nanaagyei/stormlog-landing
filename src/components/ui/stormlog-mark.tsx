@@ -34,8 +34,8 @@ export function StormlogMark({
         />
         <path
           d="M5 16 16 21.75 27 16 27 13.5 16 19.25 5 13.5Z"
-          fill="#00e599"
-          stroke="#00e599"
+          fill="#40c786"
+          stroke="#40c786"
         />
         <path
           d="M5 23.4 16 29.15 27 23.4 27 20.9 16 26.65 5 20.9Z"

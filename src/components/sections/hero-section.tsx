@@ -72,16 +72,9 @@ export function HeroSection() {
         animate="visible"
         className="relative z-10 mx-auto flex flex-col items-center text-center"
       >
-        <motion.span
-          variants={reveal}
-          className="mono-label"
-        >
-          {HERO_CONTENT.eyebrow}
-        </motion.span>
-
         <motion.h1
           variants={reveal}
-          className="mt-6 max-w-4xl font-heading text-4xl font-semibold leading-[1.05] tracking-[-0.03em] text-foreground sm:text-5xl lg:text-[4.5rem]"
+          className="max-w-4xl font-heading text-4xl font-semibold leading-[1.05] tracking-[-0.03em] text-foreground sm:text-5xl lg:text-[4.5rem]"
         >
           See GPU memory before
           <br className="hidden sm:block" />
@@ -135,14 +128,14 @@ export function HeroSection() {
         >
           <div className="overflow-hidden rounded-xl border border-white/[0.06] bg-deep">
             <div className="flex items-center gap-2 border-b border-white/[0.06] px-4 py-2.5">
-              <span className="font-mono text-[11px] uppercase tracking-wider text-muted-dim">
+              <span className="font-mono text-xs uppercase tracking-wider text-muted-dim">
                 Stormlog overview
               </span>
               <button
                 type="button"
                 onClick={toggleVideo}
                 aria-pressed={!videoPlaying}
-                className="relative ml-auto inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 font-mono text-[11px] text-muted-dim transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 after:absolute after:-inset-x-2 after:-inset-y-3 after:content-['']"
+                className="relative ml-auto inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 font-mono text-xs text-muted-dim transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 after:absolute after:-inset-x-2 after:-inset-y-3 after:content-['']"
               >
                 {videoPlaying ? (
                   <Pause aria-hidden="true" className="size-3" />

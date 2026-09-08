@@ -6,9 +6,9 @@
     "colorMeta": {
       "emerald": {
         "role": "primary",
-        "displayName": "Phosphor Mint",
-        "canonical": "#00e599",
-        "note": "Brand and signal color in one. Named for CRT phosphor. It is the brand color and is meant to be used freely, not rationed; the binding constraint is AA contrast where it carries text or iconography.",
+        "displayName": "Signal Green",
+        "canonical": "#40c786",
+        "note": "Derived from the logo's mint, deepened and pulled off the cyan axis (OKLCH hue 158) so it reads as instrumentation rather than the neon cyan-on-black tell. Brand colour; use freely, subject to AA where it carries text.",
         "tonalRamp": [
           "oklch(15% 0.0345 162)",
           "oklch(26% 0.0725 162)",
@@ -23,7 +23,7 @@
       "emerald-muted": {
         "role": "primary",
         "displayName": "Phosphor Mint Wash",
-        "canonical": "rgba(0, 229, 153, 0.15)",
+        "canonical": "rgba(64, 199, 134, 0.15)",
         "note": "Accent at 15% for chip and badge fills. Sibling washes: 0.20 selection, 0.08 accent glow, 0.07 highlighted code line, 0.04 blockquote fill.",
         "tonalRamp": [
           "oklch(15% 0.0345 162)",
@@ -39,7 +39,7 @@
       "deep": {
         "role": "neutral",
         "displayName": "Darkroom Black",
-        "canonical": "#09090b",
+        "canonical": "#060a10",
         "note": "Page ground and the inside of every code and media frame. Nothing sits behind it.",
         "tonalRamp": [
           "oklch(8% 0.004 260)",
@@ -55,7 +55,7 @@
       "surface": {
         "role": "neutral",
         "displayName": "Developing Tray",
-        "canonical": "#18181b",
+        "canonical": "#141920",
         "note": "Step 2 of the tonal ladder: cards, controls, and chips at rest.",
         "tonalRamp": [
           "oklch(8% 0.004 260)",
@@ -71,7 +71,7 @@
       "surface-2": {
         "role": "neutral",
         "displayName": "Raised Tray",
-        "canonical": "#27272a",
+        "canonical": "#22282f",
         "note": "Step 3 of the tonal ladder: hover, active, and raised states.",
         "tonalRamp": [
           "oklch(8% 0.004 260)",
@@ -87,7 +87,7 @@
       "foreground": {
         "role": "neutral",
         "displayName": "Print White",
-        "canonical": "#fafafa",
+        "canonical": "#f5f7fa",
         "note": "Headings and primary text. Deliberately not pure white — large type would vibrate against near-black.",
         "tonalRamp": [
           "oklch(8% 0.004 260)",
@@ -103,7 +103,7 @@
       "muted-foreground": {
         "role": "neutral",
         "displayName": "Contact Sheet Grey",
-        "canonical": "#a1a1aa",
+        "canonical": "#a1a7ae",
         "note": "Body copy and captions; carries most of the reading load. Steps down via /60, /50, /40, /30 for chrome and idle icons.",
         "tonalRamp": [
           "oklch(8% 0.004 260)",
@@ -135,7 +135,7 @@
       "destructive": {
         "role": "tertiary",
         "displayName": "Alert Red",
-        "canonical": "#ef4444",
+        "canonical": "#e56963",
         "note": "Destructive and invalid states only. Present in the component layer, effectively unused on the marketing surface.",
         "tonalRamp": [
           "oklch(15% 0.0345 25)",
@@ -151,7 +151,7 @@
       "muted-dim": {
         "role": "neutral",
         "displayName": "Dimmed Grey",
-        "canonical": "#94949c",
+        "canonical": "#909499",
         "note": "Tertiary text floor. Replaces the muted-foreground/30..70 opacity variants; clears AA 4.5:1 on deep (6.61), surface (5.88) and surface-2 (4.95).",
         "tonalRamp": [
           "oklch(8% 0.004 260)",
@@ -184,7 +184,7 @@
       },
       "label": {
         "displayName": "Mono Label",
-        "purpose": "The .mono-label eyebrow — uppercase, 0.1em tracked, mint. The system's most recognizable typographic signature."
+        "purpose": "Frame chrome, code-frame captions, version chips, status text. Never an eyebrow above a heading."
       },
       "code": {
         "displayName": "Code",
@@ -291,14 +291,6 @@
       "css": ".ds-install-chip { display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: 8px; background: #18181b; border: 1px solid rgba(255,255,255,0.06); font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace; font-size: 14px; cursor: pointer; transition: background 200ms ease, border-color 200ms ease; } .ds-install-chip:hover { background: #27272a; border-color: rgba(255,255,255,0.2); } .ds-install-chip__prompt { color: #00e599; } .ds-install-chip__cmd { color: #fafafa; } .ds-install-chip__icon { margin-left: 4px; color: rgba(161,161,170,0.4); transition: color 200ms ease; } .ds-install-chip:hover .ds-install-chip__icon { color: #a1a1aa; } .ds-install-chip:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(0, 229, 153, 0.5); }"
     },
     {
-      "name": "Mono Label",
-      "kind": "custom",
-      "refersTo": "mono-label",
-      "description": "Signature component. The mint uppercase eyebrow that precedes every section heading. Never used alone, never in another color.",
-      "html": "<span class=\"ds-mono-label\">Open-source GPU memory visibility</span>",
-      "css": ".ds-mono-label { font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #00e599; }"
-    },
-    {
       "name": "Code Frame",
       "kind": "custom",
       "refersTo": "code-frame",
@@ -345,6 +337,11 @@
     ],
     "rules": [
       {
+        "name": "The No Stock Ramp Rule",
+        "section": "colors",
+        "body": "Every neutral is generated in OKLCH at hue 257 with deliberate chroma, not copied from a framework scale. The previous palette was Tailwind zinc end to end — the same values shadcn ships as its dark default — the single most recognizable tell of a generated interface."
+      },
+      {
         "name": "The Readable Floor Rule",
         "section": "colors",
         "body": "Never dim text with an opacity modifier. text-muted-foreground/50 and its siblings bottomed out at 1.68:1 against deep. Tertiary text uses the muted-dim token, the dimmest step that still clears AA on every surface in the ladder."
@@ -375,8 +372,8 @@
         "section": "typography"
       },
       {
-        "name": "The Eyebrow Pairing Rule",
-        "body": "A .mono-label eyebrow precedes a display or headline. It is never used alone, never in body copy, and never in a color other than mint.",
+        "name": "The No Kicker Rule",
+        "body": "A heading opens its own section. No mono label, category tag, or eyebrow sits above a display or headline — the kicker -> headline -> subhead stack is the most recognizable shape of a generated landing page. Section metadata (version, release date) goes below the heading as a caption.",
         "section": "typography"
       },
       {
@@ -413,7 +410,7 @@
     "dos": [
       "Do build depth with the tonal ladder — deep -> surface -> surface-2 — and let the hairline border sharpen the step rather than create it.",
       "Do open every quoted piece of machine output with the frame chrome bar: hairline, 11px uppercase mono caption, deep fill.",
-      "Do pair a mint .mono-label eyebrow with each section heading; it is the system's most recognizable signature.",
+      "Do let each section open on its heading, with any release or version metadata as a caption beneath it.",
       "Do tighten letter-spacing as type scales up (-0.02em -> -0.025em -> -0.03em).",
       "Do keep imagery to real product captures — the TUI screenshots and overview video are the only imagery this system uses, and they are genuine.",
       "Do gate every GSAP effect behind useReducedMotion() and keep focus rings visible.",
@@ -426,7 +423,8 @@
       "Don't exceed a 12px radius outside deliberate pills.",
       "Don't set marketing prose, headings, or button labels in JetBrains Mono for texture. Mono means machine.",
       "Don't drift toward the confirmed anti-references: gradient meshes, glowing orbs, aurora blurs, or gradient text (generic dark SaaS); frosted decorative panels (glassmorphism); mascots, illustrations, or pastels (consumer app); stock photography, abstract 3D, or logo walls (enterprise stock).",
-      "Don't add looping, bouncing, or scale-on-hover motion. Reveal once and stop."
+      "Don't add looping, bouncing, or scale-on-hover motion. Reveal once and stop.",
+      "Don't reintroduce a kicker, eyebrow, or category label above a heading in any form."
     ]
   }
 }

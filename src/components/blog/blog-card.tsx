@@ -38,7 +38,7 @@ export function BlogCard({ post, featured = false, className }: BlogCardProps) {
 
         <div className="flex h-full flex-col p-5 sm:p-6">
           <div className="flex flex-wrap items-center gap-2.5 text-xs">
-            <span className="rounded-md border border-emerald/20 bg-emerald-muted px-2 py-0.5 font-mono text-[11px] uppercase tracking-wider text-emerald">
+            <span className="rounded-md border border-emerald/20 bg-emerald-muted px-2 py-0.5 font-mono text-xs uppercase tracking-wider text-emerald">
               {post.category}
             </span>
             <span className="inline-flex items-center gap-1 font-mono text-muted-dim">

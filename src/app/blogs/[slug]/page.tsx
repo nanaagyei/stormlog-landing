@@ -69,7 +69,7 @@ function PostNavCard({
       href={`/blogs/${post.slug}`}
       className="group block rounded-xl border border-white/[0.06] bg-surface px-5 py-5 transition-all hover:border-white/[0.12] motion-reduce:transition-none"
     >
-      <p className="font-mono text-[11px] uppercase tracking-wider text-muted-dim">
+      <p className="font-mono text-xs uppercase tracking-wider text-muted-dim">
         {label}
       </p>
       <h3 className="mt-2 font-heading text-lg font-semibold text-foreground">
@@ -107,7 +107,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
             <div className="mt-8">
               <div className="flex flex-wrap items-center gap-2.5 text-xs">
-                <span className="rounded-md border border-emerald/20 bg-emerald-muted px-2 py-0.5 font-mono text-[11px] uppercase tracking-wider text-emerald">
+                <span className="rounded-md border border-emerald/20 bg-emerald-muted px-2 py-0.5 font-mono text-xs uppercase tracking-wider text-emerald">
                   {post.category}
                 </span>
                 <span className="inline-flex items-center gap-1 font-mono text-muted-dim">

@@ -20,12 +20,9 @@ export function FinalCtaSection() {
       >
         <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-emerald/30 to-transparent" />
 
-        <motion.span variants={reveal} className="mono-label">
-          {FINAL_CTA.eyebrow}
-        </motion.span>
         <motion.h2
           variants={reveal}
-          className="mt-4 font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-[3.5rem] lg:leading-[1.05]"
+          className="font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-[3.5rem] lg:leading-[1.05]"
         >
           {FINAL_CTA.title}
         </motion.h2>

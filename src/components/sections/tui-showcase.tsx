@@ -59,8 +59,7 @@ export function TuiShowcase() {
         viewport={{ once: true, margin: "-80px" }}
       >
         <motion.div variants={reveal} className="max-w-3xl">
-          <span className="mono-label">TUI showcase</span>
-          <h2 className="mt-4 font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl">
+          <h2 className="font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl">
             A terminal-native workspace that still feels like a product.
           </h2>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -112,10 +111,10 @@ export function TuiShowcase() {
         >
           <div className="overflow-hidden rounded-xl border border-white/6 bg-deep">
             <div className="flex items-center justify-between border-b border-white/20 px-4 py-2.5">
-              <span className="font-mono text-[11px] uppercase tracking-wider text-emerald/70">
+              <span className="font-mono text-xs uppercase tracking-wider text-emerald/70">
                 {activeItem.tag}
               </span>
-              <span className="font-mono text-[11px] text-muted-dim">
+              <span className="font-mono text-xs text-muted-dim">
                 {activeItem.title}
               </span>
             </div>

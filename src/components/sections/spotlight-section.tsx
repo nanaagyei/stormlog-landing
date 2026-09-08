@@ -17,8 +17,7 @@ export function SpotlightSection() {
         className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center"
       >
         <motion.div variants={reveal}>
-          <span className="mono-label">{SPOTLIGHT_CONTENT.eyebrow}</span>
-          <h2 className="mt-4 max-w-xl font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-[2.75rem] lg:leading-[1.08]">
+          <h2 className="max-w-xl font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-[2.75rem] lg:leading-[1.08]">
             {SPOTLIGHT_CONTENT.title}
           </h2>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -51,7 +50,7 @@ export function SpotlightSection() {
         <motion.div variants={reveal}>
           <div className="overflow-hidden rounded-xl border border-white/[0.06] bg-deep">
             <div className="flex items-center gap-2 border-b border-white/[0.06] px-4 py-2.5">
-              <span className="font-mono text-[11px] uppercase tracking-wider text-muted-dim">
+              <span className="font-mono text-xs uppercase tracking-wider text-muted-dim">
                 Diagnostics workspace
               </span>
             </div>

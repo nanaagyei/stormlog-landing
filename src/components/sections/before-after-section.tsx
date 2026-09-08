@@ -10,12 +10,12 @@ function BeforePanel() {
     <div className="h-full w-full overflow-hidden bg-deep p-4 sm:p-6 lg:p-8">
       <div className="flex items-center gap-2">
         <span className="size-1.5 rounded-full bg-destructive" />
-        <span className="font-mono text-[10px] uppercase tracking-wider text-destructive sm:text-[11px]">
+        <span className="font-mono text-xs uppercase tracking-wider text-destructive">
           Without Stormlog
         </span>
       </div>
 
-      <div className="mt-4 grid gap-3 font-mono text-[11px] leading-relaxed sm:mt-6 sm:text-xs lg:text-sm">
+      <div className="mt-4 grid gap-3 font-mono text-xs leading-relaxed sm:mt-6 lg:text-sm">
         <div className="rounded-lg border border-white/[0.06] bg-surface p-3 sm:p-4">
           <p className="break-words text-muted-foreground">$ python train.py</p>
           <p className="mt-2 text-muted-foreground">Epoch 9/50... training</p>
@@ -49,12 +49,12 @@ function AfterPanel() {
     <div className="h-full w-full overflow-hidden bg-deep p-4 sm:p-6 lg:p-8">
       <div className="flex items-center gap-2">
         <span className="size-1.5 rounded-full bg-emerald" />
-        <span className="font-mono text-[10px] uppercase tracking-wider text-emerald sm:text-[11px]">
+        <span className="font-mono text-xs uppercase tracking-wider text-emerald">
           With Stormlog
         </span>
       </div>
 
-      <div className="mt-4 grid gap-3 font-mono text-[11px] leading-relaxed sm:mt-6 sm:text-xs lg:text-sm">
+      <div className="mt-4 grid gap-3 font-mono text-xs leading-relaxed sm:mt-6 lg:text-sm">
         <div className="rounded-lg border border-white/[0.06] bg-surface p-3 sm:p-4">
           <p className="break-words text-emerald">$ stormlog monitor --pid 12345</p>
           <p className="mt-2 text-foreground">Allocated  16.2 / 24.5 GiB</p>
@@ -90,12 +90,9 @@ export function BeforeAfterSection() {
         viewport={{ once: true, margin: "-80px" }}
         className="text-center"
       >
-        <motion.span variants={reveal} className="mono-label">
-          Proof of value
-        </motion.span>
         <motion.h2
           variants={reveal}
-          className="mt-4 font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl"
+          className="font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl"
         >
           Reactive debugging vs. instrumented visibility.
         </motion.h2>

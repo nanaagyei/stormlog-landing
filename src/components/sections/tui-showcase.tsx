@@ -115,7 +115,7 @@ export function TuiShowcase() {
               <span className="font-mono text-[11px] uppercase tracking-wider text-emerald/70">
                 {activeItem.tag}
               </span>
-              <span className="font-mono text-[11px] text-muted-foreground/40">
+              <span className="font-mono text-[11px] text-muted-dim">
                 {activeItem.title}
               </span>
             </div>

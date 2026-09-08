@@ -82,7 +82,7 @@ export function InferenceProfilingSection() {
         >
           <div className="flex items-center gap-2">
             <Terminal className="size-3.5 text-emerald" aria-hidden="true" />
-            <span className="font-mono text-[10.5px] uppercase tracking-wider text-muted-foreground/60 sm:text-[11px]">
+            <span className="font-mono text-[10.5px] uppercase tracking-wider text-muted-dim sm:text-[11px]">
               stormlog infer · OpenAI-compatible
             </span>
           </div>

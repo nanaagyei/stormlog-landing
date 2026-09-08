@@ -56,7 +56,7 @@ export function MaintainersSection() {
                     <h3 className="text-sm font-medium text-foreground">
                       {item.title}
                     </h3>
-                    <ArrowUpRight className="size-3.5 text-muted-foreground/40 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    <ArrowUpRight className="size-3.5 text-muted-dim transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </div>
                   <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                     {item.description}

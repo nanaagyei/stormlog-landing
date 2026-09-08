@@ -4,6 +4,7 @@ import Link from "next/link";
 import { BookOpen, Github, Package, TriangleAlert } from "lucide-react";
 import { EXTERNAL_LINKS } from "@/data/navigation";
 import { MAINTAINERS } from "@/data/content";
+import { StormlogMark } from "@/components/ui/stormlog-mark";
 import { useStormlogVersion } from "@/components/providers/stormlog-version-provider";
 
 export function Footer() {
@@ -13,7 +14,8 @@ export function Footer() {
       <div className="mx-auto max-w-6xl py-12 lg:py-16">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.2fr_0.6fr_0.6fr_0.6fr]">
           <div>
-            <h3 className="font-heading text-base font-semibold text-foreground">
+            <h3 className="flex items-center gap-2.5 font-heading text-base font-semibold text-foreground">
+              <StormlogMark className="size-6" />
               Stormlog
             </h3>
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-muted-foreground">
@@ -24,7 +26,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-mono text-xs font-medium uppercase tracking-wider text-muted-foreground/60">
+            <h4 className="font-mono text-xs font-medium uppercase tracking-wider text-muted-dim">
               Product
             </h4>
             <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground">
@@ -62,7 +64,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-mono text-xs font-medium uppercase tracking-wider text-muted-foreground/60">
+            <h4 className="font-mono text-xs font-medium uppercase tracking-wider text-muted-dim">
               Resources
             </h4>
             <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground">
@@ -114,7 +116,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-mono text-xs font-medium uppercase tracking-wider text-muted-foreground/60">
+            <h4 className="font-mono text-xs font-medium uppercase tracking-wider text-muted-dim">
               Maintainers
             </h4>
             <ul className="mt-4 space-y-2.5 text-sm text-muted-foreground">
@@ -134,10 +136,10 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-2 border-t border-white/[0.06] pt-6 font-mono text-xs text-muted-foreground/50 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-2 border-t border-white/[0.06] pt-6 font-mono text-xs text-muted-dim sm:flex-row sm:items-center sm:justify-between">
           <p className="flex items-center gap-2">
             <span>&copy; {new Date().getFullYear()} Stormlog contributors</span>
-            <span className="text-muted-foreground/30">·</span>
+            <span className="text-muted-dim">·</span>
             <a
               href={EXTERNAL_LINKS.releases}
               target="_blank"

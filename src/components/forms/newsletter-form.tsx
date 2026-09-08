@@ -38,7 +38,7 @@ export function NewsletterForm() {
         Email
       </label>
       <div className="relative flex-1">
-        <Mail className="pointer-events-none absolute top-1/2 left-3.5 size-3.5 -translate-y-1/2 text-muted-foreground/40" />
+        <Mail className="pointer-events-none absolute top-1/2 left-3.5 size-3.5 -translate-y-1/2 text-muted-dim" />
         <input
           id="newsletter-email"
           type="email"
@@ -46,7 +46,9 @@ export function NewsletterForm() {
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           placeholder="you@company.com"
-          className="h-10 w-full rounded-lg border border-white/[0.06] bg-surface pl-10 pr-4 font-mono text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-emerald/30"
+          aria-invalid={optimistic.error ? true : undefined}
+          aria-describedby="newsletter-status"
+          className="h-10 w-full rounded-lg border border-white/[0.06] bg-surface pl-10 pr-4 font-mono text-sm text-foreground outline-none transition-colors placeholder:text-muted-dim focus:border-emerald/30 aria-invalid:border-destructive/60"
         />
       </div>
       <button
@@ -54,17 +56,24 @@ export function NewsletterForm() {
         disabled={disabled}
         className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-emerald px-4 text-sm font-medium text-deep transition-all hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {optimistic.status === "submitting" ? <Loader2 className="size-3.5 animate-spin" /> : null}
+        {optimistic.status === "submitting" ? (
+          <Loader2 aria-hidden="true" className="size-3.5 animate-spin" />
+        ) : null}
         Subscribe
       </button>
 
-      <p className="w-full text-left font-mono text-xs text-muted-foreground/50 sm:basis-full sm:pl-1">
+      <p
+        id="newsletter-status"
+        role="status"
+        aria-live="polite"
+        className="w-full text-left font-mono text-xs text-muted-dim sm:basis-full sm:pl-1"
+      >
         {optimistic.status === "success" ? (
           <span className="inline-flex items-center gap-1.5 text-emerald">
             <CheckCircle2 className="size-3" /> You are on the list.
           </span>
         ) : optimistic.error ? (
-          <span className="text-red-400">{optimistic.error}</span>
+          <span className="text-destructive">{optimistic.error}</span>
         ) : (
           "Product updates only."
         )}

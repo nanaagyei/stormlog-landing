@@ -16,7 +16,7 @@ export function EcosystemStrip() {
       >
         <motion.span
           variants={reveal}
-          className="mr-2 font-mono text-xs uppercase tracking-wider text-muted-foreground/50"
+          className="mr-2 font-mono text-xs uppercase tracking-wider text-muted-dim"
         >
           Works with
         </motion.span>

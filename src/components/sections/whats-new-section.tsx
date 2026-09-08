@@ -44,7 +44,7 @@ export function WhatsNewSection() {
               {WHATS_NEW_META.eyebrow} · v{stormlogVersion}
             </span>
             {releasedAt && (
-              <span className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-muted-foreground/60">
+              <span className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-muted-dim">
                 <Calendar className="size-3" aria-hidden="true" />
                 {releasedAt}
               </span>

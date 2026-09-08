@@ -60,11 +60,11 @@ export function OpenSourcePeople() {
                       <p className="mt-0.5 font-mono text-xs text-emerald">
                         {maintainer.role}
                       </p>
-                      <p className="mt-1 truncate font-mono text-xs text-muted-foreground/60">
+                      <p className="mt-1 truncate font-mono text-xs text-muted-dim">
                         @{maintainer.github}
                       </p>
                     </div>
-                    <ArrowUpRight className="size-3.5 shrink-0 text-muted-foreground/40 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    <ArrowUpRight className="size-3.5 shrink-0 text-muted-dim transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </div>
                 </div>
               </a>
@@ -84,7 +84,7 @@ export function OpenSourcePeople() {
           {status === "loading" && <ContributorSkeletons />}
 
           {status === "error" && (
-            <p className="text-sm leading-relaxed text-muted-foreground/70">
+            <p className="text-sm leading-relaxed text-muted-dim">
               Could not load contributors right now.{" "}
               <a
                 href={`${EXTERNAL_LINKS.github}/graphs/contributors`}
@@ -98,7 +98,7 @@ export function OpenSourcePeople() {
           )}
 
           {status === "loaded" && contributors.length === 0 && (
-            <p className="text-sm leading-relaxed text-muted-foreground/70">
+            <p className="text-sm leading-relaxed text-muted-dim">
               No additional contributors yet.{" "}
               <a
                 href={EXTERNAL_LINKS.contributing}

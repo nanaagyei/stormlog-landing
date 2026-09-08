@@ -17,10 +17,10 @@ export const metadata: Metadata = {
     url: "/blogs",
     images: [
       {
-        url: "/images/stormlog-preview.png",
-        width: 1200,
-        height: 630,
-        alt: "Stormlog blogs",
+        url: "/new-meta.png",
+        width: 3840,
+        height: 2080,
+        alt: "Stormlog blogs — GPU memory profiling articles and guides",
       },
     ],
   },
@@ -49,7 +49,7 @@ export default function BlogsPage() {
 
           <div className="mt-12">
             <div className="mb-4 flex items-center justify-between gap-4">
-              <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground/50">
+              <span className="font-mono text-xs uppercase tracking-wider text-muted-dim">
                 Featured
               </span>
             </div>
@@ -58,10 +58,10 @@ export default function BlogsPage() {
 
           <div className="mt-12">
             <div className="mb-4 flex items-center justify-between gap-4">
-              <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground/50">
+              <span className="font-mono text-xs uppercase tracking-wider text-muted-dim">
                 All posts
               </span>
-              <span className="hidden items-center gap-1.5 font-mono text-xs text-muted-foreground/40 md:inline-flex">
+              <span className="hidden items-center gap-1.5 font-mono text-xs text-muted-dim md:inline-flex">
                 Static pages
                 <ArrowRight className="size-3" />
               </span>

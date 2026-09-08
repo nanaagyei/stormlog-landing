@@ -89,7 +89,7 @@ const markdownComponents: Components = {
     );
   },
   table: ({ children }) => (
-    <div className="my-8 overflow-x-auto rounded-[24px] border border-white/[0.08] bg-[#121a24]/88">
+    <div className="my-8 overflow-x-auto rounded-xl border border-white/[0.06] bg-surface">
       <table>{children}</table>
     </div>
   ),

@@ -28,10 +28,13 @@ export function CopyButton({ text, displayText, className }: CopyButtonProps) {
       <span className="text-emerald">$</span>
       <span className="text-foreground">{displayText || text}</span>
       {copied ? (
-        <Check className="ml-1 size-3.5 text-emerald" />
+        <Check aria-hidden="true" className="ml-1 size-3.5 text-emerald" />
       ) : (
-        <Copy className="ml-1 size-3.5 text-muted-foreground/40 transition-colors group-hover:text-muted-foreground" />
+        <Copy aria-hidden="true" className="ml-1 size-3.5 text-muted-dim transition-colors group-hover:text-muted-foreground" />
       )}
+      <span role="status" aria-live="polite" className="sr-only">
+        {copied ? "Copied to clipboard" : ""}
+      </span>
     </button>
   );
 }

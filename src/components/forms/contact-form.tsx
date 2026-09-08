@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { Loader2, Send } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { useOptimisticRequest } from "@/hooks/use-optimistic-request";
 
 type ContactPayload = {
@@ -54,7 +55,9 @@ export function ContactForm() {
         value={name}
         onChange={(event) => setName(event.target.value)}
         placeholder="Your name"
-        className="h-9 w-full rounded-lg border border-white/[0.06] bg-surface px-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-emerald/30"
+        aria-invalid={optimistic.error ? true : undefined}
+        aria-describedby="contact-status"
+        className="h-9 w-full rounded-lg border border-white/[0.06] bg-surface px-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-dim aria-invalid:border-destructive/60 focus:border-emerald/30"
       />
       <label htmlFor="contact-email" className="sr-only">
         Email
@@ -66,7 +69,9 @@ export function ContactForm() {
         value={email}
         onChange={(event) => setEmail(event.target.value)}
         placeholder="you@company.com"
-        className="h-9 w-full rounded-lg border border-white/[0.06] bg-surface px-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-emerald/30"
+        aria-invalid={optimistic.error ? true : undefined}
+        aria-describedby="contact-status"
+        className="h-9 w-full rounded-lg border border-white/[0.06] bg-surface px-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-dim aria-invalid:border-destructive/60 focus:border-emerald/30"
       />
       <label htmlFor="contact-message" className="sr-only">
         Message
@@ -77,17 +82,31 @@ export function ContactForm() {
         value={message}
         onChange={(event) => setMessage(event.target.value)}
         placeholder="How can we help your team debug GPU memory issues?"
-        className="h-20 w-full resize-none rounded-lg border border-white/[0.06] bg-surface px-3 py-2 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/40 focus:border-emerald/30"
+        aria-invalid={optimistic.error ? true : undefined}
+        aria-describedby="contact-status"
+        className="h-20 w-full resize-none rounded-lg border border-white/[0.06] bg-surface px-3 py-2 text-sm text-foreground outline-none transition-colors placeholder:text-muted-dim aria-invalid:border-destructive/60 focus:border-emerald/30"
       />
       <button
         type="submit"
         disabled={optimistic.status === "submitting"}
         className="inline-flex h-9 items-center gap-2 rounded-lg bg-emerald px-3.5 text-sm font-medium text-deep disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {optimistic.status === "submitting" ? <Loader2 className="size-3.5 animate-spin" /> : <Send className="size-3.5" />}
+        {optimistic.status === "submitting" ? (
+          <Loader2 aria-hidden="true" className="size-3.5 animate-spin" />
+        ) : (
+          <Send aria-hidden="true" className="size-3.5" />
+        )}
         Send
       </button>
-      <p className="font-mono text-xs text-muted-foreground/50">
+      <p
+        id="contact-status"
+        role="status"
+        aria-live="polite"
+        className={cn(
+          "font-mono text-xs",
+          optimistic.error ? "text-destructive" : "text-muted-dim"
+        )}
+      >
         {optimistic.status === "success"
           ? "Request sent."
           : optimistic.error ?? "Typical response: one business day."}

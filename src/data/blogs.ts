@@ -30,7 +30,7 @@ export const BLOG_POSTS: BlogRegistryEntry[] = [
     description:
       "Meet Stormlog's launch story, the workflow problem it solves, and the five-step path from live visibility to exportable debugging evidence.",
     category: "Launch",
-    thumbnail: "/images/stormlog-preview.png",
+    thumbnail: "/images/tui-2.png",
     relatedSlugs: ["getting-started", "memory-leak-walkthrough"],
   },
   {

@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
 import { clashGrotesk, satoshi, jetbrainsMono } from "@/lib/fonts";
-import { GsapProvider } from "@/lib/gsap-provider";
+import { MotionProvider } from "@/components/providers/motion-provider";
 import { WhatsNewDialog } from "@/components/updates/whats-new-dialog";
 import { StormlogVersionProvider } from "@/components/providers/stormlog-version-provider";
 import { getStormlogMeta } from "@/lib/stormlog-meta";
@@ -187,7 +187,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <StormlogVersionProvider version={version}>
-            <GsapProvider>
+            <MotionProvider>
               <a
                 href="#main-content"
                 className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-emerald focus:px-4 focus:py-2 focus:text-deep focus:text-sm"
@@ -196,7 +196,7 @@ export default async function RootLayout({
               </a>
               {children}
               <WhatsNewDialog />
-            </GsapProvider>
+            </MotionProvider>
           </StormlogVersionProvider>
         </ThemeProvider>
       </body>

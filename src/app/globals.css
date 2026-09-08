@@ -26,6 +26,15 @@
 
   --color-emerald: #00e599;
   --color-emerald-muted: rgba(0, 229, 153, 0.15);
+  /* Tertiary text: captions, placeholders, idle icons. One visible step below
+     --muted-foreground while still clearing WCAG AA 4.5:1 on deep (6.61:1),
+     surface (5.88:1) and surface-2 (4.95:1). Replaces the opacity-stepped
+     muted-foreground/30..70 variants, which bottomed out at 1.68:1. */
+  --color-muted-dim: #94949c;
+  /* Prose emphasis: <em> sits between body grey and Print White. */
+  --color-prose-em: #d4d4d8;
+  /* Link hover: mint stepped down in lightness, keeps AA on deep (9.3:1). */
+  --color-emerald-hover: #34d399;
   --color-surface: #18181b;
   --color-surface-2: #27272a;
   --color-deep: #09090b;
@@ -123,39 +132,11 @@
   color: #00e599;
 }
 
-.surface-elevated {
-  background-color: #18181b;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.surface-card {
-  background-color: rgba(39, 39, 42, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.border-subtle {
-  border-color: rgba(255, 255, 255, 0.06);
-}
 
 .accent-glow {
   box-shadow: 0 0 40px rgba(0, 229, 153, 0.08);
 }
 
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-.animate-marquee {
-  animation: marquee 30s linear infinite;
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-.cursor-blink {
-  animation: blink 1s step-end infinite;
-}
 
 ::-webkit-scrollbar {
   width: 5px;
@@ -220,7 +201,7 @@
 }
 
 .blog-prose em {
-  color: #d4d4d8;
+  color: var(--color-prose-em);
 }
 
 .blog-prose a {
@@ -232,7 +213,7 @@
 }
 
 .blog-prose a:hover {
-  color: #34d399;
+  color: var(--color-emerald-hover);
   text-decoration-color: rgba(0, 229, 153, 0.6);
 }
 

@@ -51,7 +51,7 @@ export function SpotlightSection() {
         <motion.div variants={reveal}>
           <div className="overflow-hidden rounded-xl border border-white/[0.06] bg-deep">
             <div className="flex items-center gap-2 border-b border-white/[0.06] px-4 py-2.5">
-              <span className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground/50">
+              <span className="font-mono text-[11px] uppercase tracking-wider text-muted-dim">
                 Diagnostics workspace
               </span>
             </div>

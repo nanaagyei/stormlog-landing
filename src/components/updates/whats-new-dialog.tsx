@@ -104,7 +104,7 @@ export function WhatsNewDialog() {
           <span className="hidden sm:inline">What&apos;s new</span>
           <span
             aria-hidden="true"
-            className="hidden font-mono text-[11px] text-muted-foreground/50 transition-colors group-hover/whats-new:text-emerald sm:inline"
+            className="hidden font-mono text-[11px] text-muted-dim transition-colors group-hover/whats-new:text-emerald sm:inline"
           >
             v{stormlogVersion}
           </span>
@@ -158,7 +158,7 @@ export function WhatsNewDialog() {
                         </span>
                       </span>
                       {releasedAt && (
-                        <span className="font-mono text-[10.5px] uppercase tracking-wider text-muted-foreground/50">
+                        <span className="font-mono text-[10.5px] uppercase tracking-wider text-muted-dim">
                           {releasedAt}
                         </span>
                       )}
@@ -251,7 +251,7 @@ export function WhatsNewDialog() {
                         />
                       ))}
                     </div>
-                    <span className="font-mono text-[11px] text-muted-foreground/50">
+                    <span className="font-mono text-[11px] text-muted-dim">
                       {index + 1} / {TOTAL}
                     </span>
                   </div>

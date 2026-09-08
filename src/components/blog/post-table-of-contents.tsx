@@ -58,7 +58,7 @@ export function PostTableOfContents({
       )}
     >
       <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-muted-foreground/60">
+        <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-muted-dim">
           <List className="size-3.5 text-emerald" />
           On this page
         </div>

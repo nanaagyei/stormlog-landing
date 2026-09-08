@@ -43,3 +43,7 @@ next-env.d.ts
 
 prd.md
 master_prd.md
+
+# impeccable — design record is tracked; live-mode session state is not
+.impeccable/live/
+.impeccable/config.local.json

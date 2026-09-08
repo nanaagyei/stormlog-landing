@@ -41,7 +41,7 @@ export function BlogCard({ post, featured = false, className }: BlogCardProps) {
             <span className="rounded-md border border-emerald/20 bg-emerald-muted px-2 py-0.5 font-mono text-[11px] uppercase tracking-wider text-emerald">
               {post.category}
             </span>
-            <span className="inline-flex items-center gap-1 font-mono text-muted-foreground/60">
+            <span className="inline-flex items-center gap-1 font-mono text-muted-dim">
               <Clock3 className="size-3" />
               {post.readTimeLabel}
             </span>
@@ -60,7 +60,7 @@ export function BlogCard({ post, featured = false, className }: BlogCardProps) {
             {post.description}
           </p>
 
-          <div className="mt-4 flex items-center gap-2 font-mono text-xs text-muted-foreground/50">
+          <div className="mt-4 flex items-center gap-2 font-mono text-xs text-muted-dim">
             <span>{post.author}</span>
             <span className="size-0.5 rounded-full bg-white/20" />
             <span>{post.readTimeMinutes} min</span>

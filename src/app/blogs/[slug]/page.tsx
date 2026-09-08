@@ -69,7 +69,7 @@ function PostNavCard({
       href={`/blogs/${post.slug}`}
       className="group block rounded-xl border border-white/[0.06] bg-surface px-5 py-5 transition-all hover:border-white/[0.12] motion-reduce:transition-none"
     >
-      <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground/50">
+      <p className="font-mono text-[11px] uppercase tracking-wider text-muted-dim">
         {label}
       </p>
       <h3 className="mt-2 font-heading text-lg font-semibold text-foreground">
@@ -110,11 +110,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 <span className="rounded-md border border-emerald/20 bg-emerald-muted px-2 py-0.5 font-mono text-[11px] uppercase tracking-wider text-emerald">
                   {post.category}
                 </span>
-                <span className="inline-flex items-center gap-1 font-mono text-muted-foreground/60">
+                <span className="inline-flex items-center gap-1 font-mono text-muted-dim">
                   <Clock3 className="size-3" />
                   {post.readTimeLabel}
                 </span>
-                <span className="font-mono text-muted-foreground/60">{post.author}</span>
+                <span className="font-mono text-muted-dim">{post.author}</span>
                 <ReadingActions slug={post.slug} />
               </div>
 
@@ -173,7 +173,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
             {post.relatedPosts.length > 0 ? (
               <div className="mt-10">
-                <span className="font-mono text-xs uppercase tracking-wider text-muted-foreground/50">
+                <span className="font-mono text-xs uppercase tracking-wider text-muted-dim">
                   Related
                 </span>
                 <div className="mt-4 grid gap-4 md:grid-cols-2">

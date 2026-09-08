@@ -15,6 +15,8 @@ export const EXTERNAL_LINKS = {
   releases: "https://github.com/Silas-Asamoah/stormlog/releases",
   contributing: "https://github.com/Silas-Asamoah/stormlog/blob/main/CONTRIBUTING.md",
   issues: "https://github.com/Silas-Asamoah/stormlog/issues",
+  discussions: "https://github.com/Silas-Asamoah/stormlog/discussions",
+  email: "mailto:prince.agyei.tuffour@gmail.com",
 } as const;
 
 /**

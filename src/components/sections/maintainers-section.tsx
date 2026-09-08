@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Mail, MessagesSquare } from "lucide-react";
 import { OPEN_SOURCE_PROOF } from "@/data/content";
 import { EXTERNAL_LINKS } from "@/data/navigation";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
@@ -71,6 +71,38 @@ export function MaintainersSection() {
           className="mt-10 border-t border-white/6 pt-10"
         >
           <OpenSourcePeople />
+        </motion.div>
+
+        <motion.div
+          variants={settle}
+          className="mt-10 rounded-xl border border-white/[0.06] bg-surface p-6 sm:p-8"
+        >
+          <h3 className="font-heading text-xl font-medium tracking-tight text-foreground">
+            Questions, ideas, or a workload we should profile?
+          </h3>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            Open a discussion on GitHub so the answer stays searchable for the
+            next person with the same question. For anything that does not
+            belong in public, email a maintainer directly.
+          </p>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <a
+              href={EXTERNAL_LINKS.discussions}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-emerald px-5 text-sm font-medium text-deep transition-all hover:brightness-110"
+            >
+              <MessagesSquare className="size-3.5" aria-hidden="true" />
+              Start a discussion
+            </a>
+            <a
+              href={EXTERNAL_LINKS.email}
+              className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-white/[0.06] bg-surface px-5 text-sm font-medium text-foreground transition-all hover:border-white/[0.12] hover:bg-surface-2"
+            >
+              <Mail className="size-3.5" aria-hidden="true" />
+              Email a maintainer
+            </a>
+          </div>
         </motion.div>
       </motion.div>
     </SectionWrapper>

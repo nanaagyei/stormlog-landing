@@ -112,7 +112,17 @@ export function Footer() {
                   Issues
                 </a>
               </li>
-            </ul>
+            
+              <li>
+                <a
+                  href={EXTERNAL_LINKS.discussions}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-foreground"
+                >
+                  Discussions
+                </a>
+              </li></ul>
           </div>
 
           <div>

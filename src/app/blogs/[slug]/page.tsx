@@ -6,7 +6,6 @@ import { BlogCard } from "@/components/blog/blog-card";
 import { BlogMarkdown } from "@/components/blog/blog-markdown";
 import { PostTableOfContents } from "@/components/blog/post-table-of-contents";
 import { ReadingProgress } from "@/components/blog/reading-progress";
-import { ReadingActions } from "@/components/blog/reading-actions";
 import { formatPublished, getBlogPost, getBlogPostSlugs } from "@/lib/blogs";
 import { notFound } from "next/navigation";
 
@@ -127,7 +126,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   {post.readTimeLabel}
                 </span>
                 <span className="font-mono text-muted-dim">{post.author}</span>
-                <ReadingActions slug={post.slug} />
               </div>
 
               <div className="relative mt-8 overflow-hidden rounded-xl border border-white/[0.06]">

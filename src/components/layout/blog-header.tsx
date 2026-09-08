@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { BookOpen, Github, Home, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { EXTERNAL_LINKS } from "@/data/navigation";
+import { StormlogMark } from "@/components/ui/stormlog-mark";
+import { useStormlogVersion } from "@/components/providers/stormlog-version-provider";
 import { cn } from "@/lib/utils";
 
 const PRIMARY_LINKS = [
@@ -20,17 +22,30 @@ function isActive(pathname: string, href: (typeof PRIMARY_LINKS)[number]["href"]
 export function BlogHeader() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const stormlogVersion = useStormlogVersion();
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#09090b]/80 backdrop-blur-xl">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-deep/80 backdrop-blur-xl">
         <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
-          <Link
-            href="/"
-            className="shrink-0 font-heading text-sm font-semibold tracking-tight text-foreground transition-colors hover:text-white"
-          >
-            Stormlog
-          </Link>
+          <div className="flex shrink-0 items-center gap-2">
+            <Link
+              href="/"
+              className="flex items-center gap-2 font-heading text-sm font-semibold tracking-tight text-foreground transition-colors hover:text-white"
+            >
+              <StormlogMark className="size-5" />
+              Stormlog
+            </Link>
+            <a
+              href={EXTERNAL_LINKS.releases}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-6 items-center rounded-md border border-white/[0.06] bg-surface px-2 font-mono text-xs text-muted-foreground transition-colors hover:border-white/[0.12] hover:text-emerald"
+              aria-label={`Stormlog version ${stormlogVersion} release notes`}
+            >
+              v{stormlogVersion}
+            </a>
+          </div>
 
           <div className="hidden items-center gap-1 lg:flex">
             {PRIMARY_LINKS.map((item) => {
@@ -54,6 +69,7 @@ export function BlogHeader() {
           </div>
 
           <div className="hidden items-center gap-3 md:flex">
+            <span className="h-3 w-px bg-white/[0.08]" />
             <a
               href={EXTERNAL_LINKS.docs}
               target="_blank"
@@ -77,7 +93,7 @@ export function BlogHeader() {
           <button
             type="button"
             onClick={() => setMobileOpen((open) => !open)}
-            className="rounded-lg border border-white/[0.06] p-2 text-muted-foreground transition-colors hover:text-foreground lg:hidden"
+            className="inline-flex size-11 items-center justify-center rounded-lg border border-white/[0.06] text-muted-foreground transition-colors hover:text-foreground lg:hidden"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
             {mobileOpen ? <X className="size-4" /> : <Menu className="size-4" />}
@@ -86,7 +102,7 @@ export function BlogHeader() {
       </header>
 
       {mobileOpen ? (
-        <div className="fixed inset-x-0 top-14 z-50 border-b border-white/[0.06] bg-[#09090b]/95 px-4 py-4 backdrop-blur-xl lg:hidden">
+        <div className="fixed inset-x-0 top-14 z-50 border-b border-white/[0.06] bg-deep/95 px-4 py-4 backdrop-blur-xl lg:hidden">
           <div className="flex flex-col gap-1">
             {PRIMARY_LINKS.map((item) => {
               const active = isActive(pathname, item.href);

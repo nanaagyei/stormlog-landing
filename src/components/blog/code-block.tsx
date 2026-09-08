@@ -16,7 +16,7 @@ export function CodeBlock({ code, language, children }: CodeBlockProps) {
   return (
     <div className="group relative my-6 overflow-hidden rounded-lg border border-white/[0.06] bg-deep">
       <div className="flex items-center justify-between border-b border-white/[0.06] px-4 py-2.5">
-        <span className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground/50">
+        <span className="font-mono text-xs uppercase tracking-wider text-muted-dim">
           {language || "code"}
         </span>
         <button
@@ -29,7 +29,10 @@ export function CodeBlock({ code, language, children }: CodeBlockProps) {
           {copied ? "Copied" : "Copy"}
         </button>
       </div>
-      <div className="overflow-x-auto">{children}</div>
+      {/* Must stay a <pre>: it is what carries `white-space: pre`. Rendering
+          the children in a plain div collapses indentation and blank lines,
+          which silently breaks every Python sample. */}
+      <pre className="overflow-x-auto">{children}</pre>
     </div>
   );
 }

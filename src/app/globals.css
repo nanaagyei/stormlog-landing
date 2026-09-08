@@ -24,11 +24,20 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --color-emerald: #00e599;
-  --color-emerald-muted: rgba(0, 229, 153, 0.15);
-  --color-surface: #18181b;
-  --color-surface-2: #27272a;
-  --color-deep: #09090b;
+  --color-emerald: #40c786;
+  --color-emerald-muted: rgba(64, 199, 134, 0.15);
+  /* Tertiary text: captions, placeholders, idle icons. One visible step below
+     --muted-foreground, still clearing WCAG AA 4.5:1 on deep (6.50:1),
+     surface (5.78:1) and surface-2 (4.87:1). Replaces the opacity-stepped
+     muted-foreground/30..70 variants, which bottomed out at 1.68:1. */
+  --color-muted-dim: #909499;
+  /* Prose emphasis: <em> sits between body grey and Print White. */
+  --color-prose-em: #ced1d6;
+  /* Link hover: accent stepped up in lightness, AA on deep (12.08:1). */
+  --color-emerald-hover: #6adfa1;
+  --color-surface: #141920;
+  --color-surface-2: #22282f;
+  --color-deep: #060a10;
 
   --font-heading: var(--font-clash-grotesk);
   --font-sans: var(--font-satoshi);
@@ -42,45 +51,45 @@
 
 :root {
   --radius: 0.5rem;
-  --background: #09090b;
-  --foreground: #fafafa;
-  --card: #18181b;
-  --card-foreground: #fafafa;
-  --popover: #18181b;
-  --popover-foreground: #fafafa;
-  --primary: #00e599;
-  --primary-foreground: #09090b;
-  --secondary: #27272a;
-  --secondary-foreground: #fafafa;
-  --muted: #18181b;
-  --muted-foreground: #a1a1aa;
-  --accent: #00e599;
-  --accent-foreground: #09090b;
-  --destructive: #ef4444;
+  --background: #060a10;
+  --foreground: #f5f7fa;
+  --card: #141920;
+  --card-foreground: #f5f7fa;
+  --popover: #141920;
+  --popover-foreground: #f5f7fa;
+  --primary: #40c786;
+  --primary-foreground: #060a10;
+  --secondary: #22282f;
+  --secondary-foreground: #f5f7fa;
+  --muted: #141920;
+  --muted-foreground: #a1a7ae;
+  --accent: #40c786;
+  --accent-foreground: #060a10;
+  --destructive: #e56963;
   --border: rgba(255, 255, 255, 0.06);
   --input: rgba(255, 255, 255, 0.06);
-  --ring: #00e599;
+  --ring: #40c786;
 }
 
 .dark {
-  --background: #09090b;
-  --foreground: #fafafa;
-  --card: #18181b;
-  --card-foreground: #fafafa;
-  --popover: #18181b;
-  --popover-foreground: #fafafa;
-  --primary: #00e599;
-  --primary-foreground: #09090b;
-  --secondary: #27272a;
-  --secondary-foreground: #fafafa;
-  --muted: #18181b;
-  --muted-foreground: #a1a1aa;
-  --accent: #00e599;
-  --accent-foreground: #09090b;
-  --destructive: #ef4444;
+  --background: #060a10;
+  --foreground: #f5f7fa;
+  --card: #141920;
+  --card-foreground: #f5f7fa;
+  --popover: #141920;
+  --popover-foreground: #f5f7fa;
+  --primary: #40c786;
+  --primary-foreground: #060a10;
+  --secondary: #22282f;
+  --secondary-foreground: #f5f7fa;
+  --muted: #141920;
+  --muted-foreground: #a1a7ae;
+  --accent: #40c786;
+  --accent-foreground: #060a10;
+  --destructive: #e56963;
   --border: rgba(255, 255, 255, 0.06);
   --input: rgba(255, 255, 255, 0.06);
-  --ring: #00e599;
+  --ring: #40c786;
 }
 
 @layer base {
@@ -96,8 +105,8 @@
     min-height: 100dvh;
   }
   ::selection {
-    background: rgba(0, 229, 153, 0.2);
-    color: #fafafa;
+    background: rgba(64, 199, 134, 0.2);
+    color: #f5f7fa;
   }
 }
 
@@ -114,54 +123,17 @@
   }
 }
 
-.mono-label {
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #00e599;
-}
-
-.surface-elevated {
-  background-color: #18181b;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.surface-card {
-  background-color: rgba(39, 39, 42, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.border-subtle {
-  border-color: rgba(255, 255, 255, 0.06);
-}
 
 .accent-glow {
-  box-shadow: 0 0 40px rgba(0, 229, 153, 0.08);
+  box-shadow: 0 0 40px rgba(64, 199, 134, 0.08);
 }
 
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-.animate-marquee {
-  animation: marquee 30s linear infinite;
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-.cursor-blink {
-  animation: blink 1s step-end infinite;
-}
 
 ::-webkit-scrollbar {
   width: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #09090b;
+  background: #060a10;
 }
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.08);
@@ -172,9 +144,25 @@
 }
 
 .blog-prose {
-  color: #a1a1aa;
+  color: #a1a7ae;
   font-size: 1.0625rem;
   line-height: 1.85;
+}
+
+/* Reading measure. The `ch` unit measures the "0" glyph, which is ~1.3x wider
+   than the average lowercase character in Satoshi — so 68ch rendered ~85 real
+   characters and never bound the column. 55ch lands at ~72 actual characters,
+   inside the 65-75 target. Code blocks, tables and figures keep the full column
+   width because they are scanned, not read line by line. */
+.blog-prose > p,
+.blog-prose > ul,
+.blog-prose > ol,
+.blog-prose > blockquote,
+.blog-prose > h1,
+.blog-prose > h2,
+.blog-prose > h3,
+.blog-prose > h4 {
+  max-width: 55ch;
 }
 
 .blog-prose > :first-child {
@@ -189,7 +177,7 @@
 .blog-prose h2,
 .blog-prose h3,
 .blog-prose h4 {
-  color: #fafafa;
+  color: #f5f7fa;
   font-family: var(--font-clash-grotesk);
   font-weight: 600;
   letter-spacing: -0.025em;
@@ -215,25 +203,25 @@
 }
 
 .blog-prose strong {
-  color: #fafafa;
+  color: #f5f7fa;
   font-weight: 600;
 }
 
 .blog-prose em {
-  color: #d4d4d8;
+  color: var(--color-prose-em);
 }
 
 .blog-prose a {
-  color: #00e599;
+  color: #40c786;
   text-decoration: underline;
-  text-decoration-color: rgba(0, 229, 153, 0.35);
+  text-decoration-color: rgba(64, 199, 134, 0.35);
   text-underline-offset: 0.24em;
   transition: color 0.2s ease, text-decoration-color 0.2s ease;
 }
 
 .blog-prose a:hover {
-  color: #34d399;
-  text-decoration-color: rgba(0, 229, 153, 0.6);
+  color: var(--color-emerald-hover);
+  text-decoration-color: rgba(64, 199, 134, 0.6);
 }
 
 .blog-prose ul,
@@ -246,11 +234,11 @@
 }
 
 .blog-prose blockquote {
-  border-left: 2px solid rgba(0, 229, 153, 0.4);
-  background: rgba(0, 229, 153, 0.04);
+  border-left: 2px solid rgba(64, 199, 134, 0.4);
+  background: rgba(64, 199, 134, 0.04);
   border-radius: 0 0.5rem 0.5rem 0;
   padding: 1rem 1.25rem;
-  color: #a1a1aa;
+  color: #a1a7ae;
 }
 
 .blog-prose hr {
@@ -260,11 +248,14 @@
 }
 
 .blog-prose :not(pre) > code {
+  /* Long identifiers (torch.cuda.memory_allocated()) are unbreakable tokens and
+     push the whole paragraph past a phone viewport. Let them wrap. */
+  overflow-wrap: anywhere;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(9, 9, 11, 0.9);
   border-radius: 0.375rem;
   padding: 0.15rem 0.4rem;
-  color: #00e599;
+  color: #40c786;
   font-size: 0.92em;
 }
 
@@ -287,7 +278,7 @@
 }
 
 .blog-prose th {
-  color: #fafafa;
+  color: #f5f7fa;
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -296,7 +287,7 @@
 
 .blog-prose .blog-heading-anchor {
   margin-left: 0.5rem;
-  color: rgba(0, 229, 153, 0.7);
+  color: rgba(64, 199, 134, 0.7);
   text-decoration: none;
   opacity: 0;
   transition: opacity 150ms ease;
@@ -318,7 +309,7 @@
   padding: 1.25rem 1.35rem 1.4rem;
   overflow-x: auto;
   background: transparent !important;
-  color: #fafafa;
+  color: #f5f7fa;
 }
 
 .blog-prose pre code {
@@ -334,8 +325,8 @@
 
 .blog-prose pre [data-highlighted-line] {
   margin-inline: -1rem;
-  border-left: 2px solid rgba(0, 229, 153, 0.55);
-  background: rgba(0, 229, 153, 0.07);
+  border-left: 2px solid rgba(64, 199, 134, 0.55);
+  background: rgba(64, 199, 134, 0.07);
   padding-inline: calc(1rem - 2px) 1rem;
 }
 
@@ -355,4 +346,24 @@
   .blog-prose table {
     min-width: 560px;
   }
+}
+
+/* Syntax-token contrast floor.
+   vitesse-dark ships three tokens that fail WCAG AA against the code frame's
+   `deep` fill at 15.6px: punctuation #666666 (3.46:1, the most frequent token
+   on the page), string glyphs #C98A7D77 (2.33:1) and comments #758575DD
+   (4.06:1). PRODUCT.md sets AA as the baseline and DESIGN.md names the
+   Readable Floor Rule, so the theme is corrected rather than replaced — its
+   low-chroma character is the reason it was chosen. Shiki writes inline
+   styles, hence the !important. */
+.blog-prose pre code [style*="#666666"] {
+  color: #8a8a8a !important;
+}
+.blog-prose pre code [style*="#758575DD"],
+.blog-prose pre code [style*="#758575dd"] {
+  color: #8b9a8c !important;
+}
+.blog-prose pre code [style*="#C98A7D77"],
+.blog-prose pre code [style*="#c98a7d77"] {
+  color: #c98a7d !important;
 }

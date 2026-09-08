@@ -27,7 +27,9 @@ export function OpenSourcePeople() {
   return (
     <div className="grid gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-12">
       <div>
-        <span className="mono-label">Maintainers</span>
+        <h3 className="font-heading text-lg font-medium tracking-tight text-foreground">
+          Maintainers
+        </h3>
         <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
           Core maintainers who set direction, review changes, and keep Stormlog
           production-ready.
@@ -60,11 +62,11 @@ export function OpenSourcePeople() {
                       <p className="mt-0.5 font-mono text-xs text-emerald">
                         {maintainer.role}
                       </p>
-                      <p className="mt-1 truncate font-mono text-xs text-muted-foreground/60">
+                      <p className="mt-1 truncate font-mono text-xs text-muted-dim">
                         @{maintainer.github}
                       </p>
                     </div>
-                    <ArrowUpRight className="size-3.5 shrink-0 text-muted-foreground/40 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                    <ArrowUpRight className="size-3.5 shrink-0 text-muted-dim transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </div>
                 </div>
               </a>
@@ -74,7 +76,9 @@ export function OpenSourcePeople() {
       </div>
 
       <div>
-        <span className="mono-label">Contributors</span>
+        <h3 className="font-heading text-lg font-medium tracking-tight text-foreground">
+          Contributors
+        </h3>
         <p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">
           Everyone who has shipped code to the repository, synced live from
           GitHub.
@@ -84,7 +88,7 @@ export function OpenSourcePeople() {
           {status === "loading" && <ContributorSkeletons />}
 
           {status === "error" && (
-            <p className="text-sm leading-relaxed text-muted-foreground/70">
+            <p className="text-sm leading-relaxed text-muted-dim">
               Could not load contributors right now.{" "}
               <a
                 href={`${EXTERNAL_LINKS.github}/graphs/contributors`}
@@ -98,7 +102,7 @@ export function OpenSourcePeople() {
           )}
 
           {status === "loaded" && contributors.length === 0 && (
-            <p className="text-sm leading-relaxed text-muted-foreground/70">
+            <p className="text-sm leading-relaxed text-muted-dim">
               No additional contributors yet.{" "}
               <a
                 href={EXTERNAL_LINKS.contributing}

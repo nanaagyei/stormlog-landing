@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { CAPABILITY_GROUPS } from "@/data/content";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
-import { reveal, stagger } from "@/lib/motion";
+import { settle, stagger } from "@/lib/motion";
 
 export function ProblemSection() {
   return (
@@ -14,12 +14,11 @@ export function ProblemSection() {
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
       >
-        <motion.div variants={reveal} className="max-w-3xl">
-          <span className="mono-label">Why Stormlog</span>
-          <h2 className="mt-4 font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl">
+        <motion.div variants={settle} className="max-w-3xl">
+          <h2 className="font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl">
             A product surface built around real debugging pressure.
           </h2>
-          <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-lg">
+          <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
             The goal is not just to collect numbers. Stormlog helps teams see
             GPU memory as it shifts, isolate signals worth acting on, and move
             from guesswork to repeatable workflow.
@@ -30,11 +29,10 @@ export function ProblemSection() {
           {CAPABILITY_GROUPS.map((group, groupIndex) => (
             <motion.div
               key={group.title}
-              variants={reveal}
+              variants={settle}
               className={`rounded-xl border border-white/[0.06] bg-surface p-6 lg:p-8 ${groupIndex === CAPABILITY_GROUPS.length - 1 ? "lg:col-span-2" : ""}`}
             >
-              <span className="mono-label">{group.eyebrow}</span>
-              <h3 className="mt-3 font-heading text-xl font-medium tracking-tight text-foreground lg:text-2xl">
+              <h3 className="font-heading text-xl font-medium tracking-tight text-foreground lg:text-2xl">
                 {group.title}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">

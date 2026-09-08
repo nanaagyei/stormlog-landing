@@ -1,10 +1,10 @@
 export const NAV_ITEMS = [
   { label: "Overview", href: "#overview" },
-  { label: "What's New", href: "#whats-new" },
   { label: "Features", href: "#features" },
+  { label: "TUI", href: "#tui" },
   { label: "Inference", href: "#inference" },
   { label: "Workflow", href: "#workflow" },
-  { label: "TUI", href: "#tui" },
+  { label: "What's New", href: "#whats-new" },
   { label: "Open Source", href: "#open-source" },
 ] as const;
 
@@ -15,6 +15,8 @@ export const EXTERNAL_LINKS = {
   releases: "https://github.com/Silas-Asamoah/stormlog/releases",
   contributing: "https://github.com/Silas-Asamoah/stormlog/blob/main/CONTRIBUTING.md",
   issues: "https://github.com/Silas-Asamoah/stormlog/issues",
+  discussions: "https://github.com/Silas-Asamoah/stormlog/discussions",
+  email: "mailto:prince.agyei.tuffour@gmail.com",
 } as const;
 
 /**

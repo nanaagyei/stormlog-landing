@@ -1,0 +1,430 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-08T01:30:33Z",
+  "title": "Design System: Stormlog",
+  "extensions": {
+    "colorMeta": {
+      "emerald": {
+        "role": "primary",
+        "displayName": "Signal Green",
+        "canonical": "#40c786",
+        "note": "Derived from the logo's mint, deepened and pulled off the cyan axis (OKLCH hue 158) so it reads as instrumentation rather than the neon cyan-on-black tell. Brand colour; use freely, subject to AA where it carries text.",
+        "tonalRamp": [
+          "oklch(15% 0.0345 162)",
+          "oklch(26% 0.0725 162)",
+          "oklch(38% 0.114 162)",
+          "oklch(50% 0.1555 162)",
+          "oklch(62% 0.1831 162)",
+          "oklch(74% 0.1416 162)",
+          "oklch(85% 0.1036 162)",
+          "oklch(95% 0.0691 162)"
+        ]
+      },
+      "emerald-muted": {
+        "role": "primary",
+        "displayName": "Phosphor Mint Wash",
+        "canonical": "rgba(64, 199, 134, 0.15)",
+        "note": "Accent at 15% for chip and badge fills. Sibling washes: 0.20 selection, 0.08 accent glow, 0.07 highlighted code line, 0.04 blockquote fill.",
+        "tonalRamp": [
+          "oklch(15% 0.0345 162)",
+          "oklch(26% 0.0725 162)",
+          "oklch(38% 0.114 162)",
+          "oklch(50% 0.1555 162)",
+          "oklch(62% 0.1831 162)",
+          "oklch(74% 0.1416 162)",
+          "oklch(85% 0.1036 162)",
+          "oklch(95% 0.0691 162)"
+        ]
+      },
+      "deep": {
+        "role": "neutral",
+        "displayName": "Darkroom Black",
+        "canonical": "#060a10",
+        "note": "Page ground and the inside of every code and media frame. Nothing sits behind it.",
+        "tonalRamp": [
+          "oklch(8% 0.004 260)",
+          "oklch(15% 0.004 260)",
+          "oklch(22% 0.004 260)",
+          "oklch(30% 0.004 260)",
+          "oklch(45% 0.004 260)",
+          "oklch(62% 0.004 260)",
+          "oklch(80% 0.004 260)",
+          "oklch(97% 0.004 260)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Developing Tray",
+        "canonical": "#141920",
+        "note": "Step 2 of the tonal ladder: cards, controls, and chips at rest.",
+        "tonalRamp": [
+          "oklch(8% 0.004 260)",
+          "oklch(15% 0.004 260)",
+          "oklch(22% 0.004 260)",
+          "oklch(30% 0.004 260)",
+          "oklch(45% 0.004 260)",
+          "oklch(62% 0.004 260)",
+          "oklch(80% 0.004 260)",
+          "oklch(97% 0.004 260)"
+        ]
+      },
+      "surface-2": {
+        "role": "neutral",
+        "displayName": "Raised Tray",
+        "canonical": "#22282f",
+        "note": "Step 3 of the tonal ladder: hover, active, and raised states.",
+        "tonalRamp": [
+          "oklch(8% 0.004 260)",
+          "oklch(15% 0.004 260)",
+          "oklch(22% 0.004 260)",
+          "oklch(30% 0.004 260)",
+          "oklch(45% 0.004 260)",
+          "oklch(62% 0.004 260)",
+          "oklch(80% 0.004 260)",
+          "oklch(97% 0.004 260)"
+        ]
+      },
+      "foreground": {
+        "role": "neutral",
+        "displayName": "Print White",
+        "canonical": "#f5f7fa",
+        "note": "Headings and primary text. Deliberately not pure white — large type would vibrate against near-black.",
+        "tonalRamp": [
+          "oklch(8% 0.004 260)",
+          "oklch(15% 0.004 260)",
+          "oklch(22% 0.004 260)",
+          "oklch(30% 0.004 260)",
+          "oklch(45% 0.004 260)",
+          "oklch(62% 0.004 260)",
+          "oklch(80% 0.004 260)",
+          "oklch(97% 0.004 260)"
+        ]
+      },
+      "muted-foreground": {
+        "role": "neutral",
+        "displayName": "Contact Sheet Grey",
+        "canonical": "#a1a7ae",
+        "note": "Body copy and captions; carries most of the reading load. Steps down via /60, /50, /40, /30 for chrome and idle icons.",
+        "tonalRamp": [
+          "oklch(8% 0.004 260)",
+          "oklch(15% 0.004 260)",
+          "oklch(22% 0.004 260)",
+          "oklch(30% 0.004 260)",
+          "oklch(45% 0.004 260)",
+          "oklch(62% 0.004 260)",
+          "oklch(80% 0.004 260)",
+          "oklch(97% 0.004 260)"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "rgba(255, 255, 255, 0.06)",
+        "note": "Every default edge. Brightens to 0.12 on hover and 0.20 on active or focused controls.",
+        "tonalRamp": [
+          "oklch(8% 0.004 260)",
+          "oklch(15% 0.004 260)",
+          "oklch(22% 0.004 260)",
+          "oklch(30% 0.004 260)",
+          "oklch(45% 0.004 260)",
+          "oklch(62% 0.004 260)",
+          "oklch(80% 0.004 260)",
+          "oklch(97% 0.004 260)"
+        ]
+      },
+      "destructive": {
+        "role": "tertiary",
+        "displayName": "Alert Red",
+        "canonical": "#e56963",
+        "note": "Destructive and invalid states only. Present in the component layer, effectively unused on the marketing surface.",
+        "tonalRamp": [
+          "oklch(15% 0.0345 25)",
+          "oklch(26% 0.0725 25)",
+          "oklch(38% 0.114 25)",
+          "oklch(50% 0.1555 25)",
+          "oklch(62% 0.1831 25)",
+          "oklch(74% 0.1416 25)",
+          "oklch(85% 0.1036 25)",
+          "oklch(95% 0.0691 25)"
+        ]
+      },
+      "muted-dim": {
+        "role": "neutral",
+        "displayName": "Dimmed Grey",
+        "canonical": "#909499",
+        "note": "Tertiary text floor. Replaces the muted-foreground/30..70 opacity variants; clears AA 4.5:1 on deep (6.61), surface (5.88) and surface-2 (4.95).",
+        "tonalRamp": [
+          "oklch(8% 0.004 260)",
+          "oklch(15% 0.004 260)",
+          "oklch(22% 0.004 260)",
+          "oklch(30% 0.004 260)",
+          "oklch(45% 0.004 260)",
+          "oklch(62% 0.004 260)",
+          "oklch(80% 0.004 260)",
+          "oklch(97% 0.004 260)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero and page headlines. One per page, always tightened to -0.03em."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings and blog h2."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card headings, subsections, blog h3."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Descriptions and article prose in Contact Sheet Grey. Drops to 1rem/1.8 below 768px."
+      },
+      "label": {
+        "displayName": "Mono Label",
+        "purpose": "Frame chrome, code-frame captions, version chips, status text. Never an eyebrow above a heading."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "Terminal output, install commands, code samples, and frame captions."
+      }
+    },
+    "shadows": [
+      {
+        "name": "accent-glow",
+        "value": "0 0 40px rgba(0, 229, 153, 0.08)",
+        "purpose": "The only shadow token in the system. A wide, very low-opacity mint bloom behind accent elements. Mint rather than black because it represents emitted light, not a cast shadow."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-expo-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The system's reveal ease. Framer Motion variants use it for all entrance animation."
+      },
+      {
+        "name": "duration-reveal",
+        "value": "500ms",
+        "purpose": "Framer Motion reveal: opacity 0->1 with a 16px rise (20px lateral for directional variants)."
+      },
+      {
+        "name": "stagger-children",
+        "value": "60ms",
+        "purpose": "Child stagger interval, with a 40ms delayChildren lead-in."
+      },
+      {
+        "name": "duration-state",
+        "value": "200ms",
+        "purpose": "Default transition for hover, focus, and color state changes."
+      },
+      {
+        "name": "parallax-hero",
+        "value": "-4%",
+        "purpose": "Hero frame yPercent drift, scrub-linked. Deliberately barely perceptible."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      },
+      {
+        "name": "xl",
+        "value": "1280px"
+      },
+      {
+        "name": "2xl",
+        "value": "1536px"
+      }
+    ],
+    "containers": [
+      {
+        "name": "standard",
+        "value": "1200px",
+        "purpose": "Default section container."
+      },
+      {
+        "name": "wide",
+        "value": "1400px",
+        "purpose": "Galleries and comparison views that need to breathe."
+      },
+      {
+        "name": "chrome",
+        "value": "1152px",
+        "purpose": "Nav bar and hero media frame (max-w-6xl)."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The install/docs CTA. Mint fill on black text — the brightest element on any screen it appears on.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 19.5A2.5 2.5 0 0 1 6.5 17H20\"/><path d=\"M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z\"/></svg>View docs<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 20px; border-radius: 8px; background: #00e599; color: #09090b; font-family: Satoshi, ui-sans-serif, system-ui, sans-serif; font-size: 14px; font-weight: 500; text-decoration: none; transition: filter 200ms ease; } .ds-btn-primary:hover { filter: brightness(1.1); } .ds-btn-primary:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(0, 229, 153, 0.5); }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Quiet until touched: surface fill and hairline edge at rest, stepping up the tonal ladder on hover.",
+      "html": "<a class=\"ds-btn-secondary\" href=\"#\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7 0-.7 0-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z\"/></svg>GitHub</a>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 20px; border-radius: 8px; background: #18181b; border: 1px solid rgba(255,255,255,0.06); color: #fafafa; font-family: Satoshi, ui-sans-serif, system-ui, sans-serif; font-size: 14px; font-weight: 500; text-decoration: none; transition: background 200ms ease, border-color 200ms ease; } .ds-btn-secondary:hover { background: #27272a; border-color: rgba(255,255,255,0.12); } .ds-btn-secondary:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(0, 229, 153, 0.5); }"
+    },
+    {
+      "name": "Install Chip",
+      "kind": "custom",
+      "refersTo": "install-chip",
+      "description": "Signature component. A click-to-copy shell command with a mint prompt glyph — the site's single most important conversion affordance.",
+      "html": "<button class=\"ds-install-chip\" type=\"button\" aria-label=\"Copy pip install stormlog to clipboard\"><span class=\"ds-install-chip__prompt\">$</span><span class=\"ds-install-chip__cmd\">pip install stormlog</span><svg class=\"ds-install-chip__icon\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg></button>",
+      "css": ".ds-install-chip { display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: 8px; background: #18181b; border: 1px solid rgba(255,255,255,0.06); font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace; font-size: 14px; cursor: pointer; transition: background 200ms ease, border-color 200ms ease; } .ds-install-chip:hover { background: #27272a; border-color: rgba(255,255,255,0.2); } .ds-install-chip__prompt { color: #00e599; } .ds-install-chip__cmd { color: #fafafa; } .ds-install-chip__icon { margin-left: 4px; color: rgba(161,161,170,0.4); transition: color 200ms ease; } .ds-install-chip:hover .ds-install-chip__icon { color: #a1a1aa; } .ds-install-chip:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(0, 229, 153, 0.5); }"
+    },
+    {
+      "name": "Code Frame",
+      "kind": "custom",
+      "refersTo": "code-frame",
+      "description": "Signature component. A deep-filled box opened by a hairline chrome bar with an uppercase mono caption. Used identically for code, video, and TUI captures — it is what makes quoted machine output read as an artifact.",
+      "html": "<div class=\"ds-code-frame\"><div class=\"ds-code-frame__chrome\"><span class=\"ds-code-frame__caption\">bash</span><span class=\"ds-code-frame__meta\">Copy</span></div><pre class=\"ds-code-frame__body\">stormlog infer profile \\\n  --base-url http://localhost:8000/v1 \\\n  --concurrency 1,4,8</pre></div>",
+      "css": ".ds-code-frame { overflow: hidden; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06); background: #09090b; } .ds-code-frame__chrome { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.06); padding: 8px 12px; } .ds-code-frame__caption { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(161,161,170,0.5); } .ds-code-frame__meta { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; color: rgba(161,161,170,0.6); cursor: pointer; transition: color 200ms ease; } .ds-code-frame__meta:hover { color: #fafafa; } .ds-code-frame__body { margin: 0; padding: 12px 16px; overflow-x: auto; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12.5px; line-height: 1.6; color: rgba(250,250,250,0.9); }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "The default content container. Flat surface fill, hairline edge, 12px corners — no shadow, by system rule.",
+      "html": "<div class=\"ds-card\"><svg class=\"ds-card__icon\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M19.07 4.93A10 10 0 0 0 6.99 3.34\"/><path d=\"M4 6h.01\"/><path d=\"M2.29 9.62A10 10 0 1 0 21.31 8.35\"/><path d=\"M16.24 7.76A6 6 0 1 0 8.23 16.67\"/><path d=\"M12 18h.01\"/><path d=\"M17.99 11.66A6 6 0 0 1 15.77 16.67\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/></svg><h3 class=\"ds-card__title\">Real-time monitoring</h3><p class=\"ds-card__body\">Follow GPU allocation as it changes mid-epoch, not after the crash report lands.</p></div>",
+      "css": ".ds-card { border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); background: #18181b; padding: 24px; } .ds-card__icon { color: #00e599; margin-bottom: 16px; display: block; } .ds-card__title { margin: 0 0 8px; font-family: 'Clash Grotesk', ui-sans-serif, system-ui, sans-serif; font-size: 18px; font-weight: 600; letter-spacing: -0.02em; color: #fafafa; } .ds-card__body { margin: 0; font-family: Satoshi, ui-sans-serif, system-ui, sans-serif; font-size: 14px; line-height: 1.7; color: #a1a1aa; }"
+    },
+    {
+      "name": "Mono Chip",
+      "kind": "chip",
+      "refersTo": "button-secondary",
+      "description": "The version chip and frame-caption pill. 6px corners, hairline edge, muted mono text brightening to mint on hover.",
+      "html": "<a class=\"ds-chip-mono\" href=\"#\">v0.3.9</a><span class=\"ds-chip-accent\">PyTorch</span>",
+      "css": ".ds-chip-mono { display: inline-flex; align-items: center; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06); background: #18181b; padding: 2px 6px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; color: #a1a1aa; text-decoration: none; transition: color 200ms ease, border-color 200ms ease; } .ds-chip-mono:hover { color: #00e599; border-color: rgba(255,255,255,0.12); } .ds-chip-accent { display: inline-flex; align-items: center; margin-left: 8px; border-radius: 9999px; background: rgba(0,229,153,0.15); padding: 2px 10px; font-family: Satoshi, ui-sans-serif, system-ui, sans-serif; font-size: 12px; font-weight: 500; color: #00e599; }"
+    },
+    {
+      "name": "Navigation Bar",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "Fixed 56px chrome with an 80%-opacity ground and heavy backdrop blur. The mint underline is the only place the accent marks position.",
+      "html": "<nav class=\"ds-nav\"><span class=\"ds-nav__brand\">Stormlog</span><a class=\"ds-nav__link ds-nav__link--active\" href=\"#\">Overview<span class=\"ds-nav__rule\"></span></a><a class=\"ds-nav__link\" href=\"#\">Features</a><a class=\"ds-nav__link\" href=\"#\">Workflow</a></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 4px; height: 56px; padding: 0 16px; border-bottom: 1px solid rgba(255,255,255,0.06); background: rgba(9,9,11,0.8); backdrop-filter: blur(24px); } .ds-nav__brand { margin-right: 24px; font-family: 'Clash Grotesk', ui-sans-serif, system-ui, sans-serif; font-size: 14px; font-weight: 600; letter-spacing: -0.01em; color: #fafafa; } .ds-nav__link { position: relative; padding: 6px 10px; font-family: Satoshi, ui-sans-serif, system-ui, sans-serif; font-size: 13px; color: #a1a1aa; text-decoration: none; transition: color 200ms ease; } .ds-nav__link:hover { color: #fafafa; } .ds-nav__link--active { color: #fafafa; } .ds-nav__rule { position: absolute; left: 4px; right: 4px; bottom: -9px; height: 1px; background: #00e599; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Darkroom",
+    "overview": "Stormlog's interface is a controlled dark space where evidence develops and becomes legible. The product exists because a training run died at 3am and left nothing behind; the site's job is to be the room where you go afterward and look carefully at what happened. That makes it forensic rather than promotional. Surfaces are quiet and near-black so the artifact under examination — a TUI capture, a code block, a memory reading — is the brightest thing on screen. Nothing competes with the evidence.\n\nThe system is dark-only by construction. :root and .dark resolve to identical values, so there is no light mode to design for and no theme-toggle branch to reason about; the darkness is a material fact, not a user preference. Depth comes from a three-step tonal ladder rather than shadow — deep (#09090b) for the page ground, surface (#18181b) for cards and controls, surface-2 (#27272a) for raised and hovered states — reinforced by hairline borders at 6% white. A single mint accent carries brand and signal. Monospace is a first-class voice, not a code-block afterthought: eyebrow labels, version chips, frame captions, and install commands all speak in JetBrains Mono, because the product's native habitat is a terminal and the site does not translate that away.\n\nRestraint is doing real work here, so the rejections are as load-bearing as the rules. This is not a dark SaaS page: no gradient meshes, no glowing orbs, no aurora blurs, no gradient text. Not glassmorphism: the nav's backdrop blur is functional legibility, not a decorative material to spread. Not a consumer app: no mascots, illustrations, pastels, or playful microcopy. Not enterprise stock: no laptop photography, no abstract 3D, no logo wall of customers that do not exist.",
+    "keyCharacteristics": [
+      "Dark-only, near-black ground (#09090b) with no light-mode counterpart",
+      "Tonal ladder for depth; effectively no shadow vocabulary",
+      "Hairline borders at rgba(255,255,255,0.06) as the primary edge",
+      "One mint accent (#00e599) carrying both brand and live-state signal",
+      "Three-typeface system: Clash Grotesk display, Satoshi body, JetBrains Mono label and code",
+      "Real product screenshots as the only imagery",
+      "Motion that reveals, never performs"
+    ],
+    "rules": [
+      {
+        "name": "The No Stock Ramp Rule",
+        "section": "colors",
+        "body": "Every neutral is generated in OKLCH at hue 257 with deliberate chroma, not copied from a framework scale. The previous palette was Tailwind zinc end to end — the same values shadcn ships as its dark default — the single most recognizable tell of a generated interface."
+      },
+      {
+        "name": "The Readable Floor Rule",
+        "section": "colors",
+        "body": "Never dim text with an opacity modifier. text-muted-foreground/50 and its siblings bottomed out at 1.68:1 against deep. Tertiary text uses the muted-dim token, the dimmest step that still clears AA on every surface in the ladder."
+      },
+      {
+        "name": "The Single Voice Rule",
+        "body": "Mint is the only chromatic color in the system. Adding a second hue — a blue for \"info\", an amber for \"warning\", a purple for anything — breaks the darkroom. If a state needs distinguishing, use the tonal ladder, opacity, or type weight, not a new hue.",
+        "section": "colors"
+      },
+      {
+        "name": "The Brand Color Rule",
+        "body": "Mint is the brand color, not a rationed signal, and it may carry real presence across a surface: CTAs, eyebrows, active states, and live indicators, but also borders, hover treatments, tinted panels, icon accents, rules, and washes used for visual interest. Use it wherever it strengthens recognition. The one constraint that still binds is contrast — mint text or iconography must clear WCAG AA against whatever surface it lands on, which in practice means full-strength #00e599 on deep or surface, not mint-on-mint-wash at small sizes.",
+        "section": "colors"
+      },
+      {
+        "name": "The No Light Mode Rule",
+        "body": ":root and .dark are deliberately identical. Do not introduce a light palette, and do not write components that branch on theme. next-themes is present for infrastructure reasons, not as a design affordance.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mono Means Machine Rule",
+        "body": "JetBrains Mono is reserved for things the machine said or things you type at it: commands, code, version numbers, file paths, frame captions, and status chips. Never use mono for marketing prose, headings, or button labels just for texture.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tighten As You Grow Rule",
+        "body": "Letter-spacing decreases as type size increases (-0.02em at title, -0.025em at headline, -0.03em at display). Default tracking on a 4.5rem headline is the single fastest way to make this system look generic.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Kicker Rule",
+        "body": "A heading opens its own section. No mono label, category tag, or eyebrow sits above a display or headline — the kicker -> headline -> subhead stack is the most recognizable shape of a generated landing page. Section metadata (version, release date) goes below the heading as a caption.",
+        "section": "typography"
+      },
+      {
+        "name": "The Fixed Chrome Rule",
+        "body": "The nav is 56px, fixed, at z-50, with bg-[#09090b]/80 and backdrop-blur-xl. Any anchored heading needs scroll-margin-top of at least 6rem (7rem on desktop) so section links do not land under it.",
+        "section": "layout"
+      },
+      {
+        "name": "The Ladder, Not The Drop Rule",
+        "body": "When something needs to feel raised, move it up the tonal ladder and brighten its border. Do not reach for a black drop shadow — there is no box-shadow scale in this system and introducing one would flatten the darkroom into a generic dark card UI.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Border Brightens Rule",
+        "body": "Interactive elevation reads through the edge: hairline 0.06 at rest -> 0.12 on hover -> 0.20 on active or focused controls, usually paired with a surface -> surface-2 background step.",
+        "section": "elevation"
+      },
+      {
+        "name": "The 12px Ceiling Rule",
+        "body": "No radius above 12px except intentional pills (full). Larger radii read as consumer-app friendliness, which is a confirmed anti-reference.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Reveal, Don't Perform Rule",
+        "body": "Motion exists to bring content into place, once. No looping animation, no scale-on-hover, no bounce or spring overshoot. The system contains no infinite animation at all; the hero video is the one continuous moving element, and it ships with a pause control.",
+        "section": "components"
+      },
+      {
+        "name": "The Reduced Motion Is Real Rule",
+        "body": "MotionProvider wraps the app in <MotionConfig reducedMotion=\"user\">, the single gate for every Framer animation — CSS alone cannot stop them, since Framer animates through JS. The global prefers-reduced-motion block additionally clamps CSS durations. This is a stated WCAG 2.2 AA commitment, not a nicety.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "Do build depth with the tonal ladder — deep -> surface -> surface-2 — and let the hairline border sharpen the step rather than create it.",
+      "Do open every quoted piece of machine output with the frame chrome bar: hairline, 11px uppercase mono caption, deep fill.",
+      "Do let each section open on its heading, with any release or version metadata as a caption beneath it.",
+      "Do tighten letter-spacing as type scales up (-0.02em -> -0.025em -> -0.03em).",
+      "Do keep imagery to real product captures — the TUI screenshots and overview video are the only imagery this system uses, and they are genuine.",
+      "Do gate every GSAP effect behind useReducedMotion() and keep focus rings visible.",
+      "Do use mint freely as the brand color — CTAs, eyebrows, active states, borders, hovers, washes, and accents — subject only to AA contrast where it carries text or iconography."
+    ],
+    "donts": [
+      "Don't introduce a second chromatic hue. One accent, no exceptions — use tone, opacity, or weight to differentiate instead.",
+      "Don't add a box-shadow scale. The Accent Glow is the only shadow token; raised means one step up the ladder.",
+      "Don't build a light mode or branch components on theme. :root and .dark are identical by design.",
+      "Don't exceed a 12px radius outside deliberate pills.",
+      "Don't set marketing prose, headings, or button labels in JetBrains Mono for texture. Mono means machine.",
+      "Don't drift toward the confirmed anti-references: gradient meshes, glowing orbs, aurora blurs, or gradient text (generic dark SaaS); frosted decorative panels (glassmorphism); mascots, illustrations, or pastels (consumer app); stock photography, abstract 3D, or logo walls (enterprise stock).",
+      "Don't add looping, bouncing, or scale-on-hover motion. Reveal once and stop.",
+      "Don't reintroduce a kicker, eyebrow, or category label above a heading in any form."
+    ]
+  }
+}

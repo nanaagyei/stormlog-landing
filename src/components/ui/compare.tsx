@@ -78,7 +78,7 @@ export function Compare({ before, after, className }: CompareProps) {
       >
         <div className="absolute top-1/2 left-1/2 flex size-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded border border-emerald/40 bg-deep">
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-            <path d="M3 2L1 5L3 8M7 2L9 5L7 8" stroke="#00e599" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M3 2L1 5L3 8M7 2L9 5L7 8" stroke="#40c786" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
       </div>

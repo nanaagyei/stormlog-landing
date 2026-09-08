@@ -1,8 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { ThemeProvider } from "next-themes";
 import { clashGrotesk, satoshi, jetbrainsMono } from "@/lib/fonts";
-import { GsapProvider } from "@/lib/gsap-provider";
-import { WhatsNewDialog } from "@/components/updates/whats-new-dialog";
+import { MotionProvider } from "@/components/providers/motion-provider";
 import { StormlogVersionProvider } from "@/components/providers/stormlog-version-provider";
 import { getStormlogMeta } from "@/lib/stormlog-meta";
 import "./globals.css";
@@ -109,8 +108,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
-    { media: "(prefers-color-scheme: light)", color: "#09090b" },
+    { media: "(prefers-color-scheme: dark)", color: "#060a10" },
+    { media: "(prefers-color-scheme: light)", color: "#060a10" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -187,7 +186,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <StormlogVersionProvider version={version}>
-            <GsapProvider>
+            <MotionProvider>
               <a
                 href="#main-content"
                 className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-emerald focus:px-4 focus:py-2 focus:text-deep focus:text-sm"
@@ -195,8 +194,7 @@ export default async function RootLayout({
                 Skip to content
               </a>
               {children}
-              <WhatsNewDialog />
-            </GsapProvider>
+            </MotionProvider>
           </StormlogVersionProvider>
         </ThemeProvider>
       </body>

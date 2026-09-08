@@ -3,32 +3,35 @@
 import { motion } from "framer-motion";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { Compare } from "@/components/ui/compare";
-import { reveal, stagger } from "@/lib/motion";
+import { settle, stagger } from "@/lib/motion";
 
 function BeforePanel() {
   return (
     <div className="h-full w-full overflow-hidden bg-deep p-4 sm:p-6 lg:p-8">
       <div className="flex items-center gap-2">
-        <span className="size-1.5 rounded-full bg-red-400" />
-        <span className="font-mono text-[10px] uppercase tracking-wider text-red-400 sm:text-[11px]">
+        <span className="size-1.5 rounded-full bg-destructive" />
+        <span className="font-mono text-xs uppercase tracking-wider text-destructive">
           Without Stormlog
+        </span>
+        <span className="ml-auto font-mono text-xs text-muted-dim">
+          illustrative session
         </span>
       </div>
 
-      <div className="mt-4 grid gap-3 font-mono text-[11px] leading-relaxed sm:mt-6 sm:text-xs lg:text-sm">
+      <div className="mt-4 grid gap-3 font-mono text-xs leading-relaxed sm:mt-6 lg:text-sm">
         <div className="rounded-lg border border-white/[0.06] bg-surface p-3 sm:p-4">
-          <p className="break-words text-red-300">$ python train.py</p>
+          <p className="break-words text-muted-foreground">$ python train.py</p>
           <p className="mt-2 text-muted-foreground">Epoch 9/50... training</p>
           <p className="text-muted-foreground">Epoch 10/50... training</p>
-          <p className="mt-2 break-words text-red-400">
+          <p className="mt-2 break-words text-destructive">
             RuntimeError: CUDA out of memory while allocating 2.4 GiB
           </p>
         </div>
 
         <div className="rounded-lg border border-white/[0.06] bg-surface p-3 sm:p-4">
-          <p className="text-yellow-400">$ nvidia-smi</p>
+          <p className="text-muted-foreground">$ nvidia-smi</p>
           <p className="mt-2 break-words text-muted-foreground">| 23476 MiB / 24564 MiB |</p>
-          <p className="mt-2 italic text-muted-foreground/60">
+          <p className="mt-2 italic text-muted-dim">
             Which tensor grew? Which step spiked?
           </p>
         </div>
@@ -49,12 +52,15 @@ function AfterPanel() {
     <div className="h-full w-full overflow-hidden bg-deep p-4 sm:p-6 lg:p-8">
       <div className="flex items-center gap-2">
         <span className="size-1.5 rounded-full bg-emerald" />
-        <span className="font-mono text-[10px] uppercase tracking-wider text-emerald sm:text-[11px]">
+        <span className="font-mono text-xs uppercase tracking-wider text-emerald">
           With Stormlog
+        </span>
+        <span className="ml-auto font-mono text-xs text-muted-dim">
+          illustrative session
         </span>
       </div>
 
-      <div className="mt-4 grid gap-3 font-mono text-[11px] leading-relaxed sm:mt-6 sm:text-xs lg:text-sm">
+      <div className="mt-4 grid gap-3 font-mono text-xs leading-relaxed sm:mt-6 lg:text-sm">
         <div className="rounded-lg border border-white/[0.06] bg-surface p-3 sm:p-4">
           <p className="break-words text-emerald">$ stormlog monitor --pid 12345</p>
           <p className="mt-2 text-foreground">Allocated  16.2 / 24.5 GiB</p>
@@ -63,7 +69,7 @@ function AfterPanel() {
         </div>
 
         <div className="rounded-lg border border-white/[0.06] bg-surface p-3 sm:p-4">
-          <p className="text-yellow-400">[WARN] suspicious growth detected</p>
+          <p className="text-foreground">[WARN] suspicious growth detected</p>
           <p className="mt-2 text-foreground/70">signal: grad_cache +128MB</p>
           <p className="text-foreground/70">reason: repeated growth over threshold</p>
           <p className="mt-2 text-emerald">✓ export diagnostics artifact</p>
@@ -90,17 +96,14 @@ export function BeforeAfterSection() {
         viewport={{ once: true, margin: "-80px" }}
         className="text-center"
       >
-        <motion.span variants={reveal} className="mono-label">
-          Proof of value
-        </motion.span>
         <motion.h2
-          variants={reveal}
-          className="mt-4 font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl"
+          variants={settle}
+          className="font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl"
         >
           Reactive debugging vs. instrumented visibility.
         </motion.h2>
         <motion.p
-          variants={reveal}
+          variants={settle}
           className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg"
         >
           Drag the divider to compare guesswork against a workflow with live
@@ -109,7 +112,7 @@ export function BeforeAfterSection() {
       </motion.div>
 
       <motion.div
-        variants={reveal}
+        variants={settle}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-50px" }}

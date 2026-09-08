@@ -32,9 +32,11 @@ export function ReadingProgress() {
 
   return (
     <div className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-0.5 bg-transparent">
+      {/* scaleX rather than width: transform is compositor-only, so this does
+          not trigger layout on every scroll frame. */}
       <div
-        className="h-full bg-emerald transition-[width] duration-200 ease-out motion-reduce:transition-none"
-        style={{ width: `${progress}%` }}
+        className="h-full origin-left bg-emerald transition-transform duration-200 ease-out motion-reduce:transition-none"
+        style={{ transform: `scaleX(${progress / 100})` }}
       />
     </div>
   );

@@ -21,7 +21,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...blogPosts.map((post) => ({
       url: `${baseUrl}/blogs/${post.slug}`,
-      lastModified: new Date(),
+      // Real publish date, not build time — `new Date()` told crawlers every
+      // article changed on every deploy.
+      lastModified: new Date(`${post.publishedAt}T00:00:00Z`),
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })),

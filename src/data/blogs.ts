@@ -1,19 +1,46 @@
 export const BLOG_AUTHOR = "Stormlog Team";
 
+/**
+ * The five-part sequence. The articles already call themselves a series in
+ * prose — post 2 points to "the next post in this series", post 4 links to it
+ * directly — so this models intent that was always there, it does not invent
+ * a structure. Each article still opens self-contained, so entering the series
+ * at any point works.
+ */
+export const BLOG_SERIES = {
+  id: "learn-stormlog",
+  title: "Debugging GPU memory with Stormlog",
+} as const;
+
+export interface BlogSeriesRef {
+  id: typeof BLOG_SERIES.id;
+  /** 1-based position. */
+  order: number;
+}
+
 export interface BlogRegistryEntry {
   slug: string;
+  /**
+   * ISO date the article entered the repository, taken from git history rather
+   * than assigned by hand. Five of the six landed in the same commit, so the
+   * registry order (which is series order) breaks ties.
+   */
+  publishedAt: string;
   articleFile: string;
   title: string;
   description: string;
   category: string;
   thumbnail: string;
   featured?: boolean;
+  /** Present only on the five sequential posts; the release note has none. */
+  series?: BlogSeriesRef;
   relatedSlugs: string[];
 }
 
 export const BLOG_POSTS: BlogRegistryEntry[] = [
   {
     slug: "jax-and-inference-profiling",
+    publishedAt: "2026-06-09",
     articleFile: "stormlog_jax_inference_update.md",
     title: "JAX Support Lands in Stormlog — Plus a New Inference Endpoint Profiler",
     description:
@@ -25,16 +52,20 @@ export const BLOG_POSTS: BlogRegistryEntry[] = [
   },
   {
     slug: "introducing-stormlog",
+    series: { id: BLOG_SERIES.id, order: 1 },
+    publishedAt: "2026-03-18",
     articleFile: "stormlog_post1_launch_post.md",
     title: "Introducing Stormlog: GPU Memory Profiling That Stays Useful After the First Crash",
     description:
       "Meet Stormlog's launch story, the workflow problem it solves, and the five-step path from live visibility to exportable debugging evidence.",
     category: "Launch",
-    thumbnail: "/images/stormlog-preview.png",
+    thumbnail: "/images/tui-2.png",
     relatedSlugs: ["getting-started", "memory-leak-walkthrough"],
   },
   {
     slug: "getting-started",
+    series: { id: BLOG_SERIES.id, order: 2 },
+    publishedAt: "2026-03-18",
     articleFile: "stormlog_post2_setup_guide.md",
     title: "Getting Started with Stormlog: Install, Instrument, and Run Your First Profile",
     description:
@@ -45,6 +76,8 @@ export const BLOG_POSTS: BlogRegistryEntry[] = [
   },
   {
     slug: "memory-leak-walkthrough",
+    series: { id: BLOG_SERIES.id, order: 3 },
+    publishedAt: "2026-03-18",
     articleFile: "stormlog_post3_walkthrough_post3.md",
     title: "Catching a Real Memory Leak: A Complete Stormlog Walkthrough on Apple Silicon",
     description:
@@ -55,6 +88,8 @@ export const BLOG_POSTS: BlogRegistryEntry[] = [
   },
   {
     slug: "artifacts-explained",
+    series: { id: BLOG_SERIES.id, order: 4 },
+    publishedAt: "2026-03-18",
     articleFile: "stormlog_post4_artifacts.md",
     title: "Understanding Stormlog Artifacts: What Gets Exported and Why It Matters",
     description:
@@ -65,6 +100,8 @@ export const BLOG_POSTS: BlogRegistryEntry[] = [
   },
   {
     slug: "distributed-diagnostics",
+    series: { id: BLOG_SERIES.id, order: 5 },
+    publishedAt: "2026-03-18",
     articleFile: "stormlog_post5_distributed.md",
     title: "Distributed Diagnostics with Stormlog: Rank-Aware Analysis for Multi-GPU Runs",
     description:

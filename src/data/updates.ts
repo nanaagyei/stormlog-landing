@@ -2,7 +2,7 @@ import updatesJson from "./updates.json";
 
 export interface ProductUpdate {
   id: string;
-  /** Short monospace kicker rendered above the title (mirrors `.mono-label`). */
+  /** Short category label. Retained in the schema and the sync pipeline; no longer rendered. */
   kicker: string;
   title: string;
   summary: string;

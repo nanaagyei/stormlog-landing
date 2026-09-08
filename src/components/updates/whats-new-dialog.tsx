@@ -98,13 +98,12 @@ export function WhatsNewDialog() {
           aria-label="See what's new in Stormlog"
         >
           <span className="relative flex size-2 items-center justify-center">
-            <span className="absolute size-2 animate-ping rounded-full bg-emerald/60" />
             <span className="relative size-1.5 rounded-full bg-emerald" />
           </span>
           <span className="hidden sm:inline">What&apos;s new</span>
           <span
             aria-hidden="true"
-            className="hidden font-mono text-[11px] text-muted-foreground/50 transition-colors group-hover/whats-new:text-emerald sm:inline"
+            className="hidden font-mono text-xs text-muted-dim transition-colors group-hover/whats-new:text-emerald sm:inline"
           >
             v{stormlogVersion}
           </span>
@@ -147,25 +146,16 @@ export function WhatsNewDialog() {
                     className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald/30 to-transparent"
                   />
                   <div className="min-w-0">
-                    <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
-                      <span className="inline-flex items-center gap-1.5">
-                        <Sparkles
-                          aria-hidden="true"
-                          className="size-3 text-emerald"
-                        />
-                        <span className="mono-label">
-                          {WHATS_NEW_META.eyebrow} · v{stormlogVersion}
-                        </span>
-                      </span>
-                      {releasedAt && (
-                        <span className="font-mono text-[10.5px] uppercase tracking-wider text-muted-foreground/50">
-                          {releasedAt}
-                        </span>
-                      )}
-                    </div>
-                    <Dialog.Title className="mt-2 font-heading text-xl font-semibold tracking-[-0.02em] text-foreground">
+                    <Dialog.Title className="font-heading text-xl font-semibold tracking-[-0.02em] text-foreground">
                       {WHATS_NEW_META.title}
                     </Dialog.Title>
+                    <div className="mt-1.5 flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-xs text-muted-dim">
+                      <span className="inline-flex items-center gap-1.5">
+                        <Sparkles aria-hidden="true" className="size-3 text-emerald" />
+                        v{stormlogVersion}
+                      </span>
+                      {releasedAt && <span>{releasedAt}</span>}
+                    </div>
                     <Dialog.Description className="mt-1 text-sm leading-relaxed text-muted-foreground">
                       {WHATS_NEW_META.description}
                     </Dialog.Description>
@@ -189,8 +179,7 @@ export function WhatsNewDialog() {
                       exit={{ opacity: 0, x: direction * -slideOffset }}
                       transition={{ duration: 0.24, ease: EASE }}
                     >
-                      <span className="mono-label">{update.kicker}</span>
-                      <h3 className="mt-2 font-heading text-2xl font-semibold tracking-[-0.02em] text-foreground">
+                      <h3 className="font-heading text-2xl font-semibold tracking-[-0.02em] text-foreground">
                         {update.title}
                       </h3>
                       <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -216,7 +205,7 @@ export function WhatsNewDialog() {
                           text={update.command}
                           className="w-full justify-start overflow-x-auto whitespace-nowrap text-xs!"
                         />
-                        <CodeSnippet code={update.code} label={update.codeLabel} />
+                        <CodeSnippet code={update.code} label={update.codeLabel} nested />
                       </div>
 
                       <a
@@ -251,7 +240,7 @@ export function WhatsNewDialog() {
                         />
                       ))}
                     </div>
-                    <span className="font-mono text-[11px] text-muted-foreground/50">
+                    <span className="font-mono text-xs text-muted-dim">
                       {index + 1} / {TOTAL}
                     </span>
                   </div>

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { TUI_GALLERY_ITEMS } from "@/data/content";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
-import { reveal, stagger } from "@/lib/motion";
+import { settle, stagger } from "@/lib/motion";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
@@ -58,9 +58,8 @@ export function TuiShowcase() {
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
       >
-        <motion.div variants={reveal} className="max-w-3xl">
-          <span className="mono-label">TUI showcase</span>
-          <h2 className="mt-4 font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl">
+        <motion.div variants={settle} className="max-w-3xl">
+          <h2 className="font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl">
             A terminal-native workspace that still feels like a product.
           </h2>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -69,7 +68,7 @@ export function TuiShowcase() {
           </p>
         </motion.div>
 
-        <motion.div variants={reveal} className="mt-8">
+        <motion.div variants={settle} className="mt-8">
           <div className="flex flex-wrap gap-1.5">
             {TUI_GALLERY_ITEMS.map((item, index) => (
               <button
@@ -99,7 +98,7 @@ export function TuiShowcase() {
         </motion.div>
 
         <motion.div
-          variants={reveal}
+          variants={settle}
           className="mt-6"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
@@ -112,10 +111,10 @@ export function TuiShowcase() {
         >
           <div className="overflow-hidden rounded-xl border border-white/6 bg-deep">
             <div className="flex items-center justify-between border-b border-white/20 px-4 py-2.5">
-              <span className="font-mono text-[11px] uppercase tracking-wider text-emerald/70">
+              <span className="font-mono text-xs uppercase tracking-wider text-emerald/70">
                 {activeItem.tag}
               </span>
-              <span className="font-mono text-[11px] text-muted-foreground/40">
+              <span className="font-mono text-xs text-muted-dim">
                 {activeItem.title}
               </span>
             </div>

@@ -17,31 +17,15 @@ import {
 } from "lucide-react";
 
 export interface HeroContent {
-  eyebrow: string;
   title: string;
   description: string;
-  supportLabels: string[];
-  floatingTags: string[];
   installCommand: string;
 }
 
 export const HERO_CONTENT: HeroContent = {
-  eyebrow: "Open-source GPU memory visibility",
   title: "See GPU memory before it breaks your training.",
   description:
-    "Stormlog gives PyTorch, TensorFlow, and JAX teams real-time GPU memory visibility, leak detection, diagnostics, and exportable timelines across CLI, Python API, and Textual TUI workflows — now with inference endpoint profiling.",
-  supportLabels: [
-    "PyTorch, TensorFlow, and JAX",
-    "CLI + Python API",
-    "Textual TUI",
-    "Inference endpoint profiling",
-  ],
-  floatingTags: [
-    "Live leak detection",
-    "Artifact diagnostics",
-    "Timeline exports",
-    "Threshold alerts",
-  ],
+    "Stormlog is an open-source profiler that gives PyTorch, TensorFlow, and JAX teams real-time GPU memory visibility, leak detection, diagnostics, and exportable timelines across CLI, Python API, and Textual TUI workflows — now with inference endpoint profiling.",
   installCommand: "pip install stormlog",
 };
 
@@ -93,7 +77,6 @@ export interface CapabilityItem {
 }
 
 export interface CapabilityGroup {
-  eyebrow: string;
   title: string;
   description: string;
   items: CapabilityItem[];
@@ -101,7 +84,6 @@ export interface CapabilityGroup {
 
 export const CAPABILITY_GROUPS: CapabilityGroup[] = [
   {
-    eyebrow: "Live visibility",
     title: "Watch memory shift while training is still running.",
     description:
       "Track allocation, peak usage, and reserved memory in one place instead of stitching together shell commands and printouts.",
@@ -127,7 +109,6 @@ export const CAPABILITY_GROUPS: CapabilityGroup[] = [
     ],
   },
   {
-    eyebrow: "Actionable diagnostics",
     title: "Pinpoint growth patterns before they become OOM crashes.",
     description:
       "Move from vague symptoms to concrete signals you can act on, including suspicious allocation growth and distributed anomalies.",
@@ -153,7 +134,6 @@ export const CAPABILITY_GROUPS: CapabilityGroup[] = [
     ],
   },
   {
-    eyebrow: "Flexible workflows",
     title: "Fit Stormlog into the stack you already have.",
     description:
       "Adopt the profiler incrementally — from quick CLI sessions and deeper Python instrumentation in training code, to load-driven profiling of OpenAI-compatible inference endpoints.",
@@ -193,7 +173,6 @@ export interface InferenceFact {
 }
 
 export interface InferenceSectionContent {
-  eyebrow: string;
   title: string;
   description: string;
   command: string;
@@ -204,7 +183,6 @@ export interface InferenceSectionContent {
 }
 
 export const INFERENCE_SECTION: InferenceSectionContent = {
-  eyebrow: "Inference profiling",
   title: "Profile what your serving stack actually delivers.",
   description:
     "The stormlog infer command group drives controlled load against OpenAI-compatible Chat Completions endpoints and reports the numbers you need to size, tune, and compare deployments.",
@@ -250,34 +228,6 @@ export const INFERENCE_SECTION: InferenceSectionContent = {
     "MLX-LM",
     "Hosted gateways",
   ],
-};
-
-export interface SpotlightContent {
-  eyebrow: string;
-  title: string;
-  description: string;
-  bullets: string[];
-  chips: string[];
-  image: string;
-}
-
-export const SPOTLIGHT_CONTENT: SpotlightContent = {
-  eyebrow: "Spot issues faster",
-  title: "Catch leaks, rank anomalies, and regressions before they waste compute.",
-  description:
-    "Stormlog turns raw allocation data into signals your team can review. Load artifacts, compare suspicious runs, filter by anomaly reason, and export proof for later triage.",
-  bullets: [
-    "Investigate distributed runs with rank-aware diagnostics",
-    "Review artifacts from prior sessions without reproducing the entire failure",
-    "Move from symptoms to concrete next steps with exportable traces",
-  ],
-  chips: [
-    "Anomaly signals",
-    "Artifact reloads",
-    "Distributed diagnostics",
-    "Review-ready exports",
-  ],
-  image: "/images/tui-6.png",
 };
 
 export interface WorkflowStep {
@@ -486,13 +436,11 @@ export const OPEN_SOURCE_PROOF: OpenSourceProofItem[] = [
 ];
 
 export interface FinalCtaContent {
-  eyebrow: string;
   title: string;
   description: string;
 }
 
 export const FINAL_CTA: FinalCtaContent = {
-  eyebrow: "Ready to debug with context?",
   title:
     "Trace memory, profile inference, and keep training runs stable.",
   description:

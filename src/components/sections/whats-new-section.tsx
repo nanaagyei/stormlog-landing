@@ -12,7 +12,7 @@ import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { CodeSnippet } from "@/components/ui/code-snippet";
 import { CopyButton } from "@/components/ui/copy-button";
 import { useStormlogVersion } from "@/components/providers/stormlog-version-provider";
-import { reveal, stagger } from "@/lib/motion";
+import { settle, stagger } from "@/lib/motion";
 
 function formatReleaseDate(iso: string): string | null {
   if (!iso) return null;
@@ -38,22 +38,20 @@ export function WhatsNewSection() {
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
       >
-        <motion.div variants={reveal} className="max-w-2xl">
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-            <span className="mono-label break-words">
-              {WHATS_NEW_META.eyebrow} · v{stormlogVersion}
-            </span>
+        <motion.div variants={settle} className="max-w-2xl">
+          <h2 className="font-heading text-[1.75rem] font-semibold leading-[1.1] tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl">
+            {WHATS_NEW_META.title}
+          </h2>
+          <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-muted-dim">
+            <span className="break-words">v{stormlogVersion}</span>
             {releasedAt && (
-              <span className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-muted-foreground/60">
+              <span className="inline-flex items-center gap-1.5">
                 <Calendar className="size-3" aria-hidden="true" />
                 {releasedAt}
               </span>
             )}
           </div>
-          <h2 className="mt-4 font-heading text-[1.75rem] font-semibold leading-[1.1] tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl">
-            {WHATS_NEW_META.title}
-          </h2>
-          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground sm:mt-4 sm:text-base lg:text-lg">
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-base lg:text-lg">
             {WHATS_NEW_META.description}
           </p>
 
@@ -84,15 +82,14 @@ export function WhatsNewSection() {
           {PRODUCT_UPDATES.map((update) => (
             <motion.article
               key={update.id}
-              variants={reveal}
+              variants={settle}
               className="group/card relative flex min-w-0 flex-col rounded-xl border border-white/[0.06] bg-surface p-5 transition-colors hover:border-white/[0.12] sm:p-6 lg:p-8"
             >
               <div
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-emerald/30 to-transparent opacity-0 transition-opacity duration-500 group-hover/card:opacity-100 sm:inset-x-6"
               />
-              <span className="mono-label break-words">{update.kicker}</span>
-              <h3 className="mt-3 font-heading text-lg font-medium leading-snug tracking-tight text-foreground sm:text-xl lg:text-2xl">
+              <h3 className="font-heading text-lg font-medium leading-snug tracking-tight text-foreground sm:text-xl lg:text-2xl">
                 {update.title}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -116,9 +113,9 @@ export function WhatsNewSection() {
               <div className="mt-5 flex min-w-0 flex-col gap-3 sm:mt-6">
                 <CopyButton
                   text={update.command}
-                  className="w-full max-w-full justify-start overflow-x-auto whitespace-nowrap px-3! py-2! text-[11px]! sm:px-4! sm:py-2.5! sm:text-xs!"
+                  className="w-full max-w-full justify-start overflow-x-auto whitespace-nowrap px-3! py-2! text-xs! sm:px-4! sm:py-2.5!"
                 />
-                <CodeSnippet code={update.code} label={update.codeLabel} />
+                <CodeSnippet code={update.code} label={update.codeLabel} nested />
               </div>
 
               <a

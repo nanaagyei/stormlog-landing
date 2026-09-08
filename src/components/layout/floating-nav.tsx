@@ -51,7 +51,7 @@ export function FloatingNav() {
 
           <div className="hidden items-center gap-1 lg:flex">
             {NAV_ITEMS.filter((i) =>
-              ["#overview", "#features", "#workflow"].includes(i.href),
+              ["#overview", "#features", "#tui"].includes(i.href),
             ).map((item) => {
               const isActive = activeSection === item.href.slice(1);
               return (
@@ -83,7 +83,7 @@ export function FloatingNav() {
                   "inline-flex min-h-6 items-center gap-1 px-3 py-1.5 text-[13px] transition-colors",
                   NAV_ITEMS.some(
                     (i) =>
-                      !["#overview", "#features", "#workflow"].includes(
+                      !["#overview", "#features", "#tui"].includes(
                         i.href,
                       ) && activeSection === i.href.slice(1),
                   )
@@ -98,7 +98,7 @@ export function FloatingNav() {
               <div className="invisible pointer-events-none absolute right-0 top-full z-10 w-48 translate-y-1 rounded-lg border border-white/[0.06] bg-surface p-1 opacity-0 transition-all duration-150 group-hover:visible group-hover:pointer-events-auto group-hover:translate-y-2 group-hover:opacity-100 group-focus-within:visible group-focus-within:pointer-events-auto group-focus-within:translate-y-2 group-focus-within:opacity-100">
                 {NAV_ITEMS.filter(
                   (i) =>
-                    !["#overview", "#features", "#workflow"].includes(i.href),
+                    !["#overview", "#features", "#tui"].includes(i.href),
                 ).map((item) => (
                   <a
                     key={item.href}

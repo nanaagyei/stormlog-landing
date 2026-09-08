@@ -230,32 +230,6 @@ export const INFERENCE_SECTION: InferenceSectionContent = {
   ],
 };
 
-export interface SpotlightContent {
-  title: string;
-  description: string;
-  bullets: string[];
-  chips: string[];
-  image: string;
-}
-
-export const SPOTLIGHT_CONTENT: SpotlightContent = {
-  title: "Catch leaks, rank anomalies, and regressions before they waste compute.",
-  description:
-    "Stormlog turns raw allocation data into signals your team can review. Load artifacts, compare suspicious runs, filter by anomaly reason, and export proof for later triage.",
-  bullets: [
-    "Investigate distributed runs with rank-aware diagnostics",
-    "Review artifacts from prior sessions without reproducing the entire failure",
-    "Move from symptoms to concrete next steps with exportable traces",
-  ],
-  chips: [
-    "Anomaly signals",
-    "Artifact reloads",
-    "Distributed diagnostics",
-    "Review-ready exports",
-  ],
-  image: "/images/tui-6.png",
-};
-
 export interface WorkflowStep {
   step: number;
   title: string;

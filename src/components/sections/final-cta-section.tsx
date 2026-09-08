@@ -6,7 +6,7 @@ import { CopyButton } from "@/components/ui/copy-button";
 import { FINAL_CTA, HERO_CONTENT } from "@/data/content";
 import { EXTERNAL_LINKS } from "@/data/navigation";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
-import { reveal, stagger } from "@/lib/motion";
+import { settle, stagger } from "@/lib/motion";
 
 export function FinalCtaSection() {
   return (
@@ -21,20 +21,20 @@ export function FinalCtaSection() {
         <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-emerald/30 to-transparent" />
 
         <motion.h2
-          variants={reveal}
+          variants={settle}
           className="font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-[3.5rem] lg:leading-[1.05]"
         >
           {FINAL_CTA.title}
         </motion.h2>
         <motion.p
-          variants={reveal}
+          variants={settle}
           className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg"
         >
           {FINAL_CTA.description}
         </motion.p>
 
         <motion.div
-          variants={reveal}
+          variants={settle}
           className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row"
         >
           <a
@@ -58,7 +58,7 @@ export function FinalCtaSection() {
           </a>
         </motion.div>
 
-        <motion.div variants={reveal} className="mt-6 flex justify-center">
+        <motion.div variants={settle} className="mt-6 flex justify-center">
           <CopyButton
             text={HERO_CONTENT.installCommand}
             displayText="pip install stormlog"

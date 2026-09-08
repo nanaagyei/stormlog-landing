@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { Compare } from "@/components/ui/compare";
-import { reveal, stagger } from "@/lib/motion";
+import { settle, stagger } from "@/lib/motion";
 
 function BeforePanel() {
   return (
@@ -12,6 +12,9 @@ function BeforePanel() {
         <span className="size-1.5 rounded-full bg-destructive" />
         <span className="font-mono text-xs uppercase tracking-wider text-destructive">
           Without Stormlog
+        </span>
+        <span className="ml-auto font-mono text-xs text-muted-dim">
+          illustrative session
         </span>
       </div>
 
@@ -52,6 +55,9 @@ function AfterPanel() {
         <span className="font-mono text-xs uppercase tracking-wider text-emerald">
           With Stormlog
         </span>
+        <span className="ml-auto font-mono text-xs text-muted-dim">
+          illustrative session
+        </span>
       </div>
 
       <div className="mt-4 grid gap-3 font-mono text-xs leading-relaxed sm:mt-6 lg:text-sm">
@@ -91,13 +97,13 @@ export function BeforeAfterSection() {
         className="text-center"
       >
         <motion.h2
-          variants={reveal}
+          variants={settle}
           className="font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl"
         >
           Reactive debugging vs. instrumented visibility.
         </motion.h2>
         <motion.p
-          variants={reveal}
+          variants={settle}
           className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg"
         >
           Drag the divider to compare guesswork against a workflow with live
@@ -106,7 +112,7 @@ export function BeforeAfterSection() {
       </motion.div>
 
       <motion.div
-        variants={reveal}
+        variants={settle}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-50px" }}

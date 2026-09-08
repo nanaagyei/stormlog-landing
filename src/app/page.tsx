@@ -19,13 +19,13 @@ export default function Home() {
       <main id="main-content" className="overflow-x-clip">
         <HeroSection />
         <EcosystemStrip />
-        <WhatsNewSection />
         <ProblemSection />
         <InferenceProfilingSection />
         <SpotlightSection />
         <WorkflowShowcase />
         <TuiShowcase />
         <BeforeAfterSection />
+        <WhatsNewSection />
         <MaintainersSection />
         <FinalCtaSection />
       </main>

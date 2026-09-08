@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { SPOTLIGHT_CONTENT } from "@/data/content";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
-import { reveal, stagger } from "@/lib/motion";
+import { settle, stagger } from "@/lib/motion";
 
 export function SpotlightSection() {
   return (
@@ -16,7 +16,7 @@ export function SpotlightSection() {
         viewport={{ once: true, margin: "-80px" }}
         className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center"
       >
-        <motion.div variants={reveal}>
+        <motion.div variants={settle}>
           <h2 className="max-w-xl font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-[2.75rem] lg:leading-[1.08]">
             {SPOTLIGHT_CONTENT.title}
           </h2>
@@ -47,7 +47,7 @@ export function SpotlightSection() {
           </div>
         </motion.div>
 
-        <motion.div variants={reveal}>
+        <motion.div variants={settle}>
           <div className="overflow-hidden rounded-xl border border-white/[0.06] bg-deep">
             <div className="flex items-center gap-2 border-b border-white/[0.06] px-4 py-2.5">
               <span className="font-mono text-xs uppercase tracking-wider text-muted-dim">

@@ -7,7 +7,7 @@ import { EXTERNAL_LINKS } from "@/data/navigation";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { CodeSnippet } from "@/components/ui/code-snippet";
 import { CopyButton } from "@/components/ui/copy-button";
-import { reveal, stagger } from "@/lib/motion";
+import { settle, stagger } from "@/lib/motion";
 
 export function InferenceProfilingSection() {
   return (
@@ -19,7 +19,7 @@ export function InferenceProfilingSection() {
         viewport={{ once: true, margin: "-80px" }}
         className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start lg:gap-12"
       >
-        <motion.div variants={reveal} className="min-w-0">
+        <motion.div variants={settle} className="min-w-0">
           <h2 className="max-w-xl font-heading text-[1.75rem] font-semibold leading-[1.1] tracking-[-0.03em] text-foreground sm:text-4xl lg:text-[2.75rem] lg:leading-[1.08]">
             {INFERENCE_SECTION.title}
           </h2>
@@ -74,7 +74,7 @@ export function InferenceProfilingSection() {
         </motion.div>
 
         <motion.div
-          variants={reveal}
+          variants={settle}
           className="flex min-w-0 flex-col gap-4 rounded-xl border border-white/[0.06] bg-surface p-5 sm:p-6 lg:p-7"
         >
           <div className="flex items-center gap-2">

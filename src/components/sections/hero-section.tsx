@@ -7,7 +7,7 @@ import { CopyButton } from "@/components/ui/copy-button";
 import { HERO_CONTENT } from "@/data/content";
 import { EXTERNAL_LINKS } from "@/data/navigation";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
-import { reveal, stagger } from "@/lib/motion";
+import { resolveIn, reveal, stagger } from "@/lib/motion";
 
 export function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -88,15 +88,23 @@ export function HeroSection() {
           {HERO_CONTENT.description}
         </motion.p>
 
+        <motion.div variants={reveal} className="mt-8">
+          <CopyButton
+            text={HERO_CONTENT.installCommand}
+            displayText="pip install stormlog"
+            tone="primary"
+          />
+        </motion.div>
+
         <motion.div
           variants={reveal}
-          className="mt-8 flex flex-col items-center gap-3 sm:flex-row"
+          className="mt-4 flex flex-col items-center gap-3 sm:flex-row"
         >
           <a
             href={EXTERNAL_LINKS.docs}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex h-10 items-center gap-2 rounded-lg bg-emerald px-5 text-sm font-medium text-deep transition-all hover:brightness-110"
+            className="inline-flex h-10 items-center gap-2 rounded-lg border border-white/[0.06] bg-surface px-5 text-sm font-medium text-foreground transition-all hover:border-white/[0.12] hover:bg-surface-2"
           >
             <BookOpen className="size-3.5" />
             View docs
@@ -113,15 +121,8 @@ export function HeroSection() {
           </a>
         </motion.div>
 
-        <motion.div variants={reveal} className="mt-4">
-          <CopyButton
-            text={HERO_CONTENT.installCommand}
-            displayText="pip install stormlog"
-          />
-        </motion.div>
-
         <motion.div
-          variants={reveal}
+          variants={resolveIn}
           ref={frameRef}
           style={{ y: frameY }}
           className="mt-14 w-full max-w-6xl sm:mt-16"

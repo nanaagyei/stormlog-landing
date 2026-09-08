@@ -12,7 +12,7 @@ import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { CodeSnippet } from "@/components/ui/code-snippet";
 import { CopyButton } from "@/components/ui/copy-button";
 import { useStormlogVersion } from "@/components/providers/stormlog-version-provider";
-import { reveal, stagger } from "@/lib/motion";
+import { settle, stagger } from "@/lib/motion";
 
 function formatReleaseDate(iso: string): string | null {
   if (!iso) return null;
@@ -38,7 +38,7 @@ export function WhatsNewSection() {
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
       >
-        <motion.div variants={reveal} className="max-w-2xl">
+        <motion.div variants={settle} className="max-w-2xl">
           <h2 className="font-heading text-[1.75rem] font-semibold leading-[1.1] tracking-[-0.03em] text-foreground sm:text-4xl lg:text-5xl">
             {WHATS_NEW_META.title}
           </h2>
@@ -82,7 +82,7 @@ export function WhatsNewSection() {
           {PRODUCT_UPDATES.map((update) => (
             <motion.article
               key={update.id}
-              variants={reveal}
+              variants={settle}
               className="group/card relative flex min-w-0 flex-col rounded-xl border border-white/[0.06] bg-surface p-5 transition-colors hover:border-white/[0.12] sm:p-6 lg:p-8"
             >
               <div

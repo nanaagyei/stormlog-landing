@@ -6,7 +6,7 @@ import { OPEN_SOURCE_PROOF } from "@/data/content";
 import { EXTERNAL_LINKS } from "@/data/navigation";
 import { SectionWrapper } from "@/components/ui/section-wrapper";
 import { OpenSourcePeople } from "@/components/ui/open-source-people";
-import { reveal, stagger } from "@/lib/motion";
+import { settle, stagger } from "@/lib/motion";
 
 const proofLinks = {
   docs: EXTERNAL_LINKS.docs,
@@ -24,7 +24,7 @@ export function MaintainersSection() {
         whileInView="visible"
         viewport={{ once: true, margin: "-80px" }}
       >
-        <motion.div variants={reveal} className="max-w-3xl">
+        <motion.div variants={settle} className="max-w-3xl">
           <h2 className="font-heading text-3xl font-semibold tracking-[-0.03em] text-foreground sm:text-4xl lg:text-[2.75rem] lg:leading-[1.08]">
             Credibility comes from the repo, the docs, and the people
             shipping it.
@@ -36,7 +36,7 @@ export function MaintainersSection() {
           </p>
         </motion.div>
 
-        <motion.div variants={reveal} className="mt-10 grid gap-3 sm:grid-cols-3">
+        <motion.div variants={settle} className="mt-10 grid gap-3 sm:grid-cols-3">
           {OPEN_SOURCE_PROOF.map((item) => {
             const Icon = item.icon;
             return (
@@ -67,7 +67,7 @@ export function MaintainersSection() {
         </motion.div>
 
         <motion.div
-          variants={reveal}
+          variants={settle}
           className="mt-10 border-t border-white/6 pt-10"
         >
           <OpenSourcePeople />

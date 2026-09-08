@@ -26,7 +26,7 @@ export function BlogHeader() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#060a10]/80 backdrop-blur-xl">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-deep/80 backdrop-blur-xl">
         <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
           <div className="flex shrink-0 items-center gap-2">
             <Link
@@ -102,7 +102,7 @@ export function BlogHeader() {
       </header>
 
       {mobileOpen ? (
-        <div className="fixed inset-x-0 top-14 z-50 border-b border-white/[0.06] bg-[#060a10]/95 px-4 py-4 backdrop-blur-xl lg:hidden">
+        <div className="fixed inset-x-0 top-14 z-50 border-b border-white/[0.06] bg-deep/95 px-4 py-4 backdrop-blur-xl lg:hidden">
           <div className="flex flex-col gap-1">
             {PRIMARY_LINKS.map((item) => {
               const active = isActive(pathname, item.href);

@@ -97,7 +97,9 @@ const markdownComponents: Components = {
 
 const prettyCodeOptions = {
   keepBackground: false,
-  theme: "github-dark-default",
+  // Muted, low-chroma palette. Replaces github-dark-default, whose keyword
+  // purple reads as the neon-on-dark tell this system deliberately avoids.
+  theme: "vitesse-dark",
   onVisitLine(element: Element) {
     if (element.children.length === 0) {
       element.children = [{ type: "text", value: " " }];

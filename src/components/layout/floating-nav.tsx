@@ -27,7 +27,7 @@ export function FloatingNav() {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.4, delay: 0.1 }}
-        className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#060a10]/80 backdrop-blur-xl"
+        className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-deep/80 backdrop-blur-xl"
       >
         <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6">
           <div className="flex shrink-0 items-center gap-2">
@@ -176,7 +176,7 @@ export function FloatingNav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-x-0 top-14 z-50 border-b border-white/[0.06] bg-[#060a10]/95 px-4 py-4 backdrop-blur-xl lg:hidden"
+            className="fixed inset-x-0 top-14 z-50 border-b border-white/[0.06] bg-deep/95 px-4 py-4 backdrop-blur-xl lg:hidden"
           >
             <div className="flex flex-col gap-1">
               <Link

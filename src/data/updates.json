@@ -1,30 +1,64 @@
 {
   "$schema": "./updates.schema.json",
-  "version": "0.3.9",
-  "releasedAt": "2026-09-01",
-  "whatsNewKey": "2026-09-mlflow-integration",
+  "version": "0.4.0",
+  "releasedAt": "2026-10-02",
+  "whatsNewKey": "2026-10-v0-4-0",
   "meta": {
     "eyebrow": "Latest release",
     "title": "What's new in Stormlog",
-    "description": "MLflow integration for experiment tracking and model registry integration, mirroring Weights & Biases exporter capabilities for unified ML workflow observability."
+    "description": "Stormlog 0.4.0 makes inference benchmarks reproducible: requests arrive on a schedule instead of waiting on the server, prompts share the cache only when you ask them to, and every command returns exit codes that CI jobs and agents can rely on."
   },
   "updates": [
     {
-      "id": "mlflow-exporter",
-      "kicker": "MLflow integration",
-      "title": "MLflow experiment tracking exporter",
-      "summary": "Stormlog now exports memory profiles and profiling metadata to MLflow, enabling integrated tracking of GPU memory alongside model metrics, parameters, and artifacts in your MLflow experiments.",
+      "id": "open-loop-arrivals",
+      "kicker": "Inference traffic",
+      "title": "Send inference traffic on a schedule",
+      "summary": "stormlog infer profile can now send requests at a fixed rate, as a seeded Poisson process, in bursts, or replayed from a recording, instead of waiting for each answer. A slow server builds a queue, and the report shows it.",
       "highlights": [
-        "Log memory traces and summary statistics directly to MLflow runs",
-        "Automatic model registry integration for memory profiles",
-        "Feature parity with Weights & Biases exporter for experiment tracking",
-        "Tag and filter runs by memory profiles in MLflow UI"
+        "--arrival fixed-rate, poisson, burst or replay, with --max-in-flight and --overflow wait|drop",
+        "Latency measured from when each request was meant to leave, so time spent queued is not hidden",
+        "Each phase has a measured window and a drain deadline; requests left over are recorded as cancelled or dropped",
+        "Failures are split into timeout, rejected (HTTP 429/503), dropped and cancelled"
       ],
-      "command": "pip install \"stormlog[mlflow]>=0.3.9\"",
-      "codeLabel": "python",
-      "code": "from stormlog.exporters import MLflowExporter\nfrom stormlog.pytorch import GPUMemoryProfiler\nimport mlflow\n\nmlflow.start_run()\n\nprofiler = GPUMemoryProfiler()\nexporter = MLflowExporter()\n\nwith profiler.profile_context(\"training\"):\n    # Your training loop\n    for batch in dataloader:\n        model(batch).backward()\n\nexporter.export(profiler.trace(), \"gpu_memory_profile\")\nmlflow.end_run()",
+      "command": "pip install --upgrade \"stormlog>=0.4.0\"",
+      "codeLabel": "bash",
+      "code": "stormlog infer profile \\\n  --base-url http://localhost:8000/v1 \\\n  --model Qwen/Qwen2.5-0.5B-Instruct \\\n  --arrival poisson --rate 16 --duration 60 \\\n  --max-in-flight 64 --overflow wait \\\n  --output artifacts/poisson16.jsonl\n\nstormlog infer analyze artifacts/poisson16.jsonl",
       "href": "#whats-new",
-      "externalLink": "https://github.com/Silas-Asamoah/stormlog/pull/207"
+      "externalLink": "https://stormlog.readthedocs.io/en/latest/inference.html#arrivals"
+    },
+    {
+      "id": "prompt-cache-control",
+      "kicker": "Prefix cache",
+      "title": "Control what prompts share, and record the cache state",
+      "summary": "Choose whether requests repeat one prompt, use a unique prompt each, or share a group prefix, so prefix-cache hits happen on purpose. Each run records the cache state it asked for, and a fingerprint of the traffic it sent.",
+      "highlights": [
+        "--prompt-mode repeat, unique or shared-prefix, with --shared-prefix-ratio and --prefix-groups",
+        "--cache-state cold with --cache-reset-url clears the cache before each case (vLLM, SGLang)",
+        "Cache state is recorded as unverified, with the reason, until an engine adapter can confirm it",
+        "A workload digest lets you compare the same traffic across engines and runs"
+      ],
+      "command": "pip install --upgrade \"stormlog[infer-tokenizers]>=0.4.0\"",
+      "codeLabel": "bash",
+      "code": "stormlog infer profile \\\n  --base-url http://localhost:8000/v1 \\\n  --model Qwen/Qwen2.5-0.5B-Instruct \\\n  --input-tokens 2048 --requests 200 \\\n  --prompt-mode shared-prefix \\\n  --shared-prefix-ratio 0.75 --prefix-groups 4 \\\n  --cache-state cold \\\n  --cache-reset-url http://localhost:8000/reset_prefix_cache \\\n  --output artifacts/shared_prefix.jsonl",
+      "href": "#whats-new",
+      "externalLink": "https://stormlog.readthedocs.io/en/latest/inference.html#prompts-and-prefix-sharing"
+    },
+    {
+      "id": "exit-code-contract",
+      "kicker": "CI and agents",
+      "title": "Exit codes that mean one thing, and a report.json verdict",
+      "summary": "Every Stormlog command now returns a code from one fixed table, so a pipeline can tell a mistyped flag from memory risk or a failed budget. Each diagnose bundle also writes a versioned report.json with the verdict and its evidence.",
+      "highlights": [
+        "0 pass, 1 error, 2 usage, 3 findings, 4 gate failed, 5 invalid input, 130 interrupted",
+        "The same codes in gpumemprof, tfmemprof, jaxmemprof, stormlog infer and the benchmark harness",
+        "report.json pairs the verdict with the exit code and points each finding at its evidence",
+        "Breaking: diagnose exits 3 for memory risk (was 2); check scripts that matched the old numbers"
+      ],
+      "command": "pip install --upgrade \"stormlog>=0.4.0\"",
+      "codeLabel": "python",
+      "code": "from pathlib import Path\n\nfrom stormlog.report import load_report\n\nreport = load_report(Path(\"diag/report.json\"))\nverdict = report[\"verdict\"]\nprint(verdict[\"status\"], verdict[\"exit_code\"])\n\nfor finding in report[\"findings\"]:\n    print(finding[\"severity\"], finding[\"title\"])",
+      "href": "#whats-new",
+      "externalLink": "https://stormlog.readthedocs.io/en/latest/report_contract.html#exit-codes"
     }
   ]
 }

@@ -1,0 +1,25 @@
+name: Close invalid main PR
+
+# GitHub cannot reject a PR before it is opened. Close invalid PRs as soon as
+# GitHub delivers the event. Never check out or execute code from the PR.
+on:
+  pull_request_target:
+    branches: [main]
+    types: [opened, reopened, edited]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  close-invalid-pr:
+    if: >-
+      ${{ github.event.pull_request.head.ref != 'dev' ||
+          github.event.pull_request.head.repo.full_name != github.repository }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close PR from another source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: gh api --method PATCH "repos/$GH_REPO/pulls/$PR_NUMBER" -f state=closed

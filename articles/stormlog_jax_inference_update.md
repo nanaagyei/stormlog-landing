@@ -1,6 +1,8 @@
 # JAX Support Lands in Stormlog — Plus a New Inference Endpoint Profiler
 
-Stormlog started as a memory-profiling toolkit for PyTorch and TensorFlow. This release widens that surface in two directions teams kept asking for: **native JAX memory profiling**, and a dedicated profiler for **OpenAI-compatible inference endpoints**.
+> Updated October 7, 2026: JAX support shipped in v0.3.5 and inference endpoint profiling followed in v0.3.6. For options added since then, see the [current inference guide](https://stormlog.readthedocs.io/en/latest/inference.html).
+
+Stormlog started as a memory-profiling toolkit for PyTorch and TensorFlow. Those two releases widened its surface in directions teams kept asking for: **native JAX memory profiling**, and a dedicated profiler for **OpenAI-compatible inference endpoints**.
 
 Both additions follow the same principle the project started with — move from "what is using memory?" or "what is my endpoint doing under load?" to saved artifacts and shareable diagnostics without switching tools. Here's what shipped and how to use it.
 
@@ -77,8 +79,11 @@ JAX gets its own `jaxmemprof` command line tool, with the same verbs you already
 jaxmemprof info
 jaxmemprof monitor --interval 1.0 --threshold 4000
 jaxmemprof track --duration 60 --output jax_track.json
-jaxmemprof diagnose jax_track.json
+jaxmemprof analyze --input jax_track.json --detect-leaks --optimize
+jaxmemprof diagnose --duration 5 --interval 0.5 --output ./jax_diag
 ```
+
+`analyze` reads the saved capture. `diagnose` makes a new capture and writes a bundle, including `report.json`. Since v0.4.0, a risk finding exits with code `3`.
 
 The heavier operational features carry straight over: telemetry sink segments, distributed identity (`job_id`, `rank`, `local_rank`, `world_size`), and the OOM flight recorder that dumps a ring buffer of events when a run trips its threshold.
 

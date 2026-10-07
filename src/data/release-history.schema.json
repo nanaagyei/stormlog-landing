@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Stormlog previous release summaries",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["releases"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "releases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["version", "releasedAt", "summary", "features", "releaseUrl"],
+        "properties": {
+          "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+          "releasedAt": { "type": "string", "format": "date" },
+          "summary": { "type": "string", "minLength": 1, "maxLength": 320 },
+          "features": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 4,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["title", "summary"],
+              "properties": {
+                "title": { "type": "string", "minLength": 1, "maxLength": 80 },
+                "summary": { "type": "string", "minLength": 1, "maxLength": 320 }
+              }
+            }
+          },
+          "releaseUrl": { "type": "string", "format": "uri" }
+        }
+      }
+    }
+  }
+}

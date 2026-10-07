@@ -62,7 +62,7 @@ function AfterPanel() {
 
       <div className="mt-4 grid gap-3 font-mono text-xs leading-relaxed sm:mt-6 lg:text-sm">
         <div className="rounded-lg border border-white/[0.06] bg-surface p-3 sm:p-4">
-          <p className="break-words text-emerald">$ stormlog monitor --pid 12345</p>
+          <p className="break-words text-emerald">$ gpumemprof track --duration 30 --interval 0.5 --output run.json --format json</p>
           <p className="mt-2 text-foreground">Allocated  16.2 / 24.5 GiB</p>
           <p className="text-foreground">Peak       19.8 / 24.5 GiB</p>
           <p className="mt-2 text-emerald">✓ live alerts enabled</p>

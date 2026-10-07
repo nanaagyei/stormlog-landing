@@ -1,0 +1,73 @@
+{
+  "$schema": "./release-history.schema.json",
+  "releases": [
+    {
+      "version": "0.3.9",
+      "releasedAt": "2026-09-01",
+      "summary": "MLflow export brings Stormlog memory profiles into experiment tracking alongside model metrics and artifacts.",
+      "features": [
+        {
+          "title": "MLflow experiment tracking",
+          "summary": "Export memory traces and profiling metadata to MLflow runs for review beside training results."
+        }
+      ],
+      "releaseUrl": "https://github.com/Silas-Asamoah/stormlog/releases/tag/v0.3.9"
+    },
+    {
+      "version": "0.3.10",
+      "releasedAt": "2026-10-01",
+      "summary": "Memory sampling expanded beyond CUDA, and inference reports gained clearer links between server activity and GPU observations.",
+      "features": [
+        {
+          "title": "Memory sampling across runtimes",
+          "summary": "The runtime memory sampler can collect model memory observations on non-CUDA backends."
+        },
+        {
+          "title": "Inference activity correlation",
+          "summary": "Reports link shared execution and GPU activity, distinguish client memory from server observations, and align distributed server telemetry."
+        }
+      ],
+      "releaseUrl": "https://github.com/Silas-Asamoah/stormlog/releases/tag/v0.3.10"
+    },
+    {
+      "version": "0.4.0",
+      "releasedAt": "2026-10-02",
+      "summary": "Stormlog 0.4.0 makes inference benchmarks reproducible: requests arrive on a schedule instead of waiting on the server, prompts share the cache only when you ask them to, and every command returns exit codes that CI jobs and agents can rely on.",
+      "features": [
+        {
+          "title": "Send inference traffic on a schedule",
+          "summary": "stormlog infer profile can now send requests at a fixed rate, as a seeded Poisson process, in bursts, or replayed from a recording, instead of waiting for each answer. A slow server builds a queue, and the report shows it."
+        },
+        {
+          "title": "Control what prompts share, and record the cache state",
+          "summary": "Choose whether requests repeat one prompt, use a unique prompt each, or share a group prefix, so prefix-cache hits happen on purpose. Each run records the cache state it asked for, and a fingerprint of the traffic it sent."
+        },
+        {
+          "title": "Exit codes that mean one thing, and a report.json verdict",
+          "summary": "Every Stormlog command now returns a code from one fixed table, so a pipeline can tell a mistyped flag from memory risk or a failed budget. Each diagnose bundle also writes a versioned report.json with the verdict and its evidence."
+        }
+      ],
+      "releaseUrl": "https://github.com/Silas-Asamoah/stormlog/releases/tag/v0.4.0"
+    },
+    {
+      "version": "0.4.1",
+      "releasedAt": "2026-10-04",
+      "summary": "Inference profiling gained GPU trace imports, native vLLM telemetry, and SLO goodput analysis for more explainable serving results.",
+      "features": [
+        {
+          "title": "Link GPU work to requests and iterations",
+          "summary": "Import PyTorch/Kineto and Nsight Systems traces, and use the vLLM execution hook to connect scheduler steps with GPU activity."
+        },
+        {
+          "title": "Collect native vLLM evidence",
+          "summary": "Capture vLLM metrics and request spans during a profile, including bounded profiler windows."
+        },
+        {
+          "title": "Evaluate useful throughput against an SLO",
+          "summary": "Report goodput and attainment bounds so successful throughput is assessed against a latency target."
+        }
+      ],
+      "releaseUrl": "https://github.com/Silas-Asamoah/stormlog/releases/tag/v0.4.1"
+    }
+  ]
+}

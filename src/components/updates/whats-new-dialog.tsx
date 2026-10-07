@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Sparkles, X } from "lucide-react";
 import {
   PRODUCT_UPDATES,
+  WHATS_NEW_CONTENT_VERSION,
   WHATS_NEW_META,
   WHATS_NEW_RELEASED_AT,
   WHATS_NEW_VERSION,
@@ -13,6 +14,7 @@ import {
 import { EXTERNAL_LINKS } from "@/data/navigation";
 import { CodeSnippet } from "@/components/ui/code-snippet";
 import { CopyButton } from "@/components/ui/copy-button";
+import { ReleaseComparison } from "@/components/updates/release-comparison";
 import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import { useStormlogVersion } from "@/components/providers/stormlog-version-provider";
 import { EASE } from "@/lib/motion";
@@ -35,6 +37,7 @@ function formatReleaseDate(iso: string): string | null {
 
 export function WhatsNewDialog() {
   const [open, setOpen] = useState(false);
+  const [view, setView] = useState<"latest" | "history">("latest");
   const [[index, direction], setSlide] = useState<[number, number]>([0, 0]);
   const prefersReducedMotion = useReducedMotion();
   const stormlogVersion = useStormlogVersion();
@@ -69,6 +72,7 @@ export function WhatsNewDialog() {
         markSeen();
         // Reset to the headline slide for the next time it is opened.
         setSlide([0, 0]);
+        setView("latest");
       }
     },
     [markSeen]
@@ -105,7 +109,7 @@ export function WhatsNewDialog() {
             aria-hidden="true"
             className="hidden font-mono text-xs text-muted-dim transition-colors group-hover/whats-new:text-emerald sm:inline"
           >
-            v{stormlogVersion}
+            v{WHATS_NEW_CONTENT_VERSION}
           </span>
         </button>
       </Dialog.Trigger>
@@ -123,21 +127,21 @@ export function WhatsNewDialog() {
               />
             </Dialog.Overlay>
 
-            <Dialog.Content
-              asChild
-              forceMount
-              onOpenAutoFocus={(event) => event.preventDefault()}
-            >
+            <Dialog.Content asChild forceMount>
               <motion.div
                 initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: prefersReducedMotion ? 0 : 8 }}
                 transition={{ duration: 0.25, ease: EASE }}
                 onKeyDown={(event) => {
+                  if (view !== "latest") return;
                   if (event.key === "ArrowRight") goTo(index + 1);
                   if (event.key === "ArrowLeft") goTo(index - 1);
                 }}
-                className="fixed left-1/2 top-1/2 z-50 flex max-h-[90dvh] w-[calc(100vw-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-surface shadow-2xl shadow-black/50"
+                className={cn(
+                  "fixed left-1/2 top-1/2 z-50 flex max-h-[90dvh] w-[calc(100vw-2rem)] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-surface shadow-2xl shadow-black/50",
+                  view === "history" ? "max-w-3xl" : "max-w-lg"
+                )}
               >
                 {/* Header */}
                 <div className="relative flex items-start justify-between gap-4 border-b border-white/[0.06] px-6 pb-5 pt-6">
@@ -152,10 +156,15 @@ export function WhatsNewDialog() {
                     <div className="mt-1.5 flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-xs text-muted-dim">
                       <span className="inline-flex items-center gap-1.5">
                         <Sparkles aria-hidden="true" className="size-3 text-emerald" />
-                        v{stormlogVersion}
+                        Release notes v{WHATS_NEW_CONTENT_VERSION}
                       </span>
                       {releasedAt && <span>{releasedAt}</span>}
                     </div>
+                    {stormlogVersion !== WHATS_NEW_CONTENT_VERSION && (
+                      <p className="mt-1 font-mono text-xs text-muted-dim">
+                        Latest package: v{stormlogVersion}
+                      </p>
+                    )}
                     <Dialog.Description className="mt-1 text-sm leading-relaxed text-muted-foreground">
                       {WHATS_NEW_META.description}
                     </Dialog.Description>
@@ -168,8 +177,36 @@ export function WhatsNewDialog() {
                   </Dialog.Close>
                 </div>
 
+                <div className="flex gap-1 overflow-x-auto border-b border-white/[0.06] px-6 pt-3" aria-label="Release views">
+                  <button
+                    type="button"
+                    onClick={() => setView("latest")}
+                    aria-pressed={view === "latest"}
+                    className={cn(
+                      "border-b-2 px-3 pb-3 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald/60",
+                      view === "latest" ? "border-emerald text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    Latest
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setView("history")}
+                    aria-pressed={view === "history"}
+                    className={cn(
+                      "border-b-2 px-3 pb-3 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald/60",
+                      view === "history" ? "border-emerald text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    Previous release features
+                  </button>
+                </div>
+
                 {/* Slides */}
                 <div className="relative min-h-0 flex-1 overflow-y-auto px-6 py-6">
+                  {view === "history" ? (
+                    <ReleaseComparison />
+                  ) : (
                   <AnimatePresence mode="wait" custom={direction}>
                     <motion.div
                       key={update.id}
@@ -219,12 +256,14 @@ export function WhatsNewDialog() {
                       </a>
                     </motion.div>
                   </AnimatePresence>
+                  )}
                 </div>
 
                 {/* Footer / carousel controls */}
+                {view === "latest" ? (
                 <div className="flex items-center justify-between gap-4 border-t border-white/[0.06] px-6 py-4">
                   <div className="flex items-center gap-2.5">
-                    <div className="flex items-center gap-1.5" aria-hidden="true">
+                    <div className="flex items-center gap-1.5">
                       {PRODUCT_UPDATES.map((slide, dotIndex) => (
                         <button
                           key={slide.id}
@@ -276,6 +315,24 @@ export function WhatsNewDialog() {
                     )}
                   </div>
                 </div>
+                ) : (
+                  <div className="flex justify-end gap-2 border-t border-white/[0.06] px-6 py-4">
+                    <button
+                      type="button"
+                      onClick={() => setView("latest")}
+                      className="rounded-md border border-white/[0.08] px-3.5 py-2 text-sm text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald/60"
+                    >
+                      Back to latest
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleOpenChange(false)}
+                      className="rounded-md bg-emerald px-3.5 py-2 text-sm font-medium text-deep hover:bg-emerald/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald/60"
+                    >
+                      Done
+                    </button>
+                  </div>
+                )}
               </motion.div>
             </Dialog.Content>
           </Dialog.Portal>

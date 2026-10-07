@@ -1,14 +1,16 @@
 #!/usr/bin/env node
-// Regenerate `src/data/updates.json` from the latest stormlog release.
+// Regenerate `src/data/updates.json` and archive outgoing releases.
 //
 // What it does:
 //   1. Resolves the latest stormlog version from PyPI (with a GitHub fallback).
-//   2. Pulls the matching GitHub release's title + body (release notes).
+//   2. Pulls every GitHub release since the reviewed version.
 //   3. If the current content is already on that version, exits cleanly.
 //   4. Otherwise, asks an AI provider (Anthropic / Gemini / Groq, in that
 //      order of preference based on which API key is set) to rewrite the
 //      "What's new" content using the existing content as a voice reference.
-//   5. Validates the response against the JSON schema and writes it back.
+//   5. Archives each outgoing summary, validates both files, and writes them.
+// Missing release notes or an unavailable editor fail the sync instead of
+// producing plausible but unverified copy.
 //
 // Designed to run from CI (`.github/workflows/sync-content.yml`) but also
 // usable locally for one-off runs:
@@ -26,10 +28,17 @@ import path from "node:path";
 
 import { detectProvider, generateJson } from "./lib/ai-providers.mjs";
 import { validateUpdatesContent } from "./lib/validate-updates.mjs";
+import {
+  appendRelease,
+  pendingReleases,
+  summarizeRelease,
+  validateReleaseHistory,
+} from "./lib/release-history.mjs";
 
 const ROOT = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.join(ROOT, "..");
 const UPDATES_FILE = path.join(REPO_ROOT, "src", "data", "updates.json");
+const HISTORY_FILE = path.join(REPO_ROOT, "src", "data", "release-history.json");
 
 const PYPI_URL = "https://pypi.org/pypi/stormlog/json";
 const GITHUB_RELEASES_URL =
@@ -84,22 +93,20 @@ async function getLatestVersion() {
   return null;
 }
 
-async function getRelease(version) {
-  try {
-    const releases = await fetchJson(GITHUB_RELEASES_URL);
-    if (!Array.isArray(releases)) return null;
-    return (
-      releases.find((r) => normalize(r?.tag_name) === version) ?? releases[0] ?? null
-    );
-  } catch (err) {
-    console.warn(`[generate-updates] release lookup failed: ${err.message}`);
-    return null;
+async function getReleasesSince(version) {
+  const releases = [];
+  for (let page = 1; page <= 10; page += 1) {
+    const batch = await fetchJson(`${GITHUB_RELEASES_URL}?per_page=100&page=${page}`);
+    if (!Array.isArray(batch)) throw new Error("GitHub releases response is invalid");
+    releases.push(...batch);
+    if (releases.some((release) => normalize(release?.tag_name) === version)) return releases;
+    if (batch.length < 100) break;
   }
+  throw new Error(`could not find reviewed v${version} in GitHub release history`);
 }
 
 function whatsNewKeyFor(version, releasedAt) {
-  // Convention: 'YYYY-MM-vX-Y-Z'. Fall back to today if releasedAt is unparseable
-  // so the format stays consistent with buildFallbackContent.
+  // Convention: 'YYYY-MM-vX-Y-Z'. Fall back to today if releasedAt is unparseable.
   const parsed = new Date(releasedAt);
   const date = Number.isNaN(parsed.getTime()) ? new Date() : parsed;
   const yyyy = date.getUTCFullYear();
@@ -180,45 +187,6 @@ Generate the new updates.json for v${version}. Set "version" to "${version}" and
 Return ONLY the JSON object.`;
 }
 
-function buildFallbackContent({ version, releasedAt, release, previous }) {
-  // Used when no AI provider is configured. Produces a clearly-marked template
-  // so the human reviewer can hand-edit it from the release notes.
-  const yyyy = releasedAt.slice(0, 4);
-  const mm = releasedAt.slice(5, 7);
-  const headline = release?.name || `Stormlog v${version}`;
-  return {
-    version,
-    releasedAt,
-    whatsNewKey: `${yyyy}-${mm}-v${version.replace(/\./g, "-")}`,
-    meta: {
-      eyebrow: "Latest release",
-      title: `What's new in Stormlog v${version}`,
-      description:
-        "Replace this with a 1-2 sentence summary of the highlights below. Generated as a template — please review before merging.",
-    },
-    updates: [
-      {
-        id: `release-v${version.replace(/\./g, "-")}`,
-        kicker: "Release notes",
-        title: headline,
-        summary:
-          "TEMPLATE — describe the headline change in 1-2 sentences. Original release body is preserved below in the PR description.",
-        highlights: [
-          previous?.updates?.[0]?.highlights?.[0] || "Add highlight 1 from the release notes",
-          "Add highlight 2 from the release notes",
-        ],
-        command: previous?.updates?.[0]?.command || "pip install --upgrade stormlog",
-        codeLabel: "bash",
-        code:
-          previous?.updates?.[0]?.code ||
-          "pip install --upgrade stormlog\nstormlog --version",
-        href: "#whats-new",
-        externalLink: `https://github.com/Silas-Asamoah/stormlog/releases/tag/v${version}`,
-      },
-    ],
-  };
-}
-
 async function emitOutput(key, value) {
   const file = process.env.GITHUB_OUTPUT;
   if (!file) return;
@@ -231,22 +199,27 @@ async function main() {
 
   const previousRaw = await readFile(UPDATES_FILE, "utf8");
   const previous = JSON.parse(previousRaw);
+  const history = JSON.parse(await readFile(HISTORY_FILE, "utf8"));
+  const currentHistoryCheck = validateReleaseHistory(history, previous.version);
+  if (!currentHistoryCheck.ok) {
+    throw new Error(`release history invalid: ${currentHistoryCheck.errors.join("; ")}`);
+  }
 
   const latest = await getLatestVersion();
   if (!latest) {
-    console.warn("[generate-updates] could not resolve latest version; nothing to do");
-    await emitOutput("changed", "false");
-    return;
+    throw new Error("could not resolve latest published version");
   }
 
   await emitOutput("version", latest.version);
   await emitOutput("previous_version", previous.version);
+  await emitOutput("release_url", `https://github.com/Silas-Asamoah/stormlog/releases/tag/v${latest.version}`);
 
   if (!force && latest.version === previous.version) {
     console.log(
       `[generate-updates] already on v${latest.version} (source: ${latest.source}); nothing to do`
     );
     await emitOutput("changed", "false");
+    await emitOutput("provider", "not-run");
     return;
   }
 
@@ -254,66 +227,65 @@ async function main() {
     `[generate-updates] new version detected: v${previous.version} -> v${latest.version}`
   );
 
-  const release = await getRelease(latest.version);
-  const releasedAt =
-    release?.published_at?.slice(0, 10) ||
-    new Date().toISOString().slice(0, 10);
-  const releaseTitle = release?.name || `Stormlog v${latest.version}`;
-  const releaseBody = release?.body || "";
-
-  await emitOutput(
-    "release_url",
-    release?.html_url ||
-      `https://github.com/Silas-Asamoah/stormlog/releases/tag/v${latest.version}`
-  );
-
   const provider = detectProvider(process.env);
-  let next;
-  let providerUsed = "fallback-template";
+  if (!provider) {
+    throw new Error("no AI provider configured for release-note generation");
+  }
+  const releases = await getReleasesSince(previous.version);
+  const pending = pendingReleases(releases, previous.version, latest.version);
+  const queue = pending.length > 0
+    ? pending
+    : releases.filter((release) => normalize(release.tag_name) === latest.version);
+  if (queue.length === 0) throw new Error(`verified release notes for v${latest.version} are unavailable`);
 
-  const pinMeta = (obj) => {
-    if (!obj || typeof obj !== "object") return obj;
-    obj.version = latest.version;
-    obj.releasedAt = releasedAt;
-    if (!obj.whatsNewKey) {
-      obj.whatsNewKey = whatsNewKeyFor(latest.version, releasedAt);
+  let next = previous;
+  let nextHistory = history;
+  let providerUsed = provider.name;
+
+  console.log(`[generate-updates] using provider: ${provider.name} (${provider.model})`);
+  for (const release of queue) {
+    const version = normalize(release.tag_name);
+    if (!release.body?.trim() || !release.published_at || !version) {
+      throw new Error(`verified release notes for v${version || latest.version} are unavailable`);
     }
-    return obj;
-  };
-
-  if (provider) {
-    console.log(`[generate-updates] using provider: ${provider.name} (${provider.model})`);
+    const releasedAt = release.published_at.slice(0, 10);
+    const pinMeta = (obj) => {
+      if (!obj || typeof obj !== "object") return obj;
+      obj.version = version;
+      obj.releasedAt = releasedAt;
+      obj.whatsNewKey = whatsNewKeyFor(version, releasedAt);
+      return obj;
+    };
     const userPrompt = buildUserPrompt({
-      version: latest.version,
+      version,
       releasedAt,
-      releaseTitle,
-      releaseBody,
-      previous,
+      releaseTitle: release.name,
+      releaseBody: release.body,
+      previous: next,
     });
+    let generated;
     try {
-      next = pinMeta(
+      generated = pinMeta(
         await generateJson({ provider, systemPrompt: SYSTEM_PROMPT, userPrompt })
       );
-      providerUsed = provider.name;
 
       // Validate; if the model produced something out of bounds, give it one
-      // shot to fix itself before we fall back to the template. LLMs reliably
-      // self-correct length issues when handed the specific errors.
-      let check = validateUpdatesContent(next);
+      // chance to fix itself before failing the sync.
+      let check = validateUpdatesContent(generated);
       if (!check.ok) {
         console.warn(
           "[generate-updates] first attempt failed validation, retrying with feedback:"
         );
         for (const e of check.errors) console.warn(`  - ${e}`);
-        const repairPrompt = `${userPrompt}\n\nYour previous response failed schema validation with these errors:\n\n${check.errors.map((e) => `- ${e}`).join("\n")}\n\nPrevious response:\n${JSON.stringify(next, null, 2)}\n\nReturn a corrected JSON object that fixes EVERY error above. Pay special attention to character-count limits — count carefully. Return ONLY the JSON object.`;
-        next = pinMeta(
+        const repairPrompt = `${userPrompt}\n\nYour previous response failed schema validation with these errors:\n\n${check.errors.map((e) => `- ${e}`).join("\n")}\n\nPrevious response:\n${JSON.stringify(generated, null, 2)}\n\nReturn a corrected JSON object that fixes EVERY error above. Pay special attention to character-count limits — count carefully. Return ONLY the JSON object.`;
+        generated = pinMeta(
           await generateJson({
             provider,
             systemPrompt: SYSTEM_PROMPT,
             userPrompt: repairPrompt,
           })
         );
-        check = validateUpdatesContent(next);
+        check = validateUpdatesContent(generated);
         if (!check.ok) {
           throw new Error(
             `validation still failing after retry: ${check.errors.join("; ")}`
@@ -322,33 +294,13 @@ async function main() {
         providerUsed = `${provider.name}+repair`;
       }
     } catch (err) {
-      console.warn(
-        `[generate-updates] provider ${provider.name} failed: ${err.message}`
-      );
-      console.warn("[generate-updates] falling back to template content");
-      next = buildFallbackContent({
-        version: latest.version,
-        releasedAt,
-        release,
-        previous,
-      });
-      providerUsed = "fallback-template";
+      throw new Error(`release-note generation failed for v${version}: ${err.message}`, { cause: err });
     }
-  } else {
-    console.warn(
-      "[generate-updates] no AI provider configured (set ANTHROPIC_API_KEY, GEMINI_API_KEY, or GROQ_API_KEY); using fallback template"
-    );
-    next = buildFallbackContent({
-      version: latest.version,
-      releasedAt,
-      release,
-      previous,
-    });
+    if (version !== next.version) nextHistory = appendRelease(nextHistory, summarizeRelease(next));
+    next = generated;
   }
 
-  // Final guard: the template path should always validate, but if it somehow
-  // doesn't (e.g. a future schema tightening), fail loudly so the next run
-  // gets a real signal rather than silently shipping bad content.
+  // Fail loudly if content is invalid rather than proposing it for review.
   const { ok, errors } = validateUpdatesContent(next);
   if (!ok) {
     console.error("[generate-updates] final content failed validation:");
@@ -356,6 +308,10 @@ async function main() {
     console.error("\n--- generated ---");
     console.error(JSON.stringify(next, null, 2));
     process.exit(1);
+  }
+  const historyCheck = validateReleaseHistory(nextHistory, next.version);
+  if (!historyCheck.ok) {
+    throw new Error(`release history invalid: ${historyCheck.errors.join("; ")}`);
   }
 
   // Preserve our $schema reference for editor tooling.
@@ -367,12 +323,14 @@ async function main() {
   if (dryRun) {
     console.log("[generate-updates] DRY_RUN — would write:");
     console.log(JSON.stringify(payload, null, 2));
+    console.log(JSON.stringify(nextHistory, null, 2));
     await emitOutput("changed", "true");
     await emitOutput("provider", providerUsed);
     return;
   }
 
   await writeFile(UPDATES_FILE, JSON.stringify(payload, null, 2) + "\n");
+  await writeFile(HISTORY_FILE, JSON.stringify(nextHistory, null, 2) + "\n");
   console.log(
     `[generate-updates] wrote ${path.relative(REPO_ROOT, UPDATES_FILE)} (v${latest.version}, provider: ${providerUsed})`
   );

@@ -37,7 +37,7 @@ The honest competitive frame is `nvidia-smi` + `torch.cuda.memory_stats()` + PyT
 
 - The moment of need is a failure or a suspicion: an OOM crash, a run that gets slower and heavier each epoch, a batch size that used to fit and no longer does, a distributed job where one rank misbehaves.
 - Work happens in a terminal, over SSH, on a remote GPU box or cluster node. A browser is often not available where the training runs — this is why the TUI exists.
-- Three entry surfaces, chosen by workflow: **CLI** (`stormlog monitor`, `stormlog export`, `stormlog infer profile`) for automation and quick sessions; **Python API** (decorators, context managers, programmatic sessions) for instrumentation inside training code; **Textual TUI** for interactive inspection without leaving the shell.
+- Three entry surfaces, chosen by workflow: **CLI** (`gpumemprof track`, `gpumemprof analyze`, `gpumemprof diagnose`, `stormlog infer profile`) for automation and quick sessions; **Python API** (decorators, context managers, programmatic sessions) for instrumentation inside training code; **Textual TUI** (`stormlog`) for interactive inspection without leaving the shell.
 - Outputs travel: exported artifacts land in CI pipelines, PR review threads, and offline analysis, and are reloaded later to compare runs without reproducing the failure.
 - Distribution is PyPI; documentation is Read the Docs; development, issues, and contribution happen in the open on GitHub.
 
@@ -57,8 +57,8 @@ The honest competitive frame is `nvidia-smi` + `torch.cuda.memory_stats()` + PyT
 **Site constraints and mechanics**
 - Next.js 16 / React 19 / TypeScript 5 / Tailwind 4 app; deployed to Vercel, gated on GitHub Actions CI (`lint`, `typecheck`, `build`) — feature branches do not auto-deploy.
 - Copy is centralized in `src/data/content.ts`; navigation and external links in `src/data/navigation.ts`. Design work should edit content there, not inline in components.
-- The displayed package version is auto-generated into `src/data/stormlog-version.ts` from PyPI at build time (`scripts/sync-version.mjs`); the committed value is an offline fallback. Never hardcode a version in a component.
-- The "What's New" feed is data-driven from `src/data/updates.json`, validated against `src/data/updates.schema.json` and synced by `scripts/generate-updates.mjs`. Release content arrives via bot PRs (`bot/sync-stormlog-content`), so any redesign must keep consuming that schema rather than hardcoding release copy.
+- The package version resolves from PyPI at runtime with a one-hour cache; `src/data/stormlog-version.ts` is its build-time offline fallback. The release features display the reviewed `updates.json` version. Never hardcode either version in a component.
+- The "What's New" feed is data-driven from `src/data/updates.json`, and previous summaries live in `src/data/release-history.json`. Both are validated and synced by `scripts/generate-updates.mjs` through reviewed bot PRs. Release copy must display its authored content version, which may temporarily trail the live package version.
 - Blog articles are markdown files in `articles/`, registered in `src/data/blogs.ts`.
 - Motion is GSAP (ScrollTrigger) plus Framer Motion, with an existing `use-reduced-motion` hook. Theming is `next-themes`.
 
@@ -80,7 +80,7 @@ The honest competitive frame is `nvidia-smi` + `torch.cuda.memory_stats()` + PyT
 - `public/images/tui-1.png` … `tui-7.png` — genuine captures of the shipped Textual TUI (overview, PyTorch profiles, live monitoring, visualization exports, diagnostics, CLI actions). Confirmed valid proof assets.
 - `public/images/overview.mp4` / `overview.mov` — product overview video.
 - Real maintainers, named with GitHub profiles: Prince Agyei Tuffour (@nanaagyei), Silas Asamoah (@Silas-Asamoah), Derrick Dwamena (@dwamenad). Contributors are fetched live from the GitHub API at runtime.
-- Public artifacts: the GitHub repository, Read the Docs documentation, the PyPI package, and the release feed in `updates.json` (currently 0.3.9, MLflow exporter).
+- Public artifacts: the GitHub repository, Read the Docs documentation, the PyPI package, and the reviewed release feed in `updates.json` (currently 0.4.2, vLLM incident watching).
 - Six published blog articles in `articles/`.
 
 **Illustrative, not measured — must never be presented as benchmarks**

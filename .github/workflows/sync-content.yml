@@ -5,8 +5,7 @@ name: Sync stormlog content
 #   2. If a new stormlog release exists, regenerates the "What's New"
 #      JSON via an LLM (Anthropic -> Gemini -> Groq, based on which
 #      API key secret is set).
-#   3. If anything changed, opens a PR against dev for human review
-#      before the new content reaches main / production.
+#   3. If anything changed, checks it and opens a PR against main for review.
 #
 # Trigger surface:
 #   - Hourly cron (catches releases within an hour of publication).
@@ -43,10 +42,10 @@ jobs:
     name: Refresh version + What's New
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout dev
+      - name: Checkout main
         uses: actions/checkout@v5
         with:
-          ref: dev
+          ref: main
           fetch-depth: 0
 
       - name: Setup Node.js
@@ -76,43 +75,56 @@ jobs:
       - name: Check for changes
         id: diff
         run: |
-          if git diff --quiet -- src/data/stormlog-version.ts src/data/updates.json; then
+          if git diff --quiet -- src/data/stormlog-version.ts src/data/updates.json src/data/release-history.json; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No content changes."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
             echo "Changes detected:"
-            git diff --stat -- src/data/stormlog-version.ts src/data/updates.json
+            git diff --stat -- src/data/stormlog-version.ts src/data/updates.json src/data/release-history.json
+
+      # PRs opened with GITHUB_TOKEN do not start a separate pull_request CI run.
+      - name: Lint generated branch
+        if: steps.diff.outputs.changed == 'true'
+        run: npm run lint
+
+      - name: Typecheck generated branch
+        if: steps.diff.outputs.changed == 'true'
+        run: npm run typecheck
+
+      - name: Build generated branch
+        if: steps.diff.outputs.changed == 'true'
+        run: npm run build
           fi
 
       - name: Open / update PR
         if: steps.diff.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v8
         with:
-          # Fine-grained PAT scoped to this repo only (contents: write,
-          # pull-requests: write). Using a PAT instead of GITHUB_TOKEN so the
-          # resulting PR triggers CI (PRs created by GITHUB_TOKEN do not).
-          token: ${{ secrets.CONTENT_SYNC_PAT }}
+          token: ${{ github.token }}
           branch: bot/sync-stormlog-content
-          base: dev
+          base: main
           commit-message: |
             chore(content): sync stormlog v${{ steps.gen.outputs.version }}
 
             - Refresh stormlog version constant
             - Regenerate What's New content from release notes
               ${{ steps.gen.outputs.release_url }}
-            - Provider: ${{ steps.gen.outputs.provider || 'template' }}
+            - Provider: ${{ steps.gen.outputs.provider }}
           title: "chore(content): sync stormlog v${{ steps.gen.outputs.version }}"
           body: |
             Automated sync triggered by `${{ github.event_name }}`.
 
             **Version**: `v${{ steps.gen.outputs.previous_version }}` → `v${{ steps.gen.outputs.version }}`
-            **Provider**: `${{ steps.gen.outputs.provider || 'template' }}`
+            **Provider**: `${{ steps.gen.outputs.provider }}`
             **Release**: ${{ steps.gen.outputs.release_url }}
+
+            Content validation, lint, typecheck, and build ran in this sync workflow.
 
             ### Review checklist
             - [ ] `src/data/stormlog-version.ts` reflects the new version.
             - [ ] `src/data/updates.json` accurately summarizes the release notes.
+            - [ ] `src/data/release-history.json` retains each previous release in order.
             - [ ] `meta.description`, `kicker`s, and `summary`s match Stormlog's voice.
             - [ ] `command` and `code` snippets are runnable / accurate.
             - [ ] `externalLink`s resolve.

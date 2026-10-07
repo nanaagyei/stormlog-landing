@@ -243,25 +243,28 @@ export const WORKFLOW_STEPS: WorkflowStep[] = [
     title: "Instrument",
     description:
       "Add Stormlog to the workload you care about, from lightweight decorators to deeper session-based profiling.",
-    code: `from stormlog import profile
+    code: `from stormlog import GPUMemoryProfiler
 
-@profile(track_tensors=True, detect_leaks=True)
+profiler = GPUMemoryProfiler()
+
 def train_epoch(model, dataloader):
     for batch in dataloader:
         loss = model(batch)
-        loss.backward()`,
+        loss.backward()
+
+profiler.profile_function(train_epoch)`,
   },
   {
     step: 2,
     title: "Observe",
     description:
       "Launch the TUI or a CLI session to watch allocation, peak memory, and alerts while the training run is alive.",
-    code: `$ stormlog monitor --pid 12345
-┌─ Live GPU Memory ──────────────────────┐
-│ Allocated  16.2 / 24.5 GB              │
-│ Peak       19.8 / 24.5 GB              │
-│ Alerts     None                        │
-└────────────────────────────────────────┘`,
+    code: `$ gpumemprof track --duration 30 --interval 0.5 --output run.json --format json
+
+# Illustrative live readout
+Allocated  16.2 / 24.5 GiB
+Peak       19.8 / 24.5 GiB
+Alerts     None`,
   },
   {
     step: 3,
@@ -278,11 +281,10 @@ signal: growth beyond threshold`,
     title: "Export",
     description:
       "Ship artifacts into CI, review threads, or follow-up debugging sessions instead of relying on memory alone.",
-    code: `$ stormlog export --format json --output run.json
-$ stormlog export --format html --output run.html
+    code: `$ gpumemprof analyze run.json --format txt --output analysis.txt
+$ gpumemprof diagnose --duration 5 --output ./diag
 
-✓ timeline written
-✓ diagnostics artifact saved`,
+# Artifacts: run.json, analysis.txt, ./diag/report.json`,
   },
   {
     step: 5,

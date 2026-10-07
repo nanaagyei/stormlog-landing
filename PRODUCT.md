@@ -37,7 +37,7 @@ The honest competitive frame is `nvidia-smi` + `torch.cuda.memory_stats()` + PyT
 
 - The moment of need is a failure or a suspicion: an OOM crash, a run that gets slower and heavier each epoch, a batch size that used to fit and no longer does, a distributed job where one rank misbehaves.
 - Work happens in a terminal, over SSH, on a remote GPU box or cluster node. A browser is often not available where the training runs — this is why the TUI exists.
-- Three entry surfaces, chosen by workflow: **CLI** (`stormlog monitor`, `stormlog export`, `stormlog infer profile`) for automation and quick sessions; **Python API** (decorators, context managers, programmatic sessions) for instrumentation inside training code; **Textual TUI** for interactive inspection without leaving the shell.
+- Three entry surfaces, chosen by workflow: **CLI** (`gpumemprof track`, `gpumemprof analyze`, `gpumemprof diagnose`, `stormlog infer profile`) for automation and quick sessions; **Python API** (decorators, context managers, programmatic sessions) for instrumentation inside training code; **Textual TUI** (`stormlog`) for interactive inspection without leaving the shell.
 - Outputs travel: exported artifacts land in CI pipelines, PR review threads, and offline analysis, and are reloaded later to compare runs without reproducing the failure.
 - Distribution is PyPI; documentation is Read the Docs; development, issues, and contribution happen in the open on GitHub.
 

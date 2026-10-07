@@ -1,0 +1,25 @@
+name: Main promotion guard
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize, edited]
+
+permissions:
+  contents: read
+
+jobs:
+  promotion-guard:
+    name: Promote dev only
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR source
+        env:
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+          HEAD_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
+          BASE_REPOSITORY: ${{ github.event.pull_request.base.repo.full_name }}
+        run: |
+          if [[ "$HEAD_BRANCH" != "dev" || "$HEAD_REPOSITORY" != "$BASE_REPOSITORY" ]]; then
+            echo "::error::Only this repository's dev branch may open a PR into main."
+            exit 1
+          fi

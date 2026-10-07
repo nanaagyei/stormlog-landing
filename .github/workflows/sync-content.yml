@@ -5,7 +5,7 @@ name: Sync stormlog content
 #   2. If a new stormlog release exists, regenerates the "What's New"
 #      JSON via an LLM (Anthropic -> Gemini -> Groq, based on which
 #      API key secret is set).
-#   3. If anything changed, checks it and opens a PR against main for review.
+#   3. If anything changed, checks it and opens a PR against dev for review.
 #
 # Trigger surface:
 #   - Hourly cron (catches releases within an hour of publication).
@@ -42,10 +42,10 @@ jobs:
     name: Refresh version + What's New
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main
+      - name: Checkout dev
         uses: actions/checkout@v5
         with:
-          ref: main
+          ref: dev
           fetch-depth: 0
 
       - name: Setup Node.js
@@ -95,7 +95,6 @@ jobs:
       - name: Build generated branch
         if: steps.diff.outputs.changed == 'true'
         run: npm run build
-          fi
 
       - name: Open / update PR
         if: steps.diff.outputs.changed == 'true'
@@ -103,7 +102,7 @@ jobs:
         with:
           token: ${{ github.token }}
           branch: bot/sync-stormlog-content
-          base: main
+          base: dev
           commit-message: |
             chore(content): sync stormlog v${{ steps.gen.outputs.version }}
 

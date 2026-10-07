@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowUpRight, Calendar } from "lucide-react";
 import {
   PRODUCT_UPDATES,
+  WHATS_NEW_CONTENT_VERSION,
   WHATS_NEW_META,
   WHATS_NEW_RELEASED_AT,
 } from "@/data/updates";
@@ -43,7 +44,7 @@ export function WhatsNewSection() {
             {WHATS_NEW_META.title}
           </h2>
           <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-xs text-muted-dim">
-            <span className="break-words">v{stormlogVersion}</span>
+            <span className="break-words">Release notes v{WHATS_NEW_CONTENT_VERSION}</span>
             {releasedAt && (
               <span className="inline-flex items-center gap-1.5">
                 <Calendar className="size-3" aria-hidden="true" />
@@ -51,6 +52,11 @@ export function WhatsNewSection() {
               </span>
             )}
           </div>
+          {stormlogVersion !== WHATS_NEW_CONTENT_VERSION && (
+            <p className="mt-2 font-mono text-xs text-muted-dim">
+              Latest package: v{stormlogVersion}
+            </p>
+          )}
           <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-base lg:text-lg">
             {WHATS_NEW_META.description}
           </p>

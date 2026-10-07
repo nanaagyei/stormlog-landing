@@ -75,13 +75,13 @@ jobs:
       - name: Check for changes
         id: diff
         run: |
-          if git diff --quiet -- src/data/stormlog-version.ts src/data/updates.json; then
+          if git diff --quiet -- src/data/stormlog-version.ts src/data/updates.json src/data/release-history.json; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "No content changes."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
             echo "Changes detected:"
-            git diff --stat -- src/data/stormlog-version.ts src/data/updates.json
+            git diff --stat -- src/data/stormlog-version.ts src/data/updates.json src/data/release-history.json
 
       # PRs opened with GITHUB_TOKEN do not start a separate pull_request CI run.
       - name: Lint generated branch
@@ -124,6 +124,7 @@ jobs:
             ### Review checklist
             - [ ] `src/data/stormlog-version.ts` reflects the new version.
             - [ ] `src/data/updates.json` accurately summarizes the release notes.
+            - [ ] `src/data/release-history.json` retains each previous release in order.
             - [ ] `meta.description`, `kicker`s, and `summary`s match Stormlog's voice.
             - [ ] `command` and `code` snippets are runnable / accurate.
             - [ ] `externalLink`s resolve.

@@ -58,7 +58,7 @@ The honest competitive frame is `nvidia-smi` + `torch.cuda.memory_stats()` + PyT
 - Next.js 16 / React 19 / TypeScript 5 / Tailwind 4 app; deployed to Vercel, gated on GitHub Actions CI (`lint`, `typecheck`, `build`) — feature branches do not auto-deploy.
 - Copy is centralized in `src/data/content.ts`; navigation and external links in `src/data/navigation.ts`. Design work should edit content there, not inline in components.
 - The displayed package version is auto-generated into `src/data/stormlog-version.ts` from PyPI at build time (`scripts/sync-version.mjs`); the committed value is an offline fallback. Never hardcode a version in a component.
-- The "What's New" feed is data-driven from `src/data/updates.json`, validated against `src/data/updates.schema.json` and synced by `scripts/generate-updates.mjs`. Release content arrives via bot PRs (`bot/sync-stormlog-content`), so any redesign must keep consuming that schema rather than hardcoding release copy.
+- The "What's New" feed is data-driven from `src/data/updates.json`, and previous summaries live in `src/data/release-history.json`. Both are validated and synced by `scripts/generate-updates.mjs` through reviewed bot PRs. Release copy must display its authored content version, which may temporarily trail the live package version.
 - Blog articles are markdown files in `articles/`, registered in `src/data/blogs.ts`.
 - Motion is GSAP (ScrollTrigger) plus Framer Motion, with an existing `use-reduced-motion` hook. Theming is `next-themes`.
 

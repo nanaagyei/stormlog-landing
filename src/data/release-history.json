@@ -1,0 +1,33 @@
+{
+  "$schema": "./release-history.schema.json",
+  "releases": [
+    {
+      "version": "0.3.9",
+      "releasedAt": "2026-09-01",
+      "summary": "MLflow export brings Stormlog memory profiles into experiment tracking alongside model metrics and artifacts.",
+      "features": [
+        {
+          "title": "MLflow experiment tracking",
+          "summary": "Export memory traces and profiling metadata to MLflow runs for review beside training results."
+        }
+      ],
+      "releaseUrl": "https://github.com/Silas-Asamoah/stormlog/releases/tag/v0.3.9"
+    },
+    {
+      "version": "0.3.10",
+      "releasedAt": "2026-10-01",
+      "summary": "Memory sampling expanded beyond CUDA, and inference reports gained clearer links between server activity and GPU observations.",
+      "features": [
+        {
+          "title": "Memory sampling across runtimes",
+          "summary": "The runtime memory sampler can collect model memory observations on non-CUDA backends."
+        },
+        {
+          "title": "Inference activity correlation",
+          "summary": "Reports link shared execution and GPU activity, distinguish client memory from server observations, and align distributed server telemetry."
+        }
+      ],
+      "releaseUrl": "https://github.com/Silas-Asamoah/stormlog/releases/tag/v0.3.10"
+    }
+  ]
+}

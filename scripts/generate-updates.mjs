@@ -9,6 +9,8 @@
 //      order of preference based on which API key is set) to rewrite the
 //      "What's new" content using the existing content as a voice reference.
 //   5. Validates the response against the JSON schema and writes it back.
+// Missing release notes or an unavailable editor fail the sync instead of
+// producing plausible but unverified copy.
 //
 // Designed to run from CI (`.github/workflows/sync-content.yml`) but also
 // usable locally for one-off runs:
@@ -88,9 +90,7 @@ async function getRelease(version) {
   try {
     const releases = await fetchJson(GITHUB_RELEASES_URL);
     if (!Array.isArray(releases)) return null;
-    return (
-      releases.find((r) => normalize(r?.tag_name) === version) ?? releases[0] ?? null
-    );
+    return releases.find((r) => normalize(r?.tag_name) === version) ?? null;
   } catch (err) {
     console.warn(`[generate-updates] release lookup failed: ${err.message}`);
     return null;
@@ -98,8 +98,7 @@ async function getRelease(version) {
 }
 
 function whatsNewKeyFor(version, releasedAt) {
-  // Convention: 'YYYY-MM-vX-Y-Z'. Fall back to today if releasedAt is unparseable
-  // so the format stays consistent with buildFallbackContent.
+  // Convention: 'YYYY-MM-vX-Y-Z'. Fall back to today if releasedAt is unparseable.
   const parsed = new Date(releasedAt);
   const date = Number.isNaN(parsed.getTime()) ? new Date() : parsed;
   const yyyy = date.getUTCFullYear();
@@ -180,45 +179,6 @@ Generate the new updates.json for v${version}. Set "version" to "${version}" and
 Return ONLY the JSON object.`;
 }
 
-function buildFallbackContent({ version, releasedAt, release, previous }) {
-  // Used when no AI provider is configured. Produces a clearly-marked template
-  // so the human reviewer can hand-edit it from the release notes.
-  const yyyy = releasedAt.slice(0, 4);
-  const mm = releasedAt.slice(5, 7);
-  const headline = release?.name || `Stormlog v${version}`;
-  return {
-    version,
-    releasedAt,
-    whatsNewKey: `${yyyy}-${mm}-v${version.replace(/\./g, "-")}`,
-    meta: {
-      eyebrow: "Latest release",
-      title: `What's new in Stormlog v${version}`,
-      description:
-        "Replace this with a 1-2 sentence summary of the highlights below. Generated as a template — please review before merging.",
-    },
-    updates: [
-      {
-        id: `release-v${version.replace(/\./g, "-")}`,
-        kicker: "Release notes",
-        title: headline,
-        summary:
-          "TEMPLATE — describe the headline change in 1-2 sentences. Original release body is preserved below in the PR description.",
-        highlights: [
-          previous?.updates?.[0]?.highlights?.[0] || "Add highlight 1 from the release notes",
-          "Add highlight 2 from the release notes",
-        ],
-        command: previous?.updates?.[0]?.command || "pip install --upgrade stormlog",
-        codeLabel: "bash",
-        code:
-          previous?.updates?.[0]?.code ||
-          "pip install --upgrade stormlog\nstormlog --version",
-        href: "#whats-new",
-        externalLink: `https://github.com/Silas-Asamoah/stormlog/releases/tag/v${version}`,
-      },
-    ],
-  };
-}
-
 async function emitOutput(key, value) {
   const file = process.env.GITHUB_OUTPUT;
   if (!file) return;
@@ -255,9 +215,10 @@ async function main() {
   );
 
   const release = await getRelease(latest.version);
-  const releasedAt =
-    release?.published_at?.slice(0, 10) ||
-    new Date().toISOString().slice(0, 10);
+  if (!release?.body?.trim() || !release?.published_at) {
+    throw new Error(`verified release notes for v${latest.version} are unavailable`);
+  }
+  const releasedAt = release.published_at.slice(0, 10);
   const releaseTitle = release?.name || `Stormlog v${latest.version}`;
   const releaseBody = release?.body || "";
 
@@ -268,8 +229,11 @@ async function main() {
   );
 
   const provider = detectProvider(process.env);
+  if (!provider) {
+    throw new Error("no AI provider configured for release-note generation");
+  }
   let next;
-  let providerUsed = "fallback-template";
+  let providerUsed = provider.name;
 
   const pinMeta = (obj) => {
     if (!obj || typeof obj !== "object") return obj;
@@ -322,33 +286,11 @@ async function main() {
         providerUsed = `${provider.name}+repair`;
       }
     } catch (err) {
-      console.warn(
-        `[generate-updates] provider ${provider.name} failed: ${err.message}`
-      );
-      console.warn("[generate-updates] falling back to template content");
-      next = buildFallbackContent({
-        version: latest.version,
-        releasedAt,
-        release,
-        previous,
-      });
-      providerUsed = "fallback-template";
+      throw new Error(`release-note generation failed: ${err.message}`, { cause: err });
     }
-  } else {
-    console.warn(
-      "[generate-updates] no AI provider configured (set ANTHROPIC_API_KEY, GEMINI_API_KEY, or GROQ_API_KEY); using fallback template"
-    );
-    next = buildFallbackContent({
-      version: latest.version,
-      releasedAt,
-      release,
-      previous,
-    });
   }
 
-  // Final guard: the template path should always validate, but if it somehow
-  // doesn't (e.g. a future schema tightening), fail loudly so the next run
-  // gets a real signal rather than silently shipping bad content.
+  // Fail loudly if content is invalid rather than proposing it for review.
   const { ok, errors } = validateUpdatesContent(next);
   if (!ok) {
     console.error("[generate-updates] final content failed validation:");

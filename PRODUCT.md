@@ -57,7 +57,7 @@ The honest competitive frame is `nvidia-smi` + `torch.cuda.memory_stats()` + PyT
 **Site constraints and mechanics**
 - Next.js 16 / React 19 / TypeScript 5 / Tailwind 4 app; deployed to Vercel, gated on GitHub Actions CI (`lint`, `typecheck`, `build`) — feature branches do not auto-deploy.
 - Copy is centralized in `src/data/content.ts`; navigation and external links in `src/data/navigation.ts`. Design work should edit content there, not inline in components.
-- The displayed package version is auto-generated into `src/data/stormlog-version.ts` from PyPI at build time (`scripts/sync-version.mjs`); the committed value is an offline fallback. Never hardcode a version in a component.
+- The package version resolves from PyPI at runtime with a one-hour cache; `src/data/stormlog-version.ts` is its build-time offline fallback. The release features display the reviewed `updates.json` version. Never hardcode either version in a component.
 - The "What's New" feed is data-driven from `src/data/updates.json`, and previous summaries live in `src/data/release-history.json`. Both are validated and synced by `scripts/generate-updates.mjs` through reviewed bot PRs. Release copy must display its authored content version, which may temporarily trail the live package version.
 - Blog articles are markdown files in `articles/`, registered in `src/data/blogs.ts`.
 - Motion is GSAP (ScrollTrigger) plus Framer Motion, with an existing `use-reduced-motion` hook. Theming is `next-themes`.
@@ -80,7 +80,7 @@ The honest competitive frame is `nvidia-smi` + `torch.cuda.memory_stats()` + PyT
 - `public/images/tui-1.png` … `tui-7.png` — genuine captures of the shipped Textual TUI (overview, PyTorch profiles, live monitoring, visualization exports, diagnostics, CLI actions). Confirmed valid proof assets.
 - `public/images/overview.mp4` / `overview.mov` — product overview video.
 - Real maintainers, named with GitHub profiles: Prince Agyei Tuffour (@nanaagyei), Silas Asamoah (@Silas-Asamoah), Derrick Dwamena (@dwamenad). Contributors are fetched live from the GitHub API at runtime.
-- Public artifacts: the GitHub repository, Read the Docs documentation, the PyPI package, and the release feed in `updates.json` (currently 0.3.9, MLflow exporter).
+- Public artifacts: the GitHub repository, Read the Docs documentation, the PyPI package, and the reviewed release feed in `updates.json` (currently 0.4.2, vLLM incident watching).
 - Six published blog articles in `articles/`.
 
 **Illustrative, not measured — must never be presented as benchmarks**

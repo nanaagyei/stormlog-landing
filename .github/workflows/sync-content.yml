@@ -82,6 +82,7 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
             echo "Changes detected:"
             git diff --stat -- src/data/stormlog-version.ts src/data/updates.json src/data/release-history.json
+          fi
 
       # PRs opened with GITHUB_TOKEN do not start a separate pull_request CI run.
       - name: Lint generated branch

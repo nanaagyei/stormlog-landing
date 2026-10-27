@@ -68,6 +68,18 @@
         }
       ],
       "releaseUrl": "https://github.com/Silas-Asamoah/stormlog/releases/tag/v0.4.1"
+    },
+    {
+      "version": "0.4.2",
+      "releasedAt": "2026-10-06",
+      "summary": "Stormlog 0.4.2 can watch a vLLM server for sustained incidents and save bounded evidence around them without sending extra inference traffic.",
+      "features": [
+        {
+          "title": "Watch a vLLM server for sustained incidents",
+          "summary": "The new infer watch command scrapes a vLLM server’s metrics and records an incident only after a trigger condition persists. It saves the surrounding evidence in a bounded bundle for later review."
+        }
+      ],
+      "releaseUrl": "https://github.com/Silas-Asamoah/stormlog/releases/tag/v0.4.2"
     }
   ]
 }

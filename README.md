@@ -115,25 +115,17 @@ stormlog-landing/
 
 ## Deployment
 
-This repo is set up so GitHub Actions is the deployment gatekeeper:
+Vercel's Git integration handles all deployments:
 
+- A push to `main` deploys to production.
+- Every other branch and pull request gets a preview deployment.
 - [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs `lint`, `typecheck`, and `build` on every push and pull request.
-- [`.github/workflows/deploy-production.yml`](.github/workflows/deploy-production.yml) deploys to Vercel only after the `CI` workflow succeeds for a push to `main`.
-- [`vercel.json`](vercel.json) disables automatic Git-based Vercel deployments, so feature branches do not deploy on their own.
+- The `main` ruleset requires the `Lint, Typecheck & Build` and `Promote dev only` checks, so nothing reaches production without passing CI.
 
 ### One-time Vercel setup
 
-1. Create or import the project in [Vercel](https://vercel.com/new).
-2. Add these GitHub repository secrets:
-   - `VERCEL_TOKEN`
-   - `VERCEL_ORG_ID`
-   - `VERCEL_PROJECT_ID`
-3. Keep `main` as your production branch in Vercel.
-
-After that:
-
-- Branches other than `main` will still get CI checks, but they will not deploy.
-- A push to `main` will deploy only if CI has already passed.
+1. Create or import the project in [Vercel](https://vercel.com/new) and connect this GitHub repo.
+2. Keep `main` as your production branch in Vercel.
 
 ---
 

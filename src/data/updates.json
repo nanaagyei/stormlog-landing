@@ -1,30 +1,79 @@
 {
   "$schema": "./updates.schema.json",
-  "version": "0.4.2",
-  "releasedAt": "2026-10-06",
-  "whatsNewKey": "2026-10-v0-4-2",
+  "version": "0.4.3",
+  "releasedAt": "2026-10-27",
+  "whatsNewKey": "2026-10-v0-4-3",
   "meta": {
     "eyebrow": "Latest release",
     "title": "What's new in Stormlog",
-    "description": "Stormlog 0.4.2 can watch a vLLM server for sustained incidents and save bounded evidence around them without sending extra inference traffic."
+    "description": "Stormlog 0.4.3 adds inference diagnostics, SLO comparison, MLX support, and OpenTelemetry export. Compare inference runs, diagnose performance regressions, and export metrics and traces to observability backends."
   },
   "updates": [
     {
-      "id": "vllm-incident-watch",
-      "kicker": "Incident watching",
-      "title": "Watch a vLLM server for sustained incidents",
-      "summary": "The new infer watch command scrapes a vLLM server’s metrics and records an incident only after a trigger condition persists. It saves the surrounding evidence in a bounded bundle for later review.",
+      "id": "infer-diagnostics",
+      "kicker": "Inference diagnostics",
+      "title": "Diagnose and compare inference run performance",
+      "summary": "New infer diagnose and infer compare commands identify slow windows in inference artifacts and compare two runs to detect regressions. Capture server metadata and verify runs are comparable before analysis.",
       "highlights": [
-        "Scrape /metrics beside the server without generating inference load",
-        "Preserve pre- and post-incident windows with trigger and collection-health records",
-        "Bound history, writer queues, and disk retention; publish complete bundle generations",
-        "Return exit code 3 when a counting incident is recorded"
+        "Run infer diagnose to explain slow windows with incident evidence",
+        "Compare two inference arms with infer compare for A/B testing",
+        "Verify server descriptions and run comparability before analysis",
+        "Score qualification against injected ground truth for fault injection",
+        "Run inference experiment plans on fresh verified servers"
       ],
-      "command": "pip install --upgrade \"stormlog>=0.4.2\"",
+      "command": "stormlog infer diagnose --root ./watch --artifact artifact.msgpack",
       "codeLabel": "bash",
-      "code": "stormlog infer watch --root ./watch --base-url http://127.0.0.1:8000",
+      "code": "# Diagnose slow windows in an inference artifact\nstormlog infer diagnose --root ./watch --artifact run1.msgpack\n\n# Compare two inference runs to detect regressions\nstormlog infer compare --root ./compare --artifact-a run1.msgpack --artifact-b run2.msgpack",
+      "href": "#whats-new"
+    },
+    {
+      "id": "telemetry-export",
+      "kicker": "Telemetry export",
+      "title": "Export metrics and traces to observability backends",
+      "summary": "Stormlog now exports Prometheus metrics during inference profiling and sends spans to OpenTelemetry collectors or files. Monitor inference server health and correlate profile data with external observability platforms.",
+      "highlights": [
+        "Export Prometheus metrics while inference profiles run",
+        "Send spans to OpenTelemetry collector or file for trace analysis",
+        "Report collect-server health to Prometheus for monitoring",
+        "Bounded export building blocks for extensibility",
+        "Hardened span close and service identity tracking"
+      ],
+      "command": "pip install --upgrade \"stormlog>=0.4.3\"",
+      "codeLabel": "bash",
+      "code": "# Profile inference with Prometheus metrics export\nstormlog infer watch --root ./watch --base-url http://127.0.0.1:8000 --prometheus-url http://127.0.0.1:9090\n\n# Send spans to OpenTelemetry collector\nstormlog infer watch --root ./watch --base-url http://127.0.0.1:8000 --otel-endpoint http://127.0.0.1:4317",
       "href": "#whats-new",
-      "externalLink": "https://stormlog.readthedocs.io/en/latest/incident_capture.html"
+      "externalLink": "https://stormlog.readthedocs.io/en/latest/export.html"
+    },
+    {
+      "id": "mlx-support",
+      "kicker": "MLX runtime",
+      "title": "Profile MLX inference with Metal acceleration",
+      "summary": "New MLX framework support adds lazy Metal runtime profiling, CLI capture, and TUI integration. Profile text and audio inference on Apple Silicon with full artifact analysis.",
+      "highlights": [
+        "Lazy Metal runtime profiling and passive session tracking",
+        "CLI capture and offline analysis for MLX inference",
+        "Text and audio profiling with scoped server evidence",
+        "TUI integration for artifact browsing and analysis"
+      ],
+      "command": "stormlog infer watch --framework mlx --root ./mlx-profile",
+      "codeLabel": "bash",
+      "code": "# Capture MLX inference profile with Metal acceleration\nstormlog infer capture --framework mlx --model meta-llama/Llama-2-7b-chat --root ./mlx-profile\n\n# Analyze captured MLX artifact\nstormlog infer analyze --artifact mlx-profile/artifact.msgpack",
+      "href": "#whats-new"
+    },
+    {
+      "id": "compact-artifacts",
+      "kicker": "Artifact optimization",
+      "title": "Reduce inference artifact size with compact contexts",
+      "summary": "Inference contexts are now compacted to significantly reduce artifact disk footprint while preserving diagnostic information for slow-window analysis and comparison.",
+      "highlights": [
+        "Compact inference contexts to reduce storage overhead",
+        "Maintain full diagnostic capability for diagnosis and compare",
+        "Measured savings documented on production audit workloads"
+      ],
+      "command": "pip install --upgrade \"stormlog>=0.4.3\"",
+      "codeLabel": "bash",
+      "code": "# Profile inference; artifacts use compact contexts automatically\nstormlog infer watch --root ./watch --base-url http://127.0.0.1:8000\n\n# Verify artifact size reduction\nls -lh watch/artifacts/",
+      "href": "#whats-new"
     }
   ]
 }
